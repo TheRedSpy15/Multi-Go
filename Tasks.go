@@ -21,6 +21,8 @@ import (
 	"crypto/sha1"
 	"encoding/base64"
 	"fmt"
+	"io/ioutil"
+	"net/http"
 	"net/smtp"
 	"os"
 	"strings"
@@ -54,6 +56,7 @@ func listTasks() {
 	println("Email")
 	println("generatePassword")
 	println("systemInfo")
+	println("pwnAccount - [Email]")
 
 	println("About") // keep at bottom of print statements
 }
@@ -67,10 +70,31 @@ func systemInfoTask() {
 	printHost()
 }
 
-// TODO: use pwn api to see if an account has been pwned
+// Check if an account has been pwned
 func pwnAccount(target string) {
-	ct.Foreground(ct.Red, true)
-	println("Not a working feature yet")
+	if target == "" {
+		println("You must supply an e-mail account to check!")
+		return
+	}
+
+	pwnURL := fmt.Sprintf(`https://haveibeenpwned.com/api/v2/breachedaccount/%v`, target)
+	response, err := http.Get(pwnURL)
+
+	if err != nil {
+		println(fmt.Sprintf("An error occured when checking your account: %v", err.Error()))
+		return
+	}
+
+	defer response.Body.Close()
+
+	bodyBytes, _ := ioutil.ReadAll(response.Body)
+
+	if len(bodyBytes) == 0 {
+		println("Good news — no pwnage found!")
+		return
+	}
+
+	println("Oh no — account has been pwned!")
 }
 
 // Encrypts the target file
