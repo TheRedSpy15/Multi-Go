@@ -19,6 +19,7 @@ A command line multi-tool made in Go, and aimed at security experts to make life
 - check if account is breached (HaveIBeenPwned)
 - toggle incoming connections
 - system vulerability audit (online/offline modes)
+- clean temporary files
 ## How to
 ### Download:
 There isn't an offical executable yet. However, I should have one under 'releases' in the next week.
