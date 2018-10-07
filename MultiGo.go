@@ -3,13 +3,14 @@ package main
 // Project TODOS
 // TODO: finish email task
 // TODO: finish audit task
-// TODO: add 'bleach'
-// TODO: add 'compress'
-// TODO: add 'uncompress'
-// TODO: add 'pwnAccount'
-// TODO: add 'toggleIncoming' (inbound connections)
-// TODO: add 'systemInfo'
-// TODO: add 'auditOffline' (also add "run offline?", when no internet)
+// TODO: add 'bleach -r [file path]' task
+// TODO: add 'compress -r [file path]' task
+// TODO: add 'uncompress -r [file path]' task
+// TODO: add 'pwnAccount -r [account]' task
+// TODO: add 'toggleIncoming -r [allow/block]' (inbound connections) task
+// TODO: add 'systemInfo' task
+// TODO: add 'auditOffline' (also add "run offline?" to 'audit', when no internet) task
+// TODO: add 'cleanTemp' task
 
 /*
 Copyright 2018 TheRedSpy15
@@ -46,6 +47,7 @@ func main() {
 	// Error handling
 	err := parser.Parse(os.Args)
 	if err != nil {
+		ct.Foreground(ct.Red, true)
 		panic(err.Error)
 	}
 
