@@ -169,7 +169,7 @@ func auditTask(target string) {
 // TODO: use set length
 // Generates a random string for use as a password
 func generatePasswordTask() {
-	ct.Foreground(ct.Yellow, false)
+	ct.Foreground(ct.Yellow, false) // set text color to dark yellow
 	println("Password:", randomString())
 }
 
