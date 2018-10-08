@@ -145,14 +145,14 @@ func about() {
 // Scrapes target website
 func scapeTask(target string) {
 	checkTarget(target)               // make target is valid
-	collyAddress(target, true, false) // run colly
+	collyAddress(target, true, false) // run colly - scraping happens here
 }
 
 // BUG: exit status 1
 // Runs linuxScanner.py to audit system vulnerabilities
 func auditTask(target string) {
-	checkTarget(target) // make sure target is valid
-	ct.Foreground(ct.Yellow, false)
+	checkTarget(target)             // make sure target is valid
+	ct.Foreground(ct.Yellow, false) // set text color to dark yellow
 
 	if strings.TrimRight(target, "\n") == "Online" { // online audit
 		runAuditOnline()
@@ -177,7 +177,7 @@ func generatePasswordTask() {
 // TODO: more testing
 // Indefinitely runs colly on an address
 func dosTask(target string) {
-	checkTarget(target)                                                // make target is valid
+	checkTarget(target)                                                // make sure target is valid
 	ct.Foreground(ct.Red, true)                                        // set text color to bright red
 	println("\nWarning: you are solely responsible for your actions!") // disclaimer
 	println("ctrl + c to cancel")
