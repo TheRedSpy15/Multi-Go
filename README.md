@@ -30,8 +30,9 @@ There isn't an offical executable yet. However, I should have one under 'release
 4. Note: the 'target' is optional, depending on the task
 ### Contribute:
 Simply make a pull pull request, I have yet to turn down one.
+**NOTE:** I Currently, I am just relying on TODOS in the comments of the code, as a temporary (as in, will change) replacement for 'issues'
 
-**Note:** When working on adding a feature, you must follow this pattern!
+**IMPORTANT:** When working on adding a feature, you must follow this pattern!
 1. Create the method/function to be called in Tasks.go (with the name "newFeatureTask").
 2. Write all your code in there.
 3. Break that up into multiple functions and put those in Utils.go.
