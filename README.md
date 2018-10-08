@@ -28,6 +28,7 @@ There isn't an offical executable yet. However, I should have one under 'release
 2. paste path to executable
 3. follow that with "-t/--Task [task] -r/--Target [target]"
 4. Note: the 'target' is optional, depending on the task
-
+### Contribute:
+Simply make a pull pull request, I have yet to turn down one.
 ## Important
 Multi Go is intended to be used on linux. It might run on Windows. Currently it isn't tested, nor supported! I will eventually work on a Windows patch
