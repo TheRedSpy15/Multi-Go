@@ -144,7 +144,7 @@ func about() {
 
 // Scrapes target website
 func scapeTask(target string) {
-	checkTarget(target)               // make target is valid
+	checkTarget(target)               // make sure target is valid
 	collyAddress(target, true, false) // run colly - scraping happens here
 }
 
