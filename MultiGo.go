@@ -1,6 +1,7 @@
 package main
 
 // Project TODOS
+// TODO: tone down comments
 // TODO: finish email task
 // TODO: finish audit task
 // TODO: add 'bleach -r [file path]' task
@@ -28,7 +29,9 @@ package main
 */
 
 import (
+	"bufio"
 	"os"
+	"strings"
 
 	"github.com/akamensky/argparse"
 	"github.com/daviddengcn/go-colortext"
@@ -40,7 +43,7 @@ func main() {
 	// TODO: use native go flags
 	// TODO: if no arguments are given, add dialog that asks user what they want to do (after above todo)
 	// Create flags
-	t := parser.String("t", "Task", &argparse.Options{Required: true, Help: "Task to run"})
+	t := parser.String("t", "Task", &argparse.Options{Required: false, Help: "Task to run"})
 	r := parser.String("r", "Target", &argparse.Options{Required: false, Help: "Target to run task on"})
 
 	// Error handling
@@ -48,6 +51,26 @@ func main() {
 	if err != nil {
 		ct.Foreground(ct.Red, true)
 		panic(err.Error)
+	}
+
+	if *t == "" { // enter dialog mode
+		reader := bufio.NewReader(os.Stdin) // make reader object
+		printBanner()
+		listTasks()
+
+		print("\nEnter task to run: ")
+		choice, _ := reader.ReadString('\n')     // get choice
+		choice = strings.TrimRight(choice, "\n") // trim choice so it can be check against properly
+
+		if strings.Contains(choice, "-r") { // check for optional target
+			inputs := strings.Split(choice, " -r ") // separate task & target
+			*t = inputs[0]
+			*r = inputs[1]
+		} else { // no optional target
+			*t = choice
+		}
+
+		ct.ResetColor()
 	}
 
 	// Determine task
