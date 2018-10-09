@@ -22,12 +22,12 @@ A command line multi-tool made in Go, and aimed at security experts to make life
 - clean temporary files
 ## How to
 ### Download:
-There isn't an offical executable yet. However, I should have one under 'releases' in the next week.
+[Click here to download](https://github.com/TheRedSpy15/Multi-Go/releases/download/0.6.1/MultiGo_0_6_1)
 ### Use:
 1. Open the terminal
-2. paste path to executable
-3. follow that with "-t/--Task [task] -r/--Target [target]"
-4. Note: the 'target' is optional, depending on the task
+2. Paste path to executable
+3. **OPTIONAL** follow that with "-t/--Task [task] -r/--Target [target]". Note: the 'target' is optional, depending on the task
+4. Hit enter
 ### Contribute:
 Simply make a pull pull request, I have yet to turn down one.
 **NOTE:** I Currently, I am just relying on TODOS in the comments of the code, as a temporary (as in, will change) replacement for 'issues'
