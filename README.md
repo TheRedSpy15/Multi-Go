@@ -30,7 +30,7 @@ A command line multi-tool made in Go, and aimed at security experts to make life
 4. Hit enter
 ### Contribute:
 Simply make a pull pull request, I have yet to turn down one.
-**NOTE:** I Currently, I am just relying on TODOS in the comments of the code, as a temporary (as in, will change) replacement for 'issues'
+**NOTE:** Currently, I am just relying on TODOS in the comments of the code, as a temporary (as in, will change) replacement for 'issues'
 
 **IMPORTANT:** When working on adding a feature, you must follow this pattern!
 1. Create the method/function to be called in Tasks.go (with the name "newFeatureTask").
