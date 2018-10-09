@@ -26,7 +26,7 @@ A command line multi-tool made in Go, and aimed at security experts to make life
 ### Use:
 1. Open the terminal
 2. Paste path to executable
-3. **OPTIONAL** follow that with "-t/--Task [task] -r/--Target [target]". Note: the 'target' is optional, depending on the task
+3. **OPTIONAL:** follow that with "-t/--Task [task] -r/--Target [target]". Note: the 'target' is optional, depending on the task
 4. Hit enter
 ### Contribute:
 Simply make a pull pull request, I have yet to turn down one.
