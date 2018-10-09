@@ -18,7 +18,6 @@ package main
 
 import (
 	"bytes"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"math/rand"
@@ -271,7 +270,7 @@ func runAuditOnline() {
 		panic(err.Error())
 	}
 
-	fmt.Println(o.String())
+	println(o.String())
 }
 
 // TODO: rewrite in my own code
@@ -306,7 +305,7 @@ func randomString() string {
 	return string(b)
 }
 
-// TODO: add more info
+// TODO: add more info - atleast usage
 // Util function - prints CPU info
 func printCPU() {
 	cpuCount, _ := cpu.Counts(false)       // get cpu count total
@@ -330,18 +329,18 @@ func printMemory() {
 
 // Util function - prints info about system host
 func printHost() {
-	info, err := host.Info() // get host info object
+	hostInfo, err := host.Info() // get host info object
 	if err != nil {
 		ct.Foreground(ct.Red, true) // set text color to bright red
 		panic(err.Error())
 	}
 	println("\n-- Host --\n")
-	println("Kernal Version:", info.KernelVersion)     // kernal version
-	println("Platform:", info.Platform)                // platform
-	println("Platform Family:", info.PlatformFamily)   // platform family
-	println("Platform Version:", info.PlatformVersion) // platform version
-	println("Uptime:", info.Uptime)                    // uptime
-	println("Host Name:", info.Hostname)               // hostname
-	println("Host ID:", info.HostID)                   // host id
-	println("OS:", info.OS)                            // os
+	println("Kernal Version:", hostInfo.KernelVersion)     // kernal version
+	println("Platform:", hostInfo.Platform)                // platform
+	println("Platform Family:", hostInfo.PlatformFamily)   // platform family
+	println("Platform Version:", hostInfo.PlatformVersion) // platform version
+	println("Uptime:", hostInfo.Uptime)                    // uptime
+	println("Host Name:", hostInfo.Hostname)               // hostname
+	println("Host ID:", hostInfo.HostID)                   // host id
+	println("OS:", hostInfo.OS)                            // os
 }

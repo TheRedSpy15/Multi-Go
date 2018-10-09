@@ -1,7 +1,6 @@
 package main
 
 // Project TODOS
-// TODO: change "fmt.Println()"s to "println()"
 // TODO: finish email task
 // TODO: finish audit task
 // TODO: add 'bleach -r [file path]' task
