@@ -2,6 +2,7 @@ package main
 
 // Project TODOS
 // TODO: tone down comments
+// TODO: improve 'Scrape'
 // TODO: finish email task
 // TODO: finish audit task
 // TODO: add 'bleach -r [file path]' task
