@@ -136,7 +136,7 @@ func decryptFileTask(target string) {
 func cleanTask() {
 	ct.Foreground(ct.Red, true)
 	println("Not a working feature yet!")
-	cmd := exec.Command("rm", "-rf", "~/.thumbs/*") // don'think this is the right command
+	cmd := exec.Command("rm", "-rf", "~/.thumbs/*") // don't think this is the right command
 	cmd.Run()
 }
 
