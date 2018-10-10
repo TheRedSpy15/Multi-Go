@@ -41,6 +41,7 @@ import (
 func main() {
 	parser := argparse.NewParser("SecureMultiTool", "Runs multiple security orientated tasks")
 
+	// TODO: use native Go arguments
 	// Create flags
 	t := parser.String("t", "Task", &argparse.Options{Required: false, Help: "Task to run"})
 	r := parser.String("r", "Target", &argparse.Options{Required: false, Help: "Target to run task on"})
@@ -48,7 +49,7 @@ func main() {
 	// Error handling
 	err := parser.Parse(os.Args)
 	if err != nil {
-		ct.Foreground(ct.Red, true)
+		ct.Foreground(ct.Red, true) // set text color to bright red
 		panic(err.Error)
 	}
 
@@ -69,7 +70,7 @@ func main() {
 			*t = choice
 		}
 
-		ct.ResetColor()
+		ct.ResetColor() // reset text color to default
 	}
 
 	// Determine task

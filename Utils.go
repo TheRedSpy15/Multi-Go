@@ -81,6 +81,7 @@ func printBanner() {
 |_|  |_|\__,_|_|\__|_|  \____|\___/`)
 }
 
+// TODO: auto detect if IP or URL
 // TODO: scrape list of urls from text file
 // Util function - scrapes a website link
 func collyAddress(target string, savePage bool, ip bool) {

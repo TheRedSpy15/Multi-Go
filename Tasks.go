@@ -123,7 +123,7 @@ func decryptFileTask(target string) {
 
 	file, err := os.Create(target) // create file object
 	if err != nil {
-		ct.Foreground(ct.Red, true)
+		ct.Foreground(ct.Red, true) // set text color to bright red
 		panic(err.Error())
 	}
 	defer file.Close()                        // close file on function end
