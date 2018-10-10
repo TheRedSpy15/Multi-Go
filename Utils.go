@@ -316,16 +316,19 @@ func printCPU() {
 	println("CPU Count:", cpuCount)                  // cpu count total
 }
 
+// TODO: get physical memory instead of swap
+// TODO: convert values to gigabytes
 // Util function - prints info about system memory
 func printMemory() {
-	vm, err := mem.VirtualMemory() // get virtual memory info object
+	mem, err := mem.SwapMemory() // get virtual memory info object
 	if err != nil {
 		ct.Foreground(ct.Red, true) // set text color to bright red
 		panic(err.Error())
 	}
 	println("\n-- Memory --\n")
-	println("Memory Available:", vm.Available) // available memory
-	println("Memory Total:", vm.Total)         // total memory
+	println("Memory Used:", mem.Used)
+	println("Memory Free:", mem.Free)
+	println("Memory Total:", mem.Total)
 }
 
 // Util function - prints info about system host
