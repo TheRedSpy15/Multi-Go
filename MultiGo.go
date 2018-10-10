@@ -41,7 +41,6 @@ import (
 func main() {
 	parser := argparse.NewParser("SecureMultiTool", "Runs multiple security orientated tasks")
 
-	// TODO: use native Go arguments
 	// Create flags
 	t := parser.String("t", "Task", &argparse.Options{Required: false, Help: "Task to run"})
 	r := parser.String("r", "Target", &argparse.Options{Required: false, Help: "Target to run task on"})
