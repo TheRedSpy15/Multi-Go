@@ -326,9 +326,9 @@ func printMemory() {
 		panic(err.Error())
 	}
 	println("\n-- Memory --\n")
-	println("Memory Used:", mem.Used)
-	println("Memory Free:", mem.Free)
-	println("Memory Total:", mem.Total)
+	println("Memory Used:", mem.Used)   // used
+	println("Memory Free:", mem.Free)   // free
+	println("Memory Total:", mem.Total) // total
 }
 
 // Util function - prints info about system host
