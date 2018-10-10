@@ -145,7 +145,7 @@ func about() {
 	printBanner()
 
 	ct.Foreground(ct.Yellow, false) // set text color to dark yellow
-	println("Multi Go v1.0.0", "\nBy: TheRedSpy15")
+	println("Multi Go v0.6.1", "\nBy: TheRedSpy15")
 	println("GitHub:", "https://github.com/TheRedSpy15")
 	println("Project Page:", "https://github.com/TheRedSpy15/Multi-Go")
 	println("\nMulti Go allows IT admins and Cyber Security experts")
