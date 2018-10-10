@@ -99,6 +99,8 @@ func main() {
 		generatePasswordTask()
 	case "systemInfo":
 		systemInfoTask()
+	case "clean":
+		cleanTask()
 	case "Email":
 		emailTask()
 	case "About":

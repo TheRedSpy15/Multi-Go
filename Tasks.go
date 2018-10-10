@@ -25,6 +25,7 @@ import (
 	"net/http"
 	"net/smtp"
 	"os"
+	"os/exec"
 	"strings"
 	"time"
 
@@ -128,6 +129,15 @@ func decryptFileTask(target string) {
 	defer file.Close()                        // close file on function end
 	file.Write(decryptFile(target, password)) // decrypt file
 	println("\nFile decrypted!")
+}
+
+// TODO: run the right command that cleans "thumbs" & the system cache
+// Clean cached files
+func cleanTask() {
+	ct.Foreground(ct.Red, true)
+	println("Not a working feature yet!")
+	cmd := exec.Command("rm", "-rf", "~/.thumbs/*") // don'think this is the right command
+	cmd.Run()
 }
 
 // Prints details about the program
