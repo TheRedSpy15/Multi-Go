@@ -21,6 +21,7 @@ import (
 	"io/ioutil"
 	"log"
 	"math/rand"
+	"net"
 	"os"
 	"os/exec"
 	"strings"
@@ -81,7 +82,6 @@ func printBanner() {
 |_|  |_|\__,_|_|\__|_|  \____|\___/`)
 }
 
-// TODO: auto detect if IP or URL
 // TODO: scrape list of urls from text file
 // Util function - scrapes a website link
 func collyAddress(target string, savePage bool, ip bool) {
@@ -126,6 +126,16 @@ func collyAddress(target string, savePage bool, ip bool) {
 	})
 
 	c.Visit(target) // actually using colly/collector object, and visiting target
+}
+
+// Util function - constantly sends data to a target
+func dos(conn net.Conn) {
+	defer conn.Close() // make sure to close the connection when done
+
+	for true { // DOS loop
+		conn.Write([]byte{1}) // send data
+		println("looped")
+	}
 }
 
 // TODO: finish
