@@ -39,7 +39,7 @@ Simply make a pull pull request, I have yet to turn down one.
 4. Go back and add a lot of comments.
 
 If the new feature is complete:
-1. Add it to the list in listTasks(), in `tasks.go`.
+1. Add it to the list in `listTasks()`, in `tasks.go`.
 2. Add the case to the switch statement in `main.go`, so it (your new feature in `tasks.go`) can be called.
 3. Finished!
 ## Important
