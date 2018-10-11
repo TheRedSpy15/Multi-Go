@@ -84,7 +84,6 @@ func printBanner() {
 |_|  |_|\__,_|_|\__|_|  \____|\___/`)
 }
 
-// TODO: scrape list of urls from text file
 // Util function - scrapes a website link
 func collyAddress(target string, savePage bool, ip bool) {
 	if ip { // check if target is an IP address not URL
