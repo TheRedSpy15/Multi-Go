@@ -40,7 +40,15 @@ Simply make a pull pull request, I have yet to turn down one.
 
 If the new feature is complete:
 1. Add it to the list in listTasks(), in Tasks.go.
-2. Add the case to the switch statement in MultiGo.go, so it (your new feature in Tasks.go) can be called.
+2. Add the case to the switch statement in `main.go`, so it (your new feature in Tasks.go) can be called.
 3. Finished!
 ## Important
 Multi Go is intended to be used on linux. It might run on Windows. Currently it isn't tested, nor supported! I will eventually work on a Windows patch
+
+## How to build Multi-Go
+
+Use go1.11:
+
+```bash
+GO111MODULE=on go install
+```

@@ -32,7 +32,6 @@ import (
 	"time"
 
 	"github.com/shirou/gopsutil/cpu"
-
 	"github.com/daviddengcn/go-colortext"
 	"github.com/jordan-wright/email"
 )
