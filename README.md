@@ -33,22 +33,21 @@ Simply make a pull pull request, I have yet to turn down one.
 **NOTE:** Currently, I am just relying on TODOS in the comments of the code, as a temporary (as in, will change) replacement for 'issues'
 
 **IMPORTANT:** When working on adding a feature, you must follow this pattern!
-1. Create the method/function to be called in Tasks.go (with the name "newFeatureTask").
+1. Create the method/function to be called in `tasks.go` (with the name "newFeatureTask").
 2. Write all your code in there.
-3. Break that up into multiple functions and put those in Utils.go.
+3. Break that up into multiple functions and put those in `utils.go`.
 4. Go back and add a lot of comments.
 
 If the new feature is complete:
-1. Add it to the list in listTasks(), in Tasks.go.
-2. Add the case to the switch statement in `main.go`, so it (your new feature in Tasks.go) can be called.
+1. Add it to the list in listTasks(), in `tasks.go`.
+2. Add the case to the switch statement in `main.go`, so it (your new feature in `tasks.go`) can be called.
 3. Finished!
 ## Important
 Multi Go is intended to be used on linux. It might run on Windows. Currently it isn't tested, nor supported! I will eventually work on a Windows patch
 
 ## How to build Multi-Go
-
-Use go1.11:
-
-```bash
-GO111MODULE=on go install
+```
+git clone https://github.com/TheRedSpy15/Multi-Go
+cd Multi-Go
+go build *.go
 ```
