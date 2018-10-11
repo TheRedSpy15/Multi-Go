@@ -72,14 +72,10 @@ func systemInfoTask() {
 
 // Check if an account has been pwned
 func pwnAccount(target string) {
-	if target == "" {
-		println("You must supply an e-mail account to check!")
-		return
-	}
+	checkTarget(target)
 
 	pwnURL := fmt.Sprintf(`https://haveibeenpwned.com/api/v2/breachedaccount/%v`, target)
 	response, err := http.Get(pwnURL)
-
 	if err != nil {
 		println(fmt.Sprintf("An error occured when checking your account: %v", err.Error()))
 		return
