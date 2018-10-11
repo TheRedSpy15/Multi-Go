@@ -135,7 +135,7 @@ func collyAddress(target string, savePage bool, ip bool) {
 // TODO: document
 // BUG: exit status 1
 // Util function - run system audit
-func runAudit() {
+func runAuditOnline() {
 	const script = `#!/usr/bin/env python
 	# -*- coding: utf-8 -*-
 	__author__ = 'videns'

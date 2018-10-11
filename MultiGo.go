@@ -71,12 +71,13 @@ func main() {
 	case "DOS":
 		println("\nRunning task:", *t, "\nTarget:", *r)
 		dosTask(*r)
+	case "Audit":
+		println("\nRunning task:", *t, "\nTarget:", *r)
+		auditTask(*r)
 	case "generatePassword":
 		generatePasswordTask()
 	case "systemInfo":
 		systemInfoTask()
-	case "Audit":
-		auditTask()
 	case "Email":
 		emailTask()
 	case "About":

@@ -51,12 +51,13 @@ func listTasks() {
 	println("Hash -r [file path]")
 	println("encryptFile -r [file path]")
 	println("decryptFile -r [file path]")
-	println("Scrape - [URL]")
-	println("DOS - [IP/URL]")
+	println("Scrape -r [URL]")
+	println("DOS -r [IP/URL]")
 	println("Email")
 	println("generatePassword")
 	println("systemInfo")
-	println("pwnAccount - [Email]")
+	println("Audit -r [Online/Offline]")
+	println("pwnAccount -r [Email]")
 
 	println("About") // keep at bottom of print statements
 }
@@ -70,6 +71,7 @@ func systemInfoTask() {
 	printHost()
 }
 
+// TODO: break up into Util functions
 // Check if an account has been pwned
 func pwnAccount(target string) {
 	checkTarget(target) // make sure target is valid
@@ -139,12 +141,22 @@ func scapeTask(target string) {
 	collyAddress(target, true, false) // run colly
 }
 
-// TODO: use project path to find file
 // BUG: exit status 1
 // Runs linuxScanner.py to audit system vulnerabilities
-func auditTask() {
+func auditTask(target string) {
+	checkTarget(target)
 	ct.Foreground(ct.Yellow, false)
-	runAudit() // run audit
+
+	if strings.TrimRight(target, "\n") == "Online" {
+		runAuditOnline()
+	} else if strings.TrimRight(target, "\n") == "Offline" {
+		ct.Foreground(ct.Red, true)
+		println("Not a feature yet!")
+	} else {
+		ct.Foreground(ct.Red, true)
+		println("Not a valid mode!")
+		println(`Use "Online" or "Offline"`)
+	}
 }
 
 // TODO: use set length
