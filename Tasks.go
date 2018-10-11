@@ -18,6 +18,7 @@ package main
 
 import (
 	"bufio"
+	"compress/gzip"
 	"crypto/sha1"
 	"encoding/base64"
 	"fmt"
@@ -177,6 +178,32 @@ func auditTask(target string) {
 		println("Not a valid mode!")
 		println(`Use "Online" or "Offline"`)
 	}
+}
+
+func compressTask(target string) {
+	checkTarget(target)
+
+	file, err := os.Create(target)
+	if err != nil {
+		ct.Foreground(ct.Red, true)
+		panic(err.Error())
+	}
+	defer file.Close()
+
+	os.Rename(target, target+".gz")
+
+	w := gzip.NewWriter(file)
+	w.Write(readFileIntoByte(target))
+	defer w.Close()
+
+	ct.Foreground(ct.Green, true)
+	println("finished!")
+}
+
+// TODO: if contains .gz
+func decompressTask(target string) {
+	ct.Foreground(ct.Red, true)
+	println("Not a working feature yet!")
 }
 
 // TODO: use set length
