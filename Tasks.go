@@ -72,25 +72,24 @@ func systemInfoTask() {
 
 // Check if an account has been pwned
 func pwnAccount(target string) {
-	checkTarget(target)
+	checkTarget(target) // make sure target is valid
 
 	pwnURL := fmt.Sprintf(`https://haveibeenpwned.com/api/v2/breachedaccount/%v`, target)
 	response, err := http.Get(pwnURL)
 	if err != nil {
-		println(fmt.Sprintf("An error occured when checking your account: %v", err.Error()))
-		return
+		panic(err.Error)
 	}
 
-	defer response.Body.Close()
+	defer response.Body.Close()                   // close on function end
+	bodyBytes, _ := ioutil.ReadAll(response.Body) // read bytes from response
 
-	bodyBytes, _ := ioutil.ReadAll(response.Body)
-
-	if len(bodyBytes) == 0 {
+	if len(bodyBytes) == 0 { // nothing found - all good
+		ct.Foreground(ct.Green, true)
 		println("Good news — no pwnage found!")
-		return
+	} else {
+		ct.Foreground(ct.Red, true)
+		println("Oh no — account has been pwned!")
 	}
-
-	println("Oh no — account has been pwned!")
 }
 
 // Encrypts the target file
@@ -114,12 +113,12 @@ func decryptFileTask(target string) {
 	print("Enter Password: ")
 	password := getPassword() // get password securely
 
-	file, err := os.Create(target)
+	file, err := os.Create(target) // create file object
 	if err != nil {
 		ct.Foreground(ct.Red, true)
 		panic(err.Error())
 	}
-	defer file.Close()
+	defer file.Close()                        // close file on function end
 	file.Write(decryptFile(target, password)) // decrypt file
 	println("\nFile decrypted!")
 }
