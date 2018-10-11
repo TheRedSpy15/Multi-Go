@@ -39,7 +39,7 @@ import (
 // Util function - check if target is empty, panic if is
 func checkTarget(target string) {
 	if target == "" { // check if target is blank
-		ct.Foreground(ct.Red, true)
+		ct.Foreground(ct.Red, true) // set text color to bright red
 		panic("target cannot be empty when performing this task!")
 	}
 }
@@ -50,16 +50,16 @@ func readFileIntoByte(filename string) []byte {
 	file, err := os.Open(filename) // make file object
 	defer file.Close()             // close file on function end
 	if err != nil {
-		ct.Foreground(ct.Red, true)
+		ct.Foreground(ct.Red, true) // set text color to bright red
 		panic(err.Error())
 	} else {
 		data, err = ioutil.ReadAll(file) // read all
 		if err != nil {
-			ct.Foreground(ct.Red, true)
+			ct.Foreground(ct.Red, true) // set text color to bright red
 			panic(err.Error())
 		}
 	}
-	return data
+	return data // return file bytes
 }
 
 // Util function - securely get password from user
@@ -72,7 +72,7 @@ func getPassword() string {
 
 // Util function - displays banner text
 func printBanner() {
-	ct.Foreground(ct.Red, true)
+	ct.Foreground(ct.Red, true) // set text color to bright red
 
 	println(`
  __  __       _ _   _    ____
@@ -80,55 +80,52 @@ func printBanner() {
 | |\/| | | | | | __| | | |  _ / _ \
 | |  | | |_| | | |_| | | |_| | (_) |
 |_|  |_|\__,_|_|\__|_|  \____|\___/`)
-
-	ct.Foreground(ct.Yellow, false)
 }
 
 // TODO: scrape list of urls from text file
 // Util function - scrapes a website link
 func collyAddress(target string, savePage bool, ip bool) {
-	if ip {
-		target = "http://" + target + "/"
+	if ip { // check if target is an IP address not URL
+		target = "http://" + target + "/" // modify target to be valid address
 	}
 
 	c := colly.NewCollector() // make colly object
-	c.IgnoreRobotsTxt = true
+	c.IgnoreRobotsTxt = true  // ignore RobotsText
 
 	// configuring colly/collector object
 	c.OnRequest(func(r *colly.Request) {
-		fmt.Println("Visiting", r.URL)
+		println("Visiting", r.URL)
 	})
 
 	c.OnError(func(_ *colly.Response, err error) { // print error message on error
-		ct.Foreground(ct.Red, true)
+		ct.Foreground(ct.Red, true) // set text color to bright red
 		log.Println("Something went wrong:", err)
-		ct.ResetColor()
+		ct.ResetColor() // reset text color to default
 	})
 
 	c.OnResponse(func(r *colly.Response) {
-		fmt.Println("Visited", r.Request.URL)
+		println("Visited", r.Request.URL)
 		println("Response:", r.StatusCode)
 	})
 
 	c.OnScraped(func(r *colly.Response) { // finished with site
-		fmt.Println("Finished", r.Request.URL)
+		println("Finished", r.Request.URL)
 
-		if savePage {
+		if savePage { // check if save is enabled
 			err := r.Save(r.FileName()) // saving data
 
 			if err != nil {
-				ct.Foreground(ct.Red, true)
+				ct.Foreground(ct.Red, true) // set text color to bright red
 				panic("Error saving")
 			} else { // saved
-				ct.Foreground(ct.Green, true)
+				ct.Foreground(ct.Green, true) // set text color to bright red
 				println("Saved - ", r.FileName())
-				ct.ResetColor()
+				ct.ResetColor() // reset text color to default color
 			}
 		}
 	})
 
-	// actually using colly/collector object, and visiting target
-	c.Visit(target)
+	c.Visit(target) // actually using colly/collector object, and visiting target
 }
 
 // TODO: finish
@@ -312,39 +309,39 @@ func randomString() string {
 // TODO: add more info
 // Util function - prints CPU info
 func printCPU() {
-	cpuCount, _ := cpu.Counts(false)
-	cpuCountLogical, _ := cpu.Counts(true)
+	cpuCount, _ := cpu.Counts(false)       // get cpu count total
+	cpuCountLogical, _ := cpu.Counts(true) // get cpu logical count
 	println("\n-- CPU --\n")
-	println("CPU Count: (logical)", cpuCountLogical)
-	println("CPU Count:", cpuCount)
+	println("CPU Count: (logical)", cpuCountLogical) // cpu count logical
+	println("CPU Count:", cpuCount)                  // cpu count total
 }
 
 // Util function - prints info about system memory
 func printMemory() {
-	vm, err := mem.VirtualMemory()
+	vm, err := mem.VirtualMemory() // get virtual memory info object
 	if err != nil {
-		ct.Foreground(ct.Red, true)
+		ct.Foreground(ct.Red, true) // set text color to bright red
 		panic(err.Error())
 	}
 	println("\n-- Memory --\n")
-	println("Memory Available:", vm.Available)
-	println("Memory Total:", vm.Total)
+	println("Memory Available:", vm.Available) // available memory
+	println("Memory Total:", vm.Total)         // total memory
 }
 
 // Util function - prints info about system host
 func printHost() {
-	info, err := host.Info()
+	info, err := host.Info() // get host info object
 	if err != nil {
-		ct.Foreground(ct.Red, true)
+		ct.Foreground(ct.Red, true) // set text color to bright red
 		panic(err.Error())
 	}
 	println("\n-- Host --\n")
-	println("Kernal Version:", info.KernelVersion)
-	println("Platform:", info.Platform)
-	println("Platform Family:", info.PlatformFamily)
-	println("Platform Version:", info.PlatformVersion)
-	println("Uptime:", info.Uptime)
-	println("Host Name:", info.Hostname)
-	println("Host ID:", info.HostID)
-	println("OS:", info.OS)
+	println("Kernal Version:", info.KernelVersion)     // kernal version
+	println("Platform:", info.Platform)                // platform
+	println("Platform Family:", info.PlatformFamily)   // platform family
+	println("Platform Version:", info.PlatformVersion) // platform version
+	println("Uptime:", info.Uptime)                    // uptime
+	println("Host Name:", info.Hostname)               // hostname
+	println("Host ID:", info.HostID)                   // host id
+	println("OS:", info.OS)                            // os
 }

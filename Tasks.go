@@ -35,13 +35,15 @@ import (
 // TODO: add sha-256 hash
 // Takes a file path, and then prints the hash of the file
 func hashFile(target string) {
-	checkTarget(target)
+	checkTarget(target)             // make sure target is valid
+	ct.Foreground(ct.Yellow, false) // set text color to dark yellow
+
 	file := readFileIntoByte(target)                          // get bytes of file to hash
 	hash := sha1.New()                                        // create sha1 object
 	hash.Write(file)                                          // hash file to object
 	target = base64.URLEncoding.EncodeToString(hash.Sum(nil)) // encode hash sum into string
 
-	fmt.Println("SHA-1 hash :", target)
+	println("SHA-1 hash :", target)
 }
 
 // ListTasks - lists all currently working tasks
@@ -65,10 +67,10 @@ func listTasks() {
 // TODO: make & add 'printDisk'
 // Prints extensive info about system
 func systemInfoTask() {
-	ct.Foreground(ct.Yellow, false)
-	printCPU()
-	printMemory()
-	printHost()
+	ct.Foreground(ct.Yellow, false) // set text color to dark yellow
+	printCPU()                      // print cpu info
+	printMemory()                   // print memory info
+	printHost()                     // print host info
 }
 
 // TODO: break up into Util functions
@@ -79,6 +81,7 @@ func pwnAccount(target string) {
 	pwnURL := fmt.Sprintf(`https://haveibeenpwned.com/api/v2/breachedaccount/%v`, target)
 	response, err := http.Get(pwnURL) // make response object
 	if err != nil {
+		ct.Foreground(ct.Red, true) // set text color to bright red
 		panic(err.Error)
 	}
 
@@ -86,17 +89,18 @@ func pwnAccount(target string) {
 	bodyBytes, _ := ioutil.ReadAll(response.Body) // read bytes from response
 
 	if len(bodyBytes) == 0 { // nothing found - all good
-		ct.Foreground(ct.Green, true)
+		ct.Foreground(ct.Green, true) // set text color to bright green
 		println("Good news — no pwnage found!")
 	} else { // account found in breach
-		ct.Foreground(ct.Red, true)
+		ct.Foreground(ct.Red, true) // set text color to bright red
 		println("Oh no — account has been pwned!")
 	}
 }
 
 // Encrypts the target file
 func encryptFileTask(target string) {
-	checkTarget(target) // make target is valid
+	checkTarget(target)             // make sure target is valid
+	ct.Foreground(ct.Yellow, false) // set text color to dark yellow
 
 	data := readFileIntoByte(target) // read file bytes
 	print("Enter Password: ")
@@ -110,7 +114,8 @@ func encryptFileTask(target string) {
 // NOTE: decrypt file doesn't actually save as unencrypted
 // Decrypts the target file
 func decryptFileTask(target string) {
-	checkTarget(target) // make target is valid
+	checkTarget(target)             // make sure target is valid
+	ct.Foreground(ct.Yellow, false) // set text color to dark yellow
 
 	print("Enter Password: ")
 	password := getPassword() // get password securely
@@ -128,6 +133,8 @@ func decryptFileTask(target string) {
 // Prints details about the program
 func about() {
 	printBanner()
+
+	ct.Foreground(ct.Yellow, false) // set text color to dark yellow
 	println("Multi Go v1.0.0", "\nBy: TheRedSpy15")
 	println("GitHub:", "https://github.com/TheRedSpy15")
 	println("Project Page:", "https://github.com/TheRedSpy15/Multi-Go")
@@ -144,16 +151,16 @@ func scapeTask(target string) {
 // BUG: exit status 1
 // Runs linuxScanner.py to audit system vulnerabilities
 func auditTask(target string) {
-	checkTarget(target)
+	checkTarget(target) // make sure target is valid
 	ct.Foreground(ct.Yellow, false)
 
-	if strings.TrimRight(target, "\n") == "Online" {
+	if strings.TrimRight(target, "\n") == "Online" { // online audit
 		runAuditOnline()
-	} else if strings.TrimRight(target, "\n") == "Offline" {
-		ct.Foreground(ct.Red, true)
+	} else if strings.TrimRight(target, "\n") == "Offline" { // offline audit - not started
+		ct.Foreground(ct.Red, true) // set text color to bright red
 		println("Not a feature yet!")
-	} else {
-		ct.Foreground(ct.Red, true)
+	} else { // not valid option
+		ct.Foreground(ct.Red, true) // set text color to bright red
 		println("Not a valid mode!")
 		println(`Use "Online" or "Offline"`)
 	}
@@ -170,12 +177,12 @@ func generatePasswordTask() {
 // TODO: more testing
 // Indefinitely runs colly on an address
 func dosTask(target string) {
-	checkTarget(target) // make target is valid
-	ct.Foreground(ct.Red, true)
+	checkTarget(target)                                                // make target is valid
+	ct.Foreground(ct.Red, true)                                        // set text color to bright red
 	println("\nWarning: you are solely responsible for your actions!") // disclaimer
 	println("ctrl + c to cancel")
 	println("\n10 seconds until DOS")
-	ct.ResetColor()
+	ct.ResetColor() // reset text color to default
 
 	time.Sleep(10 * time.Second) // 10 second delay - give chance to cancel
 
@@ -191,10 +198,10 @@ func dosTask(target string) {
 // Send email
 func emailTask() {
 	reader := bufio.NewReader(os.Stdin) // make reader object
-	e := email.NewEmail()
-	ct.Foreground(ct.Yellow, false)
+	e := email.NewEmail()               // make email object
+	ct.Foreground(ct.Yellow, false)     // set text color to dark yellow
 	println("Prepare email")
-	ct.ResetColor()
+	ct.ResetColor() // reset text color to default
 
 	// email setup
 	print("From: ")
@@ -235,12 +242,12 @@ func emailTask() {
 
 	// confirmation
 	print("Confirm send? (yes/no): ")
-	confirm, _ := reader.ReadString('\n')
-	if strings.TrimRight(confirm, "\n") == "yes" {
+	confirm, _ := reader.ReadString('\n')          // get string of user confirm choice
+	if strings.TrimRight(confirm, "\n") == "yes" { // yes - confirm send
 		// sending
-		err := e.Send(provider+":"+port, smtp.PlainAuth("", e.From, password, provider))
+		err := e.Send(provider+":"+port, smtp.PlainAuth("", e.From, password, provider)) // send & get error
 		if err != nil {
-			ct.Foreground(ct.Red, true)
+			ct.Foreground(ct.Red, true) // set text color to bright red
 			println("error sending email -", err.Error())
 		}
 	} else { // cancelled
