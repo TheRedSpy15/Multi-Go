@@ -1,4 +1,4 @@
-module github.com/plutov/Multi-Go
+module github.com/TheRedSpy15/Multi-Go
 
 require (
 	github.com/PuerkitoBio/goquery v1.4.1 // indirect
