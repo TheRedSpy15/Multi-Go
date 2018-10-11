@@ -30,5 +30,16 @@ There isn't an offical executable yet. However, I should have one under 'release
 4. Note: the 'target' is optional, depending on the task
 ### Contribute:
 Simply make a pull pull request, I have yet to turn down one.
+
+**Note:** When working on adding a feature, you must follow this pattern!
+1. Create the method/function to be called in Tasks.go (with the name "newFeatureTask").
+2. Write all your code in there.
+3. Break that up into multiple functions and put those in Utils.go.
+4. Go back and add a lot of comments.
+
+If the new feature is complete:
+1. Add it to the list in listTasks(), in Tasks.go.
+2. Add the case to the switch statement in MultiGo.go, so it (your new feature in Tasks.go) can be called.
+3. Finished!
 ## Important
 Multi Go is intended to be used on linux. It might run on Windows. Currently it isn't tested, nor supported! I will eventually work on a Windows patch
