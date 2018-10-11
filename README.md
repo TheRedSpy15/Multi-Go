@@ -46,6 +46,8 @@ If the new feature is complete:
 Multi Go is intended to be used on linux. It might run on Windows. Currently it isn't tested, nor supported! I will eventually work on a Windows patch
 
 ## How to build Multi-Go
-`git clone https://github.com/TheRedSpy15/Multi-Go`
-`cd Multi-Go`
-`go build *.go`
+`git clone https://github.com/TheRedSpy15/Multi-Go
+
+cd Multi-Go
+
+go build *.go`
