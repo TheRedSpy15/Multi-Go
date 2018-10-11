@@ -88,7 +88,7 @@ func pwnAccount(target string) {
 	if len(bodyBytes) == 0 { // nothing found - all good
 		ct.Foreground(ct.Green, true)
 		println("Good news — no pwnage found!")
-	} else {
+	} else { // account found in breach
 		ct.Foreground(ct.Red, true)
 		println("Oh no — account has been pwned!")
 	}
