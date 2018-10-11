@@ -77,7 +77,7 @@ func pwnAccount(target string) {
 	checkTarget(target) // make sure target is valid
 
 	pwnURL := fmt.Sprintf(`https://haveibeenpwned.com/api/v2/breachedaccount/%v`, target)
-	response, err := http.Get(pwnURL)
+	response, err := http.Get(pwnURL) // make response object
 	if err != nil {
 		panic(err.Error)
 	}
