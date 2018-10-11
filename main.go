@@ -3,6 +3,7 @@ package main
 // Project TODOS
 // TODO: tone down comments
 // TODO: improve 'Scrape'
+// TODO: finish dos task
 // TODO: finish email task
 // TODO: finish audit task
 // TODO: add 'bleach -r [file path]' task
@@ -45,8 +46,7 @@ func main() {
 	t := parser.String("t", "Task", &argparse.Options{Required: false, Help: "Task to run"})
 	r := parser.String("r", "Target", &argparse.Options{Required: false, Help: "Target to run task on"})
 
-	// Error handling
-	err := parser.Parse(os.Args)
+	err := parser.Parse(os.Args) // parse arguments
 	if err != nil {
 		ct.Foreground(ct.Red, true) // set text color to bright red
 		panic(err.Error)
@@ -95,11 +95,17 @@ func main() {
 	case "Audit":
 		println("\nRunning task:", *t, "\nTarget:", *r)
 		auditTask(*r)
+	case "compress":
+		println("\nRunning task:", *t, "\nTarget:", *r)
+		compressTask(*r)
+	case "decompress":
+		println("\nRunning task:", *t, "\nTarget:", *r)
+		decompressTask(*r)
 	case "generatePassword":
 		generatePasswordTask()
 	case "systemInfo":
 		systemInfoTask()
-	case "clean":
+	case "Clean":
 		cleanTask()
 	case "Email":
 		emailTask()

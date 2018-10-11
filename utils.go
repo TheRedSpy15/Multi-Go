@@ -17,10 +17,13 @@ package main
 */
 
 import (
+	"bufio"
 	"bytes"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"math/rand"
+	"net"
 	"os"
 	"os/exec"
 	"strings"
@@ -81,7 +84,6 @@ func printBanner() {
 |_|  |_|\__,_|_|\__|_|  \____|\___/`)
 }
 
-// TODO: auto detect if IP or URL
 // TODO: scrape list of urls from text file
 // Util function - scrapes a website link
 func collyAddress(target string, savePage bool, ip bool) {
@@ -126,6 +128,27 @@ func collyAddress(target string, savePage bool, ip bool) {
 	})
 
 	c.Visit(target) // actually using colly/collector object, and visiting target
+}
+
+// TODO: not finished yet
+// Util function - constantly sends data to a target
+func dos(conn net.Conn) {
+	p := make([]byte, 2048)
+
+	defer conn.Close() // make sure to close the connection when done
+
+	println("Starting loop")
+	for true { // DOS loop
+		fmt.Fprintf(conn, "Sup UDP Server, how you doing?")
+		_, err := bufio.NewReader(conn).Read(p)
+		if err == nil {
+			fmt.Printf("%s\n", p)
+		} else {
+			fmt.Printf("Some error %v\n", err)
+		}
+
+		println("looped")
+	}
 }
 
 // TODO: finish

