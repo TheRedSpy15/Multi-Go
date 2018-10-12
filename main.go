@@ -9,12 +9,9 @@ package main
 // TODO: finish email task
 // TODO: finish audit task
 // TODO: add 'bleach -r [file path]' task
-// TODO: add 'compress -r [file path]' task
 // TODO: add 'uncompress -r [file path]' task
 // TODO: add 'toggleIncoming -r [allow/block]' (inbound connections) task
-// TODO: add 'systemInfo' task
 // TODO: add 'auditOffline' (also add "run offline?" to 'audit', when no internet) task
-// TODO: add 'cleanTemp' task
 
 /*
    Copyright 2018 TheRedSpy15
