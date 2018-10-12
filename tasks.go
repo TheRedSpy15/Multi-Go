@@ -223,7 +223,7 @@ func toggleFirewall(target string) {
 
 	if err := cmd.Run(); err != nil {
 		ct.Foreground(ct.Red, true)
-		panic(err.Error())
+		panic(err.Error() + "\nLikely due to not using sudo")
 	}
 
 	println(o.String())
