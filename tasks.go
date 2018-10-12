@@ -69,11 +69,11 @@ func listTasks() {
 	println("\n-- Security --")
 	ct.Foreground(ct.Yellow, false)
 	println("(sudo) Firewall -r [enable/disable/status]")
-	println("Audit -r [Online/Offline]")
+	println("Audit -r [online/offline]")
 	println("Hash -r [file path]")
 	println("encryptFile -r [file path]")
 	println("decryptFile -r [file path]")
-	println("pwnAccount -r [Email]")
+	println("pwnAccount -r [email]")
 	println("generatePassword")
 	time.Sleep(1 * time.Second)
 
@@ -188,15 +188,14 @@ func auditTask(target string) {
 	checkTarget(target)             // make sure target is valid
 	ct.Foreground(ct.Yellow, false) // set text color to dark yellow
 
-	if strings.TrimRight(target, "\n") == "Online" { // online audit
+	if strings.TrimRight(target, "\n") == "online" { // online audit
 		runAuditOnline()
-	} else if strings.TrimRight(target, "\n") == "Offline" { // offline audit - not started
-		ct.Foreground(ct.Red, true) // set text color to bright red
-		println("Not a feature yet!")
+	} else if strings.TrimRight(target, "\n") == "offline" { // offline audit
+		runAuditOffline()
 	} else { // not valid option
 		ct.Foreground(ct.Red, true) // set text color to bright red
 		println("Not a valid mode!")
-		println(`Use "Online" or "Offline"`)
+		println(`Use "online" or "offline"`)
 	}
 }
 
@@ -234,7 +233,7 @@ func decompressTask(target string) {
 // Allows the user to enable/disable system firewall
 func toggleFirewall(target string) {
 	checkTarget(target)
-	runCmdPrint("ufw", target)
+	println(runCmd("ufw", target))
 }
 
 // TODO: use set length

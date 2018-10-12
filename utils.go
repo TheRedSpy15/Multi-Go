@@ -49,7 +49,7 @@ func checkTarget(target string) {
 // TODO: document
 // TODO: add support for multiple arguments
 // Run a command on the system & print result
-func runCmdPrint(command string, arg string) {
+func runCmd(command string, arg string) string {
 	cmd := exec.Command(command, arg)
 	var o bytes.Buffer
 
@@ -60,7 +60,7 @@ func runCmdPrint(command string, arg string) {
 		panic(err.Error())
 	}
 
-	println(o.String())
+	return o.String()
 }
 
 // Util function - used for getting []byte of file
@@ -165,6 +165,27 @@ func dos(conn net.Conn) {
 
 		println("looped")
 	}
+}
+
+// TODO: add more checks
+// TODO: add wifi encryption check
+// TODO: document
+// Audits the system without using third party service
+func runAuditOffline() {
+	ct.Foreground(ct.Red, true)
+	problems := make([]string, 1)
+
+	println("-- Beginning Audit --")
+	println("This is a major WIP!")
+	ct.Foreground(ct.Yellow, false)
+
+	firewallStat := runCmd("ufw", "status")          // firewall
+	if !strings.Contains(firewallStat, "disabled") { // disabled
+		problems[0] = "Firewall disabled"
+	}
+
+	ct.Foreground(ct.Red, true)
+	fmt.Println("Problems found:", problems)
 }
 
 // TODO: finish
