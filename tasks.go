@@ -211,7 +211,7 @@ func decompressTask(target string) {
 }
 
 // TODO: document
-// TODO: add support for my systems - think only works on debian/ubuntu
+// TODO: add support for more systems - think only works on debian/ubuntu
 // Allows the user to enable/disable system firewall
 func toggleFirewall(target string) {
 	checkTarget(target)
