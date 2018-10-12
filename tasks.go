@@ -18,7 +18,6 @@ package main
 
 import (
 	"bufio"
-	"bytes"
 	"compress/gzip"
 	"crypto/sha1"
 	"encoding/base64"
@@ -215,18 +214,7 @@ func decompressTask(target string) {
 // Allows the user to enable/disable system firewall
 func toggleFirewall(target string) {
 	checkTarget(target)
-
-	cmd := exec.Command("ufw", target)
-	var o bytes.Buffer
-
-	cmd.Stdout = &o
-
-	if err := cmd.Run(); err != nil {
-		ct.Foreground(ct.Red, true)
-		panic(err.Error() + "\nLikely due to not using sudo")
-	}
-
-	println(o.String())
+	runCmdPrint("ufw", target, "Likely didn't use sudo")
 }
 
 // TODO: use set length

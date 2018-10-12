@@ -46,6 +46,23 @@ func checkTarget(target string) {
 	}
 }
 
+// TODO: document
+// TODO: add support for multiple arguments
+// Run a command on the system & print result
+func runCmdPrint(command string, arg string, cause string) {
+	cmd := exec.Command(command, arg)
+	var o bytes.Buffer
+
+	cmd.Stdout = &o
+
+	if err := cmd.Run(); err != nil {
+		ct.Foreground(ct.Red, true)
+		panic(err.Error() + "\n" + cause)
+	}
+
+	println(o.String())
+}
+
 // Util function - used for getting []byte of file
 func readFileIntoByte(filename string) []byte {
 	var data []byte                // specify type
