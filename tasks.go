@@ -31,9 +31,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/shirou/gopsutil/cpu"
 	"github.com/daviddengcn/go-colortext"
 	"github.com/jordan-wright/email"
+	"github.com/shirou/gopsutil/cpu"
 )
 
 // TODO: add sha-256 hash
@@ -179,6 +179,7 @@ func auditTask(target string) {
 	}
 }
 
+// Compresses the target file in gzip format
 func compressTask(target string) {
 	checkTarget(target)
 
@@ -200,6 +201,7 @@ func compressTask(target string) {
 }
 
 // TODO: if contains .gz
+// Decompresses the target file in gzip format
 func decompressTask(target string) {
 	ct.Foreground(ct.Red, true)
 	println("Not a working feature yet!")
