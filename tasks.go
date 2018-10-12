@@ -181,6 +181,7 @@ func auditTask(target string) {
 	}
 }
 
+// TODO: document
 // Compresses the target file in gzip format
 func compressTask(target string) {
 	checkTarget(target)
@@ -209,6 +210,7 @@ func decompressTask(target string) {
 	println("Not a working feature yet!")
 }
 
+// TODO: document
 // TODO: add support for my systems - think only works on debian/ubuntu
 // Allows the user to enable/disable system firewall
 func toggleFirewall(target string) {
