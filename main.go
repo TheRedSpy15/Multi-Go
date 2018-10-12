@@ -2,6 +2,7 @@ package main
 
 // Project TODOS
 // TODO: tone down comments
+// TODO: add unit testing
 // TODO: improve 'Scrape'
 // TODO: finish dos task
 // TODO: finish email task
