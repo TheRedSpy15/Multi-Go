@@ -102,7 +102,7 @@ func main() {
 	case "decompress":
 		println("\nRunning task:", *t, "\nTarget:", *r)
 		decompressTask(*r)
-	case "firewall":
+	case "Firewall":
 		println("\nRunning task:", *t, "\nTarget:", *r)
 		toggleFirewall(*r)
 	case "generatePassword":
@@ -119,7 +119,7 @@ func main() {
 		listTasks()
 	default: // invalid
 		ct.Foreground(ct.Red, true)
-		println("Invalid task - ", *t)
+		println("Invalid task -", *t)
 		ct.Foreground(ct.Yellow, false)
 		println("Use '--help' or '-t List'")
 	}
