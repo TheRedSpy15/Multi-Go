@@ -101,6 +101,9 @@ func main() {
 	case "decompress":
 		println("\nRunning task:", *t, "\nTarget:", *r)
 		decompressTask(*r)
+	case "firewall":
+		println("\nRunning task:", *t, "\nTarget:", *r)
+		toggleFirewall(*r)
 	case "generatePassword":
 		generatePasswordTask()
 	case "systemInfo":

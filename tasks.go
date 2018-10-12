@@ -18,6 +18,7 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"compress/gzip"
 	"crypto/sha1"
 	"encoding/base64"
@@ -63,6 +64,7 @@ func listTasks() {
 	println("generatePassword")
 	println("systemInfo")
 	println("Audit -r [Online/Offline]")
+	println("Firewall -r [enable/disable/status]")
 	println("pwnAccount -r [Email]")
 
 	println("About") // keep at bottom of print statements
@@ -205,6 +207,24 @@ func compressTask(target string) {
 func decompressTask(target string) {
 	ct.Foreground(ct.Red, true)
 	println("Not a working feature yet!")
+}
+
+// TODO: add support for my systems - think only works on debian/ubuntu
+// Allows the user to enable/disable system firewall
+func toggleFirewall(target string) {
+	checkTarget(target)
+
+	cmd := exec.Command("ufw", target)
+	var o bytes.Buffer
+
+	cmd.Stdout = &o
+
+	if err := cmd.Run(); err != nil {
+		ct.Foreground(ct.Red, true)
+		panic(err.Error())
+	}
+
+	println(o.String())
 }
 
 // TODO: use set length
