@@ -54,19 +54,26 @@ func hashFile(target string) {
 func listTasks() {
 	ct.Foreground(ct.Yellow, false)
 	println("Available tasks:")
+	time.Sleep(1 * time.Second)
+
+	println("\n-- Utility --")
+	println("Scrape -r [URL]")
+	println("Email")
+	println("systemInfo")
+	time.Sleep(1 * time.Second)
+
+	println("\n-- Security --")
+	println("(sudo) Firewall -r [enable/disable/status]")
+	println("Audit -r [Online/Offline]")
 	println("Hash -r [file path]")
 	println("encryptFile -r [file path]")
 	println("decryptFile -r [file path]")
-	println("Scrape -r [URL]")
-	println("DOS -r [IP/URL]")
-	println("Email")
-	println("generatePassword")
-	println("systemInfo")
-	println("Audit -r [Online/Offline]")
-	println("(sudo) Firewall -r [enable/disable/status]")
 	println("pwnAccount -r [Email]")
+	println("generatePassword")
+	time.Sleep(1 * time.Second)
 
-	println("About") // keep at bottom of print statements
+	println("\n-- Pentesting -- ")
+	println("DOS -r [IP/URL]")
 }
 
 // TODO: make & add more info functions
