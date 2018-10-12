@@ -70,7 +70,7 @@ func listTasks() {
 	println("About") // keep at bottom of print statements
 }
 
-// TODO: make & add 'printDisk'
+// TODO: make & add more info functions
 // Prints extensive info about system
 func systemInfoTask() {
 	ct.Foreground(ct.Yellow, false) // set text color to dark yellow
