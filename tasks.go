@@ -64,7 +64,7 @@ func listTasks() {
 	println("generatePassword")
 	println("systemInfo")
 	println("Audit -r [Online/Offline]")
-	println("Firewall -r [enable/disable/status]")
+	println("(sudo) Firewall -r [enable/disable/status]")
 	println("pwnAccount -r [Email]")
 
 	println("About") // keep at bottom of print statements
