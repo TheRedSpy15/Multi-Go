@@ -230,8 +230,8 @@ func decompressTask(target string) {
 // TODO: add support for more systems - think only works on debian/ubuntu
 // Allows the user to enable/disable system firewall
 func toggleFirewall(target string) {
-	checkTarget(target)            // make sure target is valid
-	println(runCmd("ufw", target)) // run command & print result
+	checkTarget(target)              // make sure target is valid
+	println(runCmd("ufw", "status")) // run command & print result
 }
 
 // Generates a random string for use as a password

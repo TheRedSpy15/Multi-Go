@@ -47,13 +47,15 @@ func checkTarget(target string) {
 }
 
 // TODO: document
-// TODO: add support for multiple arguments
 // Run a command on the system & print result
-func runCmd(command string, arg string) string {
-	cmd := exec.Command(command, arg)
-	var o bytes.Buffer
+func runCmd(command string, arg ...string) string {
+	cmd := exec.Command(command)
+	for _, arg := range arg {
+		cmd.Args = append(cmd.Args, arg)
+	}
 
-	cmd.Stdout = &o
+	var o bytes.Buffer
+	cmd.Stdout = &o // asign o to cmd's Stdout
 
 	if err := cmd.Run(); err != nil {
 		ct.Foreground(ct.Red, true)
