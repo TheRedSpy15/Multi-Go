@@ -102,7 +102,8 @@ func main() {
 		println("\nRunning task:", *t, "\nTarget:", *r)
 		toggleFirewall(*r)
 	case "generatePassword":
-		generatePasswordTask()
+		println("\nRunning task:", *t, "\nTarget:", *r)
+		generatePasswordTask(*r)
 	case "systemInfo":
 		systemInfoTask()
 	case "Clean":

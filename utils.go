@@ -339,8 +339,7 @@ func runAuditOnline() {
 // Util function - returns a random string
 /* Original: https://stackoverflow.com/questions/22892120
 /how-to-generate-a-random-string-of-a-fixed-length-in-go#31832326 */
-func randomString() string {
-	var charLimit = 20 // string max length
+func randomString(length int) string {
 	const (
 		letterBytes   = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" // letters to use
 		letterIdxBits = 6                                                      // 6 bits to represent a letter index
@@ -349,9 +348,9 @@ func randomString() string {
 	)
 	var src = rand.NewSource(time.Now().UnixNano()) // create random source
 
-	b := make([]byte, charLimit)
+	b := make([]byte, length)
 	// A src.Int63() generates 63 random bits, enough for letterIdxMax characters!
-	for i, cache, remain := charLimit-1, src.Int63(), letterIdxMax; i >= 0; {
+	for i, cache, remain := length-1, src.Int63(), letterIdxMax; i >= 0; {
 		if remain == 0 {
 			cache, remain = src.Int63(), letterIdxMax
 		}

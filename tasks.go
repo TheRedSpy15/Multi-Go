@@ -28,6 +28,7 @@ import (
 	"net/smtp"
 	"os"
 	"os/exec"
+	"strconv"
 	"strings"
 	"time"
 
@@ -74,7 +75,7 @@ func listTasks() {
 	println("encryptFile -r [file path]")
 	println("decryptFile -r [file path]")
 	println("pwnAccount -r [email]")
-	println("generatePassword")
+	println("generatePassword -r [length]")
 	time.Sleep(1 * time.Second)
 
 	ct.Foreground(ct.Red, true)
@@ -236,11 +237,11 @@ func toggleFirewall(target string) {
 	println(runCmd("ufw", target))
 }
 
-// TODO: use set length
 // Generates a random string for use as a password
-func generatePasswordTask() {
+func generatePasswordTask(target string) {
 	ct.Foreground(ct.Yellow, false) // set text color to dark yellow
-	println("Password:", randomString())
+	conversion, _ := strconv.Atoi(target)
+	println("Password:", randomString(conversion))
 }
 
 // TODO: add amplification - such as NTP monlist
