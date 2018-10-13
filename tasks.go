@@ -70,7 +70,7 @@ func listTasks() {
 	println("\n-- Security --")
 	ct.Foreground(ct.Yellow, false)
 	println("(sudo) Firewall -r [enable/disable/status]")
-	println("Audit -r [online/offline]")
+	println("(sudo) Audit -r [online/offline]")
 	println("Hash -r [file path]")
 	println("encryptFile -r [file path]")
 	println("decryptFile -r [file path]")
@@ -159,7 +159,7 @@ func decryptFileTask(target string) {
 // TODO: run the right command that cleans "thumbs" & the system cache
 // Clean cached files
 func cleanTask() {
-	ct.Foreground(ct.Red, true)
+	ct.Foreground(ct.Red, true) // set text color to bright red
 	println("Not a working feature yet!")
 	cmd := exec.Command("rm", "-rf", "~/.thumbs/*") // don't think this is the right command
 	cmd.Run()
@@ -200,47 +200,46 @@ func auditTask(target string) {
 	}
 }
 
-// TODO: document
+// TODO: rework gzip extension adding
 // Compresses the target file in gzip format
 func compressTask(target string) {
-	checkTarget(target)
+	checkTarget(target) // make sure target is valid
 
-	file, err := os.Create(target)
+	file, err := os.Create(target) // create file object
 	if err != nil {
-		ct.Foreground(ct.Red, true)
+		ct.Foreground(ct.Red, true) // set text color to bright red
 		panic(err.Error())
 	}
-	defer file.Close()
+	defer file.Close() // make sure file gets closed
 
-	os.Rename(target, target+".gz")
+	os.Rename(target, target+".gz") // add gzip extension
 
-	w := gzip.NewWriter(file)
-	w.Write(readFileIntoByte(target))
-	defer w.Close()
+	w := gzip.NewWriter(file)         // make gzip writer for target file
+	w.Write(readFileIntoByte(target)) // write compressed data
+	defer w.Close()                   // make sure writer gets closed
 
-	ct.Foreground(ct.Green, true)
+	ct.Foreground(ct.Green, true) // set text color to bright green
 	println("finished!")
 }
 
-// TODO: if contains .gz
+// NOTE: make sure to check for gzip extension
 // Decompresses the target file in gzip format
 func decompressTask(target string) {
-	ct.Foreground(ct.Red, true)
+	ct.Foreground(ct.Red, true) // set text color to bright red
 	println("Not a working feature yet!")
 }
 
-// TODO: document
 // TODO: add support for more systems - think only works on debian/ubuntu
 // Allows the user to enable/disable system firewall
 func toggleFirewall(target string) {
-	checkTarget(target)
-	println(runCmd("ufw", target))
+	checkTarget(target)            // make sure target is valid
+	println(runCmd("ufw", target)) // run command & print result
 }
 
 // Generates a random string for use as a password
 func generatePasswordTask(target string) {
-	ct.Foreground(ct.Yellow, false) // set text color to dark yellow
-	conversion, _ := strconv.Atoi(target)
+	ct.Foreground(ct.Yellow, false)       // set text color to dark yellow
+	conversion, _ := strconv.Atoi(target) // convert target (string), to int
 	println("Password:", randomString(conversion))
 }
 
@@ -252,10 +251,10 @@ func dosTask(target string) {
 	conn, err := net.Dial("udp", target) // setup connection object
 	defer conn.Close()                   // make sure to close connection when finished
 	if err != nil {
-		ct.Foreground(ct.Red, true)
+		ct.Foreground(ct.Red, true) // sets text color to bright red
 		panic(err.Error)
 	} else { // nothing bad happened when connecting to target
-		ct.Foreground(ct.Green, true)
+		ct.Foreground(ct.Green, true) // ets text color to bright red
 		println("Checks passed!")
 	}
 
