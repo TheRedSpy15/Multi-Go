@@ -279,6 +279,7 @@ func dosTask(target string) {
 
 // BUG: no such host (likely because \n in input)
 // TODO: break up into Util functions
+// TODO: add more comments
 // TODO: find out if attachment works with path, or just name
 // Send email
 func emailTask() {
