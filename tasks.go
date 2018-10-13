@@ -25,7 +25,6 @@ import (
 	"io/ioutil"
 	"net"
 	"net/http"
-	"net/smtp"
 	"os"
 	"os/exec"
 	"strconv"
@@ -33,11 +32,10 @@ import (
 	"time"
 
 	"github.com/daviddengcn/go-colortext"
-	"github.com/jordan-wright/email"
 	"github.com/shirou/gopsutil/cpu"
+	"gopkg.in/gomail.v2"
 )
 
-// TODO: add sha-256 hash
 // Takes a file path, and then prints the hash of the file
 func hashFile(target string) {
 	checkTarget(target)             // make sure target is valid
@@ -151,7 +149,7 @@ func decryptFileTask(target string) {
 		ct.Foreground(ct.Red, true) // set text color to bright red
 		panic(err.Error())
 	}
-	defer file.Close()                        // close file on function end
+	defer file.Close()                        // makes sure file gets closed
 	file.Write(decryptFile(target, password)) // decrypt file
 	println("\nFile decrypted!")
 }
@@ -279,45 +277,38 @@ func dosTask(target string) {
 	}
 }
 
-// BUG: mail: missing word in phrase: mail: invalid string
-// TODO: use native go email
+// BUG: no such host (likely because \n in input)
 // TODO: break up into Util functions
 // TODO: find out if attachment works with path, or just name
 // Send email
 func emailTask() {
 	reader := bufio.NewReader(os.Stdin) // make reader object
-	e := email.NewEmail()               // make email object
+	e := gomail.NewMessage()            // make email object
 	ct.Foreground(ct.Yellow, false)     // set text color to dark yellow
 	println("Prepare email")
 	ct.ResetColor() // reset text color to default
 
 	// email setup
 	print("From: ")
-	e.From, _ = reader.ReadString('\n') // from
+	from, _ := reader.ReadString('\n') // from
+	e.SetHeader("From", from)
 
 	print("To: ")
-	To, _ := reader.ReadString('\n') // to
-	e.To = []string{To}
-
-	print("Bcc (leave blank if none): ") // bcc
-	Bcc, _ := reader.ReadString('\n')
-	e.Bcc = []string{Bcc}
-
-	print("Cc (leave blank if none): ") // cc
-	Cc, _ := reader.ReadString('\n')
-	e.To = []string{Cc}
+	to, _ := reader.ReadString('\n') // to
+	e.SetHeader("To", to)
 
 	print("Subject: ")
-	e.Subject, _ = reader.ReadString('\n') // subject
+	subject, _ := reader.ReadString('\n') // subject
+	e.SetHeader("Subject", subject)
 
 	print("Text: ")
-	Text, _ := reader.ReadString('\n') // text
-	e.Text = []byte(Text)
+	text, _ := reader.ReadString('\n') // text
+	e.SetHeader("text/html", text)
 
 	print("File path (if sending one): ") // attachment
 	Path, _ := reader.ReadString('\n')
 	if Path != "" {
-		e.AttachFile(Path)
+		e.Attach(Path)
 	}
 
 	// authentication
@@ -325,6 +316,7 @@ func emailTask() {
 	provider, _ := reader.ReadString('\n')
 	print("Port (example: 587): ") // port
 	port, _ := reader.ReadString('\n')
+	portCode, _ := strconv.Atoi(port)
 	print("Password (leave blank if none): ") // password
 	password := getPassword()
 
@@ -333,10 +325,11 @@ func emailTask() {
 	confirm, _ := reader.ReadString('\n')          // get string of user confirm choice
 	if strings.TrimRight(confirm, "\n") == "yes" { // yes - confirm send
 		// sending
-		err := e.Send(provider+":"+port, smtp.PlainAuth("", e.From, password, provider)) // send & get error
-		if err != nil {
-			ct.Foreground(ct.Red, true) // set text color to bright red
-			println("error sending email -", err.Error())
+		d := gomail.NewDialer(provider, portCode, from, password)
+
+		if err := d.DialAndSend(e); err != nil {
+			ct.Foreground(ct.Red, true) // set text
+			panic(err.Error())
 		}
 	} else { // cancelled
 		ct.Foreground(ct.Red, true)
