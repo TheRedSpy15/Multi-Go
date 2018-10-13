@@ -182,7 +182,7 @@ func runAuditOffline() {
 	ct.Foreground(ct.Yellow, false)
 
 	// firewall
-	if strings.Contains(runCmd("ufw", "status"), "disabled") { // disabled
+	if !strings.Contains(runCmd("ufw", "status"), "active") { // disabled / is not active
 		problems[0] = "Firewall disabled"
 	}
 	println("Check 1 complete!")
