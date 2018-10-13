@@ -176,13 +176,14 @@ func runAuditOffline() {
 	problems := make([]string, 1)
 
 	println("-- Beginning Audit --")
-	println("This is a major WIP!")
+	println("This is a major WIP!\n")
 	ct.Foreground(ct.Yellow, false)
 
-	firewallStat := runCmd("ufw", "status")          // firewall
-	if !strings.Contains(firewallStat, "disabled") { // disabled
+	// firewall
+	if strings.Contains(runCmd("ufw", "status"), "disabled") { // disabled
 		problems[0] = "Firewall disabled"
 	}
+	println("Check 1 complete!")
 
 	ct.Foreground(ct.Red, true)
 	fmt.Println("Problems found:", problems)
