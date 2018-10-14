@@ -6,19 +6,19 @@
 
 A command line multi-tool made in Go, and aimed at security experts to make life a little more convenient. It does this by combining a massive array of different tasks, into one program.
 ### Currently capable of:
-- file encryption/decryption
 - file hashing
 - DOS attack
-- email
-- scrape website
 - password generator
 - system info
 - check if account is breached (HaveIBeenPwned)
+- control firewall
+- system security audit
 ### Working on (will add more over time):
-- secure file deletion
-- file compression/decompression
-- toggle incoming connections
-- system vulerability audit (online/offline modes)
+- secure file deletion (bleach)
+- file compression/decompression (gzip)
+- email
+- scrape website(s) for information
+- file encryption/decryption
 - clean temporary files
 ## How to
 ### Download:
