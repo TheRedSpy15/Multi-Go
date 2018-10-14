@@ -230,7 +230,10 @@ func randomString(length int) string {
 func printCPU() {
 	cpuCount, _ := cpu.Counts(false)       // get cpu count total
 	cpuCountLogical, _ := cpu.Counts(true) // get cpu logical count
-	fmt.Println("\n-- CPU --\n")
+
+	ct.Foreground(ct.Red, true) // change text color to bright red
+	fmt.Println("\n-- CPU --")
+	ct.Foreground(ct.Yellow, false)                      // change text color to dark yellow
 	fmt.Println("CPU Count: (logical)", cpuCountLogical) // cpu count logical
 	fmt.Println("CPU Count:", cpuCount)                  // cpu count total
 }
@@ -244,7 +247,10 @@ func printMemory() {
 		ct.Foreground(ct.Red, true) // set text color to bright red
 		panic(err.Error())
 	}
-	fmt.Println("\n-- Memory --\n")
+
+	ct.Foreground(ct.Red, true) // change text color to bright red
+	fmt.Println("\n-- Memory --")
+	ct.Foreground(ct.Yellow, false)         // change text color to dark yellow
 	fmt.Println("Memory Used:", mem.Used)   // used
 	fmt.Println("Memory Free:", mem.Free)   // free
 	fmt.Println("Memory Total:", mem.Total) // total
@@ -257,7 +263,10 @@ func printHost() {
 		ct.Foreground(ct.Red, true) // set text color to bright red
 		panic(err.Error())
 	}
-	fmt.Println("\n-- Host --\n")
+
+	ct.Foreground(ct.Red, true) // change text color to bright red
+	fmt.Println("\n-- Host --")
+	ct.Foreground(ct.Yellow, false)                            // change text color to dark yellow
 	fmt.Println("Kernal Version:", hostInfo.KernelVersion)     // kernal version
 	fmt.Println("Platform:", hostInfo.Platform)                // platform
 	fmt.Println("Platform Family:", hostInfo.PlatformFamily)   // platform family
