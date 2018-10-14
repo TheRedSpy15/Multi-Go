@@ -191,17 +191,6 @@ func runAuditOffline() {
 	fmt.Println("Problems found:", problems)
 }
 
-// IDEA: clone python file from github, run if on machine, clone if not (also bundle python file with program)
-// to clone: use gitCDN AND (if one is down) Staticaly
-// TODO: finish
-// TODO: document
-// BUG: exit status 1
-// Util function - run system audit
-func runAuditOnline() {
-	// download file from Staticaly
-	runCmd("wget", "-p", "https://cdn.staticaly.com/gh/TheRedSpy15/Multi-Go/68d20086/linuxScanner.py")
-}
-
 // TODO: rewrite in my own code
 // TODO: add more comments
 // Util function - returns a random string

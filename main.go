@@ -89,9 +89,6 @@ func main() {
 	case "DOS":
 		println("\nRunning task:", *t, "\nTarget:", *r)
 		dosTask(*r)
-	case "Audit":
-		println("\nRunning task:", *t, "\nTarget:", *r)
-		auditTask(*r)
 	case "compress":
 		println("\nRunning task:", *t, "\nTarget:", *r)
 		compressTask(*r)
@@ -110,6 +107,8 @@ func main() {
 		cleanTask()
 	case "Email":
 		emailTask()
+	case "Audit":
+		auditTask()
 	case "About":
 		about()
 	case "List":

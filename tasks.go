@@ -68,7 +68,7 @@ func listTasks() {
 	println("\n-- Security --")
 	ct.Foreground(ct.Yellow, false)
 	println("(sudo) Firewall -r [enable/disable/status]")
-	println("(sudo) Audit -r [online/offline]")
+	println("(sudo) Audit")
 	println("Hash -r [file path]")
 	println("encryptFile -r [file path]")
 	println("decryptFile -r [file path]")
@@ -181,21 +181,9 @@ func scapeTask(target string) {
 	collyAddress(target, true, false) // run colly - scraping happens here
 }
 
-// BUG: exit status 1
-// Runs linuxScanner.py to audit system vulnerabilities
-func auditTask(target string) {
-	checkTarget(target)             // make sure target is valid
-	ct.Foreground(ct.Yellow, false) // set text color to dark yellow
-
-	if strings.TrimRight(target, "\n") == "online" { // online audit
-		runAuditOnline()
-	} else if strings.TrimRight(target, "\n") == "offline" { // offline audit
-		runAuditOffline()
-	} else { // not valid option
-		ct.Foreground(ct.Red, true) // set text color to bright red
-		println("Not a valid mode!")
-		println(`Use "online" or "offline"`)
-	}
+// Runs multiple checks, and reports found security issues to user
+func auditTask() {
+	runAuditOffline()
 }
 
 // TODO: rework gzip extension adding
