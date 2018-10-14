@@ -95,7 +95,7 @@ func getPassword() string {
 func printBanner() {
 	ct.Foreground(ct.Red, true) // set text color to bright red
 
-	println(`
+	fmt.Println(`
  __  __       _ _   _    ____
 |  \/  |_   _| | |_(_)  / ___| ___
 | |\/| | | | | | __| | | |  _ / _ \
@@ -114,7 +114,7 @@ func collyAddress(target string, savePage bool, ip bool) {
 
 	// configuring colly/collector object
 	c.OnRequest(func(r *colly.Request) {
-		println("Visiting", r.URL)
+		fmt.Println("Visiting", r.URL)
 	})
 
 	c.OnError(func(_ *colly.Response, err error) { // print error message on error
@@ -124,12 +124,12 @@ func collyAddress(target string, savePage bool, ip bool) {
 	})
 
 	c.OnResponse(func(r *colly.Response) {
-		println("Visited", r.Request.URL)
-		println("Response:", r.StatusCode)
+		fmt.Println("Visited", r.Request.URL)
+		fmt.Println("Response:", r.StatusCode)
 	})
 
 	c.OnScraped(func(r *colly.Response) { // finished with site
-		println("Finished", r.Request.URL)
+		fmt.Println("Finished", r.Request.URL)
 
 		if savePage { // check if save is enabled
 			err := r.Save(r.FileName()) // saving data
@@ -139,7 +139,7 @@ func collyAddress(target string, savePage bool, ip bool) {
 				panic("Error saving")
 			} else { // saved
 				ct.Foreground(ct.Green, true) // set text color to bright red
-				println("Saved - ", r.FileName())
+				fmt.Println("Saved - ", r.FileName())
 				ct.ResetColor() // reset text color to default color
 			}
 		}
@@ -155,7 +155,7 @@ func dos(conn net.Conn) {
 
 	defer conn.Close() // make sure to close the connection when done
 
-	println("Starting loop")
+	fmt.Println("Starting loop")
 	for true { // DOS loop
 		fmt.Fprintf(conn, "Sup UDP Server, how you doing?")
 		_, err := bufio.NewReader(conn).Read(p)
@@ -165,27 +165,30 @@ func dos(conn net.Conn) {
 			fmt.Printf("Some error %v\n", err)
 		}
 
-		println("looped")
+		fmt.Println("looped")
 	}
 }
 
 // TODO: add more checks
 // TODO: add wifi encryption check
+// TODO: add something user related checks
+// TODO: add current software version checks
+// TODO: add using default DNS check
 // TODO: document
 // Audits the system without using third party service
 func runAuditOffline() {
 	ct.Foreground(ct.Red, true)
 	problems := make([]string, 1)
 
-	println("-- Beginning Audit --")
-	println("This is a major WIP!\n")
+	fmt.Println("-- Beginning Audit --")
+	fmt.Println("This is a major WIP!")
 	ct.Foreground(ct.Yellow, false)
 
 	// firewall
 	if !strings.Contains(runCmd("ufw", "status"), "active") { // disabled / is not active
 		problems[0] = "Firewall disabled"
 	}
-	println("Check 1 complete!")
+	fmt.Println("Check 1 complete!")
 
 	ct.Foreground(ct.Red, true)
 	fmt.Println("Problems found:", problems)
@@ -227,9 +230,9 @@ func randomString(length int) string {
 func printCPU() {
 	cpuCount, _ := cpu.Counts(false)       // get cpu count total
 	cpuCountLogical, _ := cpu.Counts(true) // get cpu logical count
-	println("\n-- CPU --\n")
-	println("CPU Count: (logical)", cpuCountLogical) // cpu count logical
-	println("CPU Count:", cpuCount)                  // cpu count total
+	fmt.Println("\n-- CPU --\n")
+	fmt.Println("CPU Count: (logical)", cpuCountLogical) // cpu count logical
+	fmt.Println("CPU Count:", cpuCount)                  // cpu count total
 }
 
 // TODO: get physical memory instead of swap
@@ -241,10 +244,10 @@ func printMemory() {
 		ct.Foreground(ct.Red, true) // set text color to bright red
 		panic(err.Error())
 	}
-	println("\n-- Memory --\n")
-	println("Memory Used:", mem.Used)   // used
-	println("Memory Free:", mem.Free)   // free
-	println("Memory Total:", mem.Total) // total
+	fmt.Println("\n-- Memory --\n")
+	fmt.Println("Memory Used:", mem.Used)   // used
+	fmt.Println("Memory Free:", mem.Free)   // free
+	fmt.Println("Memory Total:", mem.Total) // total
 }
 
 // Util function - prints info about system host
@@ -254,13 +257,13 @@ func printHost() {
 		ct.Foreground(ct.Red, true) // set text color to bright red
 		panic(err.Error())
 	}
-	println("\n-- Host --\n")
-	println("Kernal Version:", hostInfo.KernelVersion)     // kernal version
-	println("Platform:", hostInfo.Platform)                // platform
-	println("Platform Family:", hostInfo.PlatformFamily)   // platform family
-	println("Platform Version:", hostInfo.PlatformVersion) // platform version
-	println("Uptime:", hostInfo.Uptime)                    // uptime
-	println("Host Name:", hostInfo.Hostname)               // hostname
-	println("Host ID:", hostInfo.HostID)                   // host id
-	println("OS:", hostInfo.OS)                            // os
+	fmt.Println("\n-- Host --\n")
+	fmt.Println("Kernal Version:", hostInfo.KernelVersion)     // kernal version
+	fmt.Println("Platform:", hostInfo.Platform)                // platform
+	fmt.Println("Platform Family:", hostInfo.PlatformFamily)   // platform family
+	fmt.Println("Platform Version:", hostInfo.PlatformVersion) // platform version
+	fmt.Println("Uptime:", hostInfo.Uptime)                    // uptime
+	fmt.Println("Host Name:", hostInfo.Hostname)               // hostname
+	fmt.Println("Host ID:", hostInfo.HostID)                   // host id
+	fmt.Println("OS:", hostInfo.OS)                            // os
 }

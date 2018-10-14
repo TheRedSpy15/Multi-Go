@@ -29,6 +29,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"os"
 	"strings"
 
@@ -72,34 +73,34 @@ func main() {
 	// Determine task
 	switch *t {
 	case "Hash":
-		println("\nRunning task:", *t, "\nTarget:", *r)
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
 		hashFile(*r)
 	case "pwnAccount":
-		println("\nRunning task:", *t, "\nTarget:", *r)
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
 		pwnAccount(*r)
 	case "encryptFile":
-		println("\nRunning task:", *t, "\nTarget:", *r)
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
 		encryptFileTask(*r)
 	case "decryptFile":
-		println("\nRunning task:", *t, "\nTarget:", *r)
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
 		decryptFileTask(*r)
 	case "Scrape":
-		println("\nRunning task:", *t, "\nTarget:", *r)
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
 		scapeTask(*r)
 	case "DOS":
-		println("\nRunning task:", *t, "\nTarget:", *r)
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
 		dosTask(*r)
 	case "compress":
-		println("\nRunning task:", *t, "\nTarget:", *r)
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
 		compressTask(*r)
 	case "decompress":
-		println("\nRunning task:", *t, "\nTarget:", *r)
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
 		decompressTask(*r)
 	case "Firewall":
-		println("\nRunning task:", *t, "\nTarget:", *r)
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
 		toggleFirewall(*r)
 	case "generatePassword":
-		println("\nRunning task:", *t, "\nTarget:", *r)
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
 		generatePasswordTask(*r)
 	case "systemInfo":
 		systemInfoTask()
@@ -115,8 +116,8 @@ func main() {
 		listTasks()
 	default: // invalid
 		ct.Foreground(ct.Red, true)
-		println("Invalid task -", *t)
+		fmt.Println("Invalid task -", *t)
 		ct.Foreground(ct.Yellow, false)
-		println("Use '--help' or '-t List'")
+		fmt.Println("Use '--help' or '-t List'")
 	}
 }
