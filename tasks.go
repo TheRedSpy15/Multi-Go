@@ -240,7 +240,7 @@ func dosTask(target string) {
 	defer conn.Close()                   // make sure to close connection when finished
 	if err != nil {
 		ct.Foreground(ct.Red, true)
-		panic(err.Error())
+		panic(err.Error() + "\n likely due to not including port number")
 	} else { // nothing bad happened when connecting to target
 		ct.Foreground(ct.Green, true)
 		println("Checks passed!")
