@@ -1,5 +1,4 @@
 package main
-
 /*
    Copyright 2018 TheRedSpy15
 
@@ -32,38 +31,6 @@ import (
 
 	"github.com/daviddengcn/go-colortext"
 )
-
-func createHash(key string) string {
-	hasher := md5.New()
-	hasher.Write([]byte(key))
-	return hex.EncodeToString(hasher.Sum(nil))
-}
-
-func encrypt(data []byte, passphrase string) []byte {
-	block, _ := aes.NewCipher([]byte(createHash(passphrase)))
-	gcm, err := cipher.NewGCM(block)
-	if err != nil {
-		ct.Foreground(ct.Red, true)
-		panic(err.Error())
-	}
-	nonce := make([]byte, gcm.NonceSize())
-	if _, err = io.ReadFull(rand.Reader, nonce); err != nil {
-		ct.Foreground(ct.Red, true)
-		panic(err.Error())
-	}
-	ciphertext := gcm.Seal(nonce, nonce, data, nil)
-	return ciphertext
-}
-
-func encryptFile(filename string, data []byte, passphrase string) {
-	f, err := os.Create(filename)
-	if err != nil {
-		ct.Foreground(ct.Red, true)
-		panic(err.Error())
-	}
-	defer f.Close()
-	f.Write(encrypt(data, passphrase))
-}
 
 func decrypt(data []byte, passphrase string) []byte {
 	key := []byte(createHash(passphrase))
