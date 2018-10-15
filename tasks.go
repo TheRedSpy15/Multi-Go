@@ -221,7 +221,7 @@ func decompressTask(target string) {
 // Allows the user to enable/disable system firewall
 func toggleFirewall(target string) {
 	checkTarget(target)
-	runCmdPrint("ufw", target, "Likely didn't use sudo")
+	runCmdPrint("ufw", target)
 }
 
 // TODO: use set length
