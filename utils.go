@@ -49,7 +49,7 @@ func checkTarget(target string) {
 // TODO: document
 // TODO: add support for multiple arguments
 // Run a command on the system & print result
-func runCmdPrint(command string, arg string, cause string) {
+func runCmdPrint(command string, arg string) {
 	cmd := exec.Command(command, arg)
 	var o bytes.Buffer
 
@@ -57,7 +57,7 @@ func runCmdPrint(command string, arg string, cause string) {
 
 	if err := cmd.Run(); err != nil {
 		ct.Foreground(ct.Red, true)
-		panic(err.Error() + "\n" + cause)
+		panic(err.Error())
 	}
 
 	println(o.String())

@@ -73,7 +73,7 @@ func listTasks() {
 	time.Sleep(1 * time.Second)
 
 	println("\n-- Pentesting -- ")
-	println("DOS -r [IP/URL]")
+	println("DOS -r [IP:PORT]")
 }
 
 // TODO: make & add more info functions
@@ -240,7 +240,7 @@ func dosTask(target string) {
 	defer conn.Close()                   // make sure to close connection when finished
 	if err != nil {
 		ct.Foreground(ct.Red, true)
-		panic(err.Error() + "\n likely due to not including port number")
+		panic(err.Error)
 	} else { // nothing bad happened when connecting to target
 		ct.Foreground(ct.Green, true)
 		println("Checks passed!")
