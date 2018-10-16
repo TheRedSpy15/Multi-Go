@@ -180,31 +180,6 @@ func Dos(conn net.Conn) {
 	}
 }
 
-// RunAuditOffline audits the system without using a third party service
-// TODO: add more checks
-// TODO: add wifi encryption check
-// TODO: add something user related checks
-// TODO: add current software version checks
-// TODO: add using default DNS check
-// TODO: document
-func RunAuditOffline() {
-	ct.Foreground(ct.Red, true)
-	problems := make([]string, 1)
-
-	fmt.Println("-- Beginning Audit --")
-	fmt.Println("This is a major WIP!")
-	ct.Foreground(ct.Yellow, false)
-
-	// firewall
-	if !strings.Contains(RunCmd("ufw", "status"), "active") { // disabled / is not active
-		problems[0] = "Firewall disabled"
-	}
-	fmt.Println("Check 1 complete!")
-
-	ct.Foreground(ct.Red, true)
-	fmt.Println("Problems found:", problems)
-}
-
 // RandomString returns a random string
 // TODO: rewrite in my own code
 // TODO: add more comments
