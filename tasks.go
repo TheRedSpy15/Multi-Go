@@ -36,6 +36,7 @@ import (
 	"gopkg.in/gomail.v2"
 )
 
+// BUG: won't work unless ran from non-dialog mode / by using commandline flags
 // Takes a file path, and then prints the hash of the file
 func hashFile(target string) {
 	checkTarget(target)             // make sure target is valid
@@ -46,46 +47,46 @@ func hashFile(target string) {
 	hash.Write(file)                                          // hash file to object
 	target = base64.URLEncoding.EncodeToString(hash.Sum(nil)) // encode hash sum into string
 
-	println("SHA-1 hash :", target)
+	fmt.Println("SHA-1 hash :", target)
 }
 
 // TODO: find some way to shrink
 // ListTasks - lists all currently working tasks
 func listTasks() {
 	ct.Foreground(ct.Red, true)
-	println("Available tasks:")
+	fmt.Println("Available tasks:")
 	time.Sleep(1 * time.Second)
 
-	println("\n-- Utility --")
+	fmt.Println("\n-- Utility --")
 	ct.Foreground(ct.Yellow, false)
-	println("Scrape -r [URL]")
-	println("Email")
-	println("systemInfo")
-	println("Compress -r [file path]")
-	time.Sleep(1 * time.Second)
-
-	ct.Foreground(ct.Red, true)
-	println("\n-- Security --")
-	ct.Foreground(ct.Yellow, false)
-	println("(sudo) Firewall -r [enable/disable/status]")
-	println("(sudo) Audit -r [online/offline]")
-	println("Hash -r [file path]")
-	println("encryptFile -r [file path]")
-	println("decryptFile -r [file path]")
-	println("pwnAccount -r [email]")
-	println("generatePassword -r [length]")
+	fmt.Println("Scrape -r [URL]")
+	fmt.Println("Email")
+	fmt.Println("systemInfo")
+	fmt.Println("Compress -r [file path]")
 	time.Sleep(1 * time.Second)
 
 	ct.Foreground(ct.Red, true)
-	println("\n-- Pentesting -- ")
+	fmt.Println("\n-- Security --")
 	ct.Foreground(ct.Yellow, false)
-	println("DOS -r [IP:PORT]")
+	fmt.Println("(sudo) Firewall -r [enable/disable/status]")
+	fmt.Println("(sudo) Audit")
+	fmt.Println("Hash -r [file path]")
+	fmt.Println("encryptFile -r [file path]")
+	fmt.Println("decryptFile -r [file path]")
+	fmt.Println("pwnAccount -r [email]")
+	fmt.Println("generatePassword -r [length]")
 	time.Sleep(1 * time.Second)
 
 	ct.Foreground(ct.Red, true)
-	println("\n-- Other --")
+	fmt.Println("\n-- Pentesting -- ")
 	ct.Foreground(ct.Yellow, false)
-	println("About")
+	fmt.Println("DOS -r [IP:PORT]")
+	time.Sleep(1 * time.Second)
+
+	ct.Foreground(ct.Red, true)
+	fmt.Println("\n-- Other --")
+	ct.Foreground(ct.Yellow, false)
+	fmt.Println("About")
 }
 
 // TODO: make & add more info functions
@@ -114,10 +115,10 @@ func pwnAccount(target string) {
 
 	if len(bodyBytes) == 0 { // nothing found - all good
 		ct.Foreground(ct.Green, true) // set text color to bright green
-		println("Good news — no pwnage found!")
+		fmt.Println("Good news — no pwnage found!")
 	} else { // account found in breach
 		ct.Foreground(ct.Red, true) // set text color to bright red
-		println("Oh no — account has been pwned!")
+		fmt.Println("Oh no — account has been pwned!")
 	}
 }
 
@@ -131,7 +132,7 @@ func encryptFileTask(target string) {
 	password := getPassword() // get password securely
 
 	encryptFile(target, data, password) // encrypt file
-	println("\nFile encrypted!")
+	fmt.Println("\nFile encrypted!")
 }
 
 // BUG: decrypted file is unusable
@@ -151,14 +152,14 @@ func decryptFileTask(target string) {
 	}
 	defer file.Close()                        // makes sure file gets closed
 	file.Write(decryptFile(target, password)) // decrypt file
-	println("\nFile decrypted!")
+	fmt.Println("\nFile decrypted!")
 }
 
 // TODO: run the right command that cleans "thumbs" & the system cache
 // Clean cached files
 func cleanTask() {
 	ct.Foreground(ct.Red, true) // set text color to bright red
-	println("Not a working feature yet!")
+	fmt.Println("Not a working feature yet!")
 	cmd := exec.Command("rm", "-rf", "~/.thumbs/*") // don't think this is the right command
 	cmd.Run()
 }
@@ -168,11 +169,11 @@ func about() {
 	printBanner()
 
 	ct.Foreground(ct.Yellow, false) // set text color to dark yellow
-	println("Multi Go v0.6.1", "\nBy: TheRedSpy15")
-	println("GitHub:", "https://github.com/TheRedSpy15")
-	println("Project Page:", "https://github.com/TheRedSpy15/Multi-Go")
-	println("\nMulti Go allows IT admins and Cyber Security experts")
-	println("to conveniently perform all sorts of tasks.")
+	fmt.Println("Multi Go v0.6.1", "\nBy: TheRedSpy15")
+	fmt.Println("GitHub:", "https://github.com/TheRedSpy15")
+	fmt.Println("Project Page:", "https://github.com/TheRedSpy15/Multi-Go")
+	fmt.Println("\nMulti Go allows IT admins and Cyber Security experts")
+	fmt.Println("to conveniently perform all sorts of tasks.")
 }
 
 // Scrapes target website
@@ -181,21 +182,9 @@ func scapeTask(target string) {
 	collyAddress(target, true, false) // run colly - scraping happens here
 }
 
-// BUG: exit status 1
-// Runs linuxScanner.py to audit system vulnerabilities
-func auditTask(target string) {
-	checkTarget(target)             // make sure target is valid
-	ct.Foreground(ct.Yellow, false) // set text color to dark yellow
-
-	if strings.TrimRight(target, "\n") == "online" { // online audit
-		runAuditOnline()
-	} else if strings.TrimRight(target, "\n") == "offline" { // offline audit
-		runAuditOffline()
-	} else { // not valid option
-		ct.Foreground(ct.Red, true) // set text color to bright red
-		println("Not a valid mode!")
-		println(`Use "online" or "offline"`)
-	}
+// Runs multiple checks, and reports found security issues to user
+func auditTask() {
+	runAuditOffline()
 }
 
 // TODO: rework gzip extension adding
@@ -217,28 +206,28 @@ func compressTask(target string) {
 	defer w.Close()                   // make sure writer gets closed
 
 	ct.Foreground(ct.Green, true) // set text color to bright green
-	println("finished!")
+	fmt.Println("finished!")
 }
 
 // NOTE: make sure to check for gzip extension
 // Decompresses the target file in gzip format
 func decompressTask(target string) {
 	ct.Foreground(ct.Red, true) // set text color to bright red
-	println("Not a working feature yet!")
+	fmt.Println("Not a working feature yet!")
 }
 
 // TODO: add support for more systems - think only works on debian/ubuntu
 // Allows the user to enable/disable system firewall
 func toggleFirewall(target string) {
-	checkTarget(target)            // make sure target is valid
-	println(runCmd("ufw", target)) // run command & print result
+	checkTarget(target)                  // make sure target is valid
+	fmt.Println(runCmd("ufw", "status")) // run command & print result
 }
 
 // Generates a random string for use as a password
 func generatePasswordTask(target string) {
 	ct.Foreground(ct.Yellow, false)       // set text color to dark yellow
 	conversion, _ := strconv.Atoi(target) // convert target (string), to int
-	println("Password:", randomString(conversion))
+	fmt.Println("Password:", randomString(conversion))
 }
 
 // TODO: add amplification - such as NTP monlist
@@ -253,13 +242,13 @@ func dosTask(target string) {
 		panic(err.Error)
 	} else { // nothing bad happened when connecting to target
 		ct.Foreground(ct.Green, true) // ets text color to bright red
-		println("Checks passed!")
+		fmt.Println("Checks passed!")
 	}
 
-	ct.Foreground(ct.Red, true)                                        // set text color to bright red
-	println("\nWarning: you are solely responsible for your actions!") // disclaimer
-	println("ctrl + c to cancel")
-	println("\n10 seconds until DOS")
+	ct.Foreground(ct.Red, true)                                            // set text color to bright red
+	fmt.Println("\nWarning: you are solely responsible for your actions!") // disclaimer
+	fmt.Println("ctrl + c to cancel")
+	fmt.Println("\n10 seconds until DOS")
 	ct.ResetColor() // reset text color to default
 
 	time.Sleep(10 * time.Second) // 10 second delay - give chance to cancel
@@ -273,19 +262,20 @@ func dosTask(target string) {
 	for i := 0; i < threads; i++ { // create DOS threads within limit
 		go dos(conn)                   // create thread
 		ct.Foreground(ct.Yellow, true) // set text color to dark yellow
-		println("Thread created!")
+		fmt.Println("Thread created!")
 	}
 }
 
 // BUG: no such host (likely because \n in input)
 // TODO: break up into Util functions
+// TODO: add more comments
 // TODO: find out if attachment works with path, or just name
 // Send email
 func emailTask() {
 	reader := bufio.NewReader(os.Stdin) // make reader object
 	e := gomail.NewMessage()            // make email object
 	ct.Foreground(ct.Yellow, false)     // set text color to dark yellow
-	println("Prepare email")
+	fmt.Println("Prepare email")
 	ct.ResetColor() // reset text color to default
 
 	// email setup
@@ -333,6 +323,6 @@ func emailTask() {
 		}
 	} else { // cancelled
 		ct.Foreground(ct.Red, true)
-		println("Cancelled!")
+		fmt.Println("Cancelled!")
 	}
 }

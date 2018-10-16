@@ -15,8 +15,7 @@ require (
 	github.com/jordan-wright/email v0.0.0-20181003202814-27742b011ce5
 	github.com/kennygrant/sanitize v1.2.4 // indirect
 	github.com/saintfish/chardet v0.0.0-20120816061221-3af4cd4741ca // indirect
-	github.com/shirou/gopsutil v2.17.12+incompatible
-	github.com/shirou/w32 v0.0.0-20160930032740-bb4de0191aa4 // indirect
+	github.com/shirou/gopsutil v2.18.07
 	github.com/temoto/robotstxt v0.0.0-20180810133444-97ee4a9ee6ea // indirect
 	golang.org/x/crypto v0.0.0-20181009213950-7c1a557ab941
 	golang.org/x/net v0.0.0-20181005035420-146acd28ed58 // indirect

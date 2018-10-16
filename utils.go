@@ -47,13 +47,15 @@ func checkTarget(target string) {
 }
 
 // TODO: document
-// TODO: add support for multiple arguments
 // Run a command on the system & print result
-func runCmd(command string, arg string) string {
-	cmd := exec.Command(command, arg)
-	var o bytes.Buffer
+func runCmd(command string, arg ...string) string {
+	cmd := exec.Command(command)
+	for _, arg := range arg {
+		cmd.Args = append(cmd.Args, arg)
+	}
 
-	cmd.Stdout = &o
+	var o bytes.Buffer
+	cmd.Stdout = &o // asign o to cmd's Stdout
 
 	if err := cmd.Run(); err != nil {
 		ct.Foreground(ct.Red, true)
@@ -93,7 +95,7 @@ func getPassword() string {
 func printBanner() {
 	ct.Foreground(ct.Red, true) // set text color to bright red
 
-	println(`
+	fmt.Println(`
  __  __       _ _   _    ____
 |  \/  |_   _| | |_(_)  / ___| ___
 | |\/| | | | | | __| | | |  _ / _ \
@@ -112,7 +114,7 @@ func collyAddress(target string, savePage bool, ip bool) {
 
 	// configuring colly/collector object
 	c.OnRequest(func(r *colly.Request) {
-		println("Visiting", r.URL)
+		fmt.Println("Visiting", r.URL)
 	})
 
 	c.OnError(func(_ *colly.Response, err error) { // print error message on error
@@ -122,12 +124,12 @@ func collyAddress(target string, savePage bool, ip bool) {
 	})
 
 	c.OnResponse(func(r *colly.Response) {
-		println("Visited", r.Request.URL)
-		println("Response:", r.StatusCode)
+		fmt.Println("Visited", r.Request.URL)
+		fmt.Println("Response:", r.StatusCode)
 	})
 
 	c.OnScraped(func(r *colly.Response) { // finished with site
-		println("Finished", r.Request.URL)
+		fmt.Println("Finished", r.Request.URL)
 
 		if savePage { // check if save is enabled
 			err := r.Save(r.FileName()) // saving data
@@ -137,7 +139,7 @@ func collyAddress(target string, savePage bool, ip bool) {
 				panic("Error saving")
 			} else { // saved
 				ct.Foreground(ct.Green, true) // set text color to bright red
-				println("Saved - ", r.FileName())
+				fmt.Println("Saved - ", r.FileName())
 				ct.ResetColor() // reset text color to default color
 			}
 		}
@@ -153,7 +155,7 @@ func dos(conn net.Conn) {
 
 	defer conn.Close() // make sure to close the connection when done
 
-	println("Starting loop")
+	fmt.Println("Starting loop")
 	for true { // DOS loop
 		fmt.Fprintf(conn, "Sup UDP Server, how you doing?")
 		_, err := bufio.NewReader(conn).Read(p)
@@ -163,175 +165,33 @@ func dos(conn net.Conn) {
 			fmt.Printf("Some error %v\n", err)
 		}
 
-		println("looped")
+		fmt.Println("looped")
 	}
 }
 
 // TODO: add more checks
 // TODO: add wifi encryption check
+// TODO: add something user related checks
+// TODO: add current software version checks
+// TODO: add using default DNS check
 // TODO: document
 // Audits the system without using third party service
 func runAuditOffline() {
 	ct.Foreground(ct.Red, true)
 	problems := make([]string, 1)
 
-	println("-- Beginning Audit --")
-	println("This is a major WIP!")
+	fmt.Println("-- Beginning Audit --")
+	fmt.Println("This is a major WIP!")
 	ct.Foreground(ct.Yellow, false)
 
-	firewallStat := runCmd("ufw", "status")          // firewall
-	if !strings.Contains(firewallStat, "disabled") { // disabled
+	// firewall
+	if !strings.Contains(runCmd("ufw", "status"), "active") { // disabled / is not active
 		problems[0] = "Firewall disabled"
 	}
+	fmt.Println("Check 1 complete!")
 
 	ct.Foreground(ct.Red, true)
 	fmt.Println("Problems found:", problems)
-}
-
-// TODO: finish
-// TODO: document
-// BUG: exit status 1
-// Util function - run system audit
-func runAuditOnline() {
-	const script = `#!/usr/bin/env python
-	# -*- coding: utf-8 -*-
-	__author__ = 'videns'
-	import inspect
-	import pkgutil
-	import json
-	import os
-	try:
-		import urllib.request as urllib2
-	except ImportError:
-		import urllib2
-	import scanModules
-
-
-	VULNERS_LINKS = {'pkgChecker':'https://vulners.com/api/v3/audit/audit/',
-					 'bulletin':'https://vulners.com/api/v3/search/id/'}
-
-	VULNERS_ASCII = r"""
-				 _
-	__   ___   _| |_ __   ___ _ __ ___
-	\ \ / / | | | | '_ \ / _ \ '__/ __|
-	 \ V /| |_| | | | | |  __/ |  \__ \
-	  \_/  \__,_|_|_| |_|\___|_|  |___/
-
-	"""
-
-
-	class scannerEngine():
-		def __init__(self):
-			self.osInstanceClasses = self.getInstanceClasses()
-
-		def getInstanceClasses(self):
-			self.detectors = None
-			members = set()
-			for modPath, modName, isPkg in pkgutil.iter_modules(scanModules.__path__):
-				#find all classed inherited from scanner.osDetect.ScannerInterface in all files
-				members = members.union(inspect.getmembers(__import__('%s.%s' % ('scanModules',modName), fromlist=['scanModules']),
-											 lambda member:inspect.isclass(member)
-														   and issubclass(member, scanModules.osDetect.ScannerInterface)
-														   and member.__module__ == '%s.%s' % ('scanModules',modName)
-														   and member != scanModules.osDetect.ScannerInterface))
-			return members
-
-		def getInstance(self,sshPrefix):
-			inited = [instance[1](sshPrefix) for instance in self.osInstanceClasses]
-			if not inited:
-				raise Exception("No OS Detection classes found")
-			osInstance = max(inited, key=lambda x:x.osDetectionWeight)
-			if osInstance.osDetectionWeight:
-				return osInstance
-
-		def sendVulnRequest(self, url, payload):
-			req = urllib2.Request(url)
-			req.add_header('Content-Type', 'application/json')
-			req.add_header('User-Agent', 'vulners-scanner-v0.1')
-			response = urllib2.urlopen(req, json.dumps(payload).encode('utf-8'))
-			responseData = response.read()
-			if isinstance(responseData, bytes):
-				responseData = responseData.decode('utf8')
-			responseData = json.loads(responseData)
-			return responseData
-
-		def auditSystem(self, sshPrefix, systemInfo=None):
-			instance = self.getInstance(sshPrefix)
-			installedPackages = instance.getPkg()
-			print("="*42)
-			if systemInfo:
-				print("Host info - %s" % systemInfo)
-			print("OS Name - %s, OS Version - %s" % (instance.osFamily, instance.osVersion))
-			print("Total found packages: %s" % len(installedPackages))
-			if not installedPackages:
-				return instance
-			# Get vulnerability information
-			payload = {'os':instance.osFamily,
-					   'version':instance.osVersion,
-					   'package':installedPackages}
-			url = VULNERS_LINKS.get('pkgChecker')
-			response = self.sendVulnRequest(url, payload)
-			resultCode = response.get("result")
-			if resultCode != "OK":
-				print("Error - %s" % response.get('data').get('error'))
-			else:
-				vulnsFound = response.get('data').get('vulnerabilities')
-				if not vulnsFound:
-					print("No vulnerabilities found")
-				else:
-					payload = {'id':vulnsFound}
-					allVulnsInfo = self.sendVulnRequest(VULNERS_LINKS['bulletin'], payload)
-					vulnInfoFound = allVulnsInfo['result'] == 'OK'
-					print("Vulnerable packages:")
-					for package in response['data']['packages']:
-						print(" "*4 + package)
-						packageVulns = []
-						for vulns in response['data']['packages'][package]:
-							if vulnInfoFound:
-								vulnInfo = "{id} - '{title}', cvss.score - {score}".format(id=vulns,
-																						   title=allVulnsInfo['data']['documents'][vulns]['title'],
-																						   score=allVulnsInfo['data']['documents'][vulns]['cvss']['score'])
-								packageVulns.append((vulnInfo,allVulnsInfo['data']['documents'][vulns]['cvss']['score']))
-							else:
-								packageVulns.append((vulns,0))
-						packageVulns = sorted(packageVulns, key=lambda x:x[1])
-						packageVulns = [" "*8 + x[0] for x in packageVulns]
-						print("\n".join(packageVulns))
-
-			return instance
-
-		def scan(self, checkDocker = False):
-			#scan host machine
-			hostInstance = self.auditSystem(sshPrefix=None,systemInfo="Host machine")
-			#scan dockers
-			if checkDocker:
-				containers = hostInstance.sshCommand("docker ps")
-				if containers:
-					containers = containers.splitlines()[1:]
-					dockers = [(line.split()[0], line.split()[1]) for line in containers]
-					for (dockerID, dockerImage) in dockers:
-						sshPrefix = "docker exec %s" % dockerID
-						self.auditSystem(sshPrefix, "docker container \"%s\"" % dockerImage)
-
-
-	if __name__ == "__main__":
-		print('\n'.join(VULNERS_ASCII.splitlines()))
-		scannerInstance = scannerEngine()
-		scannerInstance.scan(checkDocker=False)`
-
-	cmd := exec.Command("python")
-	r := strings.NewReader(script)
-	var o bytes.Buffer
-
-	cmd.Stdin = r
-	cmd.Stdout = &o
-
-	if err := cmd.Run(); err != nil {
-		ct.Foreground(ct.Red, true)
-		panic(err.Error())
-	}
-
-	println(o.String())
 }
 
 // TODO: rewrite in my own code
@@ -370,9 +230,12 @@ func randomString(length int) string {
 func printCPU() {
 	cpuCount, _ := cpu.Counts(false)       // get cpu count total
 	cpuCountLogical, _ := cpu.Counts(true) // get cpu logical count
-	println("\n-- CPU --\n")
-	println("CPU Count: (logical)", cpuCountLogical) // cpu count logical
-	println("CPU Count:", cpuCount)                  // cpu count total
+
+	ct.Foreground(ct.Red, true) // change text color to bright red
+	fmt.Println("\n-- CPU --")
+	ct.Foreground(ct.Yellow, false)                      // change text color to dark yellow
+	fmt.Println("CPU Count: (logical)", cpuCountLogical) // cpu count logical
+	fmt.Println("CPU Count:", cpuCount)                  // cpu count total
 }
 
 // TODO: get physical memory instead of swap
@@ -384,10 +247,13 @@ func printMemory() {
 		ct.Foreground(ct.Red, true) // set text color to bright red
 		panic(err.Error())
 	}
-	println("\n-- Memory --\n")
-	println("Memory Used:", mem.Used)   // used
-	println("Memory Free:", mem.Free)   // free
-	println("Memory Total:", mem.Total) // total
+
+	ct.Foreground(ct.Red, true) // change text color to bright red
+	fmt.Println("\n-- Memory --")
+	ct.Foreground(ct.Yellow, false)         // change text color to dark yellow
+	fmt.Println("Memory Used:", mem.Used)   // used
+	fmt.Println("Memory Free:", mem.Free)   // free
+	fmt.Println("Memory Total:", mem.Total) // total
 }
 
 // Util function - prints info about system host
@@ -397,13 +263,16 @@ func printHost() {
 		ct.Foreground(ct.Red, true) // set text color to bright red
 		panic(err.Error())
 	}
-	println("\n-- Host --\n")
-	println("Kernal Version:", hostInfo.KernelVersion)     // kernal version
-	println("Platform:", hostInfo.Platform)                // platform
-	println("Platform Family:", hostInfo.PlatformFamily)   // platform family
-	println("Platform Version:", hostInfo.PlatformVersion) // platform version
-	println("Uptime:", hostInfo.Uptime)                    // uptime
-	println("Host Name:", hostInfo.Hostname)               // hostname
-	println("Host ID:", hostInfo.HostID)                   // host id
-	println("OS:", hostInfo.OS)                            // os
+
+	ct.Foreground(ct.Red, true) // change text color to bright red
+	fmt.Println("\n-- Host --")
+	ct.Foreground(ct.Yellow, false)                            // change text color to dark yellow
+	fmt.Println("Kernal Version:", hostInfo.KernelVersion)     // kernal version
+	fmt.Println("Platform:", hostInfo.Platform)                // platform
+	fmt.Println("Platform Family:", hostInfo.PlatformFamily)   // platform family
+	fmt.Println("Platform Version:", hostInfo.PlatformVersion) // platform version
+	fmt.Println("Uptime:", hostInfo.Uptime)                    // uptime
+	fmt.Println("Host Name:", hostInfo.Hostname)               // hostname
+	fmt.Println("Host ID:", hostInfo.HostID)                   // host id
+	fmt.Println("OS:", hostInfo.OS)                            // os
 }
