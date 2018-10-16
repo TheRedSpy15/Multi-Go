@@ -33,6 +33,7 @@ import (
 // TODO: add antivirus check
 // TODO: add guest user check (recommend removing)
 // TODO: add auto update check
+// TODO: add password policy check
 // TODO: document
 func Audit() {
 	ct.Foreground(ct.Red, true)
