@@ -34,6 +34,8 @@ import (
 // TODO: add guest user check (recommend removing)
 // TODO: add auto update check
 // TODO: add password policy check
+// TODO: (at a later date) add Fail2Ban check
+// TODO: (at a later date) add ssh setting check
 // TODO: document
 func Audit() {
 	ct.Foreground(ct.Red, true)
