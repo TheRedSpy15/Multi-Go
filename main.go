@@ -35,6 +35,9 @@ import (
 
 	"github.com/akamensky/argparse"
 	"github.com/daviddengcn/go-colortext"
+
+	"github.com/TheRedSpy15/Multi-Go/tasks"
+	"github.com/TheRedSpy15/Multi-Go/utils"
 )
 
 func main() {
@@ -52,8 +55,8 @@ func main() {
 
 	if *t == "" { // enter dialog mode
 		reader := bufio.NewReader(os.Stdin) // make reader object
-		printBanner()
-		listTasks()
+		utils.PrintBanner()
+		tasks.List()
 
 		print("\nEnter task to run: ")
 		choice, _ := reader.ReadString('\n')     // get choice
@@ -74,46 +77,46 @@ func main() {
 	switch *t {
 	case "Hash":
 		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		hashFile(*r)
+		tasks.HashFile(*r)
 	case "pwnAccount":
 		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		pwnAccount(*r)
+		tasks.PwnAccount(*r)
 	case "encryptFile":
 		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		encryptFileTask(*r)
+		tasks.EncryptFile(*r)
 	case "decryptFile":
 		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		decryptFileTask(*r)
+		tasks.DecryptFile(*r)
 	case "Scrape":
 		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		scapeTask(*r)
+		tasks.Scrape(*r)
 	case "DOS":
 		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		dosTask(*r)
+		tasks.Dos(*r)
 	case "compress":
 		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		compressTask(*r)
+		tasks.Compress(*r)
 	case "decompress":
 		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		decompressTask(*r)
+		tasks.Decompress(*r)
 	case "Firewall":
 		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		toggleFirewall(*r)
+		tasks.ToggleFirewall(*r)
 	case "generatePassword":
 		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		generatePasswordTask(*r)
+		tasks.GeneratePassword(*r)
 	case "systemInfo":
-		systemInfoTask()
+		tasks.SystemInfo()
 	case "Clean":
-		cleanTask()
+		tasks.Clean()
 	case "Email":
-		emailTask()
+		tasks.Email()
 	case "Audit":
-		auditTask()
+		tasks.Audit()
 	case "About":
-		about()
+		tasks.About()
 	case "List":
-		listTasks()
+		tasks.List()
 	default: // invalid
 		ct.Foreground(ct.Red, true)
 		fmt.Println("Invalid task -", *t)
