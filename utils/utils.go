@@ -47,6 +47,7 @@ func CheckTarget(target string) {
 	}
 }
 
+// TODO: document
 // Util function - check if using sudo/root, panic if not
 func checkSudo() {
 	user, _ := user.Current()
@@ -56,8 +57,8 @@ func checkSudo() {
 	}
 }
 
-// RunCmd runs a command on the system and prints the result
 // TODO: document
+// Util function - runs a command on the system and prints the result
 func RunCmd(command string, arg ...string) string {
 	cmd := exec.Command(command)
 	for _, arg := range arg {
