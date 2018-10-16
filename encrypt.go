@@ -27,7 +27,6 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"io"
-	"io/ioutil"
 	"os"
 
 	"github.com/daviddengcn/go-colortext"
