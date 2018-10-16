@@ -26,7 +26,6 @@ import (
 	"net"
 	"os"
 	"os/exec"
-	"os/user"
 	"strings"
 	"syscall"
 	"time"
@@ -47,17 +46,6 @@ func checkTarget(target string) {
 	}
 }
 
-// TODO: document
-// Util function - check if using sudo/root, panic if not
-func checkSudo() {
-	user, _ := user.Current()
-	if !strings.Contains(user.Username, "root") {
-		ct.Foreground(ct.Red, true)
-		panic("cannot run this task without root/sudo!")
-	}
-}
-
-// RunCmd runs a command on the system and prints the result
 // TODO: document
 // Run a command on the system & print result
 func runCmd(command string, arg ...string) string {
