@@ -1,5 +1,13 @@
 package tasks
 
+import (
+	"fmt"
+	"strings"
+
+	"github.com/TheRedSpy15/Multi-Go/utils"
+	"github.com/daviddengcn/go-colortext"
+)
+
 /*
    Copyright 2018 TheRedSpy15
 
@@ -16,9 +24,27 @@ package tasks
    limitations under the License.
 */
 
-import "github.com/TheRedSpy15/Multi-Go/utils"
-
 // Audit runs multiple checks and reports found security issues to user
+// TODO: add more checks
+// TODO: add wifi encryption check
+// TODO: add something user related checks
+// TODO: add current software version checks
+// TODO: add using default DNS check
+// TODO: document
 func Audit() {
-	utils.RunAuditOffline()
+	ct.Foreground(ct.Red, true)
+	problems := make([]string, 1)
+
+	fmt.Println("-- Beginning Audit --")
+	fmt.Println("This is a major WIP!")
+	ct.Foreground(ct.Yellow, false)
+
+	// firewall
+	if !strings.Contains(utils.RunCmd("ufw", "status"), "active") { // disabled / is not active
+		problems[0] = "Firewall disabled"
+	}
+	fmt.Println("Check 1 complete!")
+
+	ct.Foreground(ct.Red, true)
+	fmt.Println("Problems found:", problems)
 }
