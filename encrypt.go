@@ -1,4 +1,5 @@
 package main
+
 /*
    Copyright 2018 TheRedSpy15
 
