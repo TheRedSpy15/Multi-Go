@@ -184,6 +184,7 @@ func scapeTask(target string) {
 
 // Runs multiple checks, and reports found security issues to user
 func auditTask() {
+	checkSudo()
 	runAuditOffline()
 }
 
@@ -219,6 +220,7 @@ func decompressTask(target string) {
 // TODO: add support for more systems - think only works on debian/ubuntu
 // Allows the user to enable/disable system firewall
 func toggleFirewall(target string) {
+	checkSudo()
 	checkTarget(target)                  // make sure target is valid
 	fmt.Println(runCmd("ufw", "status")) // run command & print result
 }

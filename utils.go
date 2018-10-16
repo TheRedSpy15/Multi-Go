@@ -26,6 +26,7 @@ import (
 	"net"
 	"os"
 	"os/exec"
+	"os/user"
 	"strings"
 	"syscall"
 	"time"
@@ -43,6 +44,14 @@ func checkTarget(target string) {
 	if target == "" { // check if target is blank
 		ct.Foreground(ct.Red, true) // set text color to bright red
 		panic("target cannot be empty when performing this task!")
+	}
+}
+
+func checkSudo() {
+	user, _ := user.Current()
+	if !strings.Contains(user.Username, "root") {
+		ct.Foreground(ct.Red, true)
+		panic("cannot run this task without root/sudo!")
 	}
 }
 
