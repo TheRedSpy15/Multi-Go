@@ -49,7 +49,7 @@ func CheckTarget(target string) {
 
 // TODO: document
 // Util function - check if using sudo/root, panic if not
-func checkSudo() {
+func CheckSudo() {
 	user, _ := user.Current()
 	if !strings.Contains(user.Username, "root") {
 		ct.Foreground(ct.Red, true)
