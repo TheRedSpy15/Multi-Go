@@ -29,7 +29,10 @@ import (
 // TODO: add wifi encryption check
 // TODO: add something user related checks
 // TODO: add current software version checks
-// TODO: add using default DNS check
+// TODO: add using default DNS check (recommend 9.9.9.9 or 1.1.1.1, etc)
+// TODO: add antivirus check
+// TODO: add guest user check (recommend removing)
+// TODO: add auto update check
 // TODO: document
 func Audit() {
 	ct.Foreground(ct.Red, true)
