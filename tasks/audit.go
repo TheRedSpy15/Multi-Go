@@ -38,19 +38,19 @@ import (
 // TODO: (at a later date) add ssh setting check
 // TODO: document
 func Audit() {
-	ct.Foreground(ct.Red, true)
-	problems := make([]string, 1)
+	ct.Foreground(ct.Red, true)   // set text color to bright red
+	problems := make([]string, 1) // an array to add collection problems to display
 
 	fmt.Println("-- Beginning Audit --")
 	fmt.Println("This is a major WIP!")
-	ct.Foreground(ct.Yellow, false)
+	ct.Foreground(ct.Yellow, false) // set text color to dark yellow
 
 	// firewall
 	if !strings.Contains(utils.RunCmd("ufw", "status"), "active") { // disabled / is not active
-		problems[0] = "Firewall disabled"
+		problems[0] = "Firewall disabled" // add problem
 	}
 	fmt.Println("Check 1 complete!")
 
-	ct.Foreground(ct.Red, true)
+	ct.Foreground(ct.Red, true) // set text color to bright red
 	fmt.Println("Problems found:", problems)
 }
