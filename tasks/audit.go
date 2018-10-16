@@ -24,19 +24,16 @@ import (
    limitations under the License.
 */
 
-// Audit runs multiple checks and reports found security issues to user
-// TODO: add more checks
-// TODO: add wifi encryption check
-// TODO: add something user related checks
-// TODO: add current software version checks
+// TODO: add wifi encryption check (recommend more secure wifi)
+// TODO: add current software version checks (recommend updating)
 // TODO: add using default DNS check (recommend 9.9.9.9 or 1.1.1.1, etc)
-// TODO: add antivirus check
+// TODO: add antivirus check (recommend getting one)
 // TODO: add guest user check (recommend removing)
-// TODO: add auto update check
+// TODO: add auto update check (recommend enabling)
 // TODO: add password policy check
 // TODO: (at a later date) add Fail2Ban checks
 // TODO: (at a later date) add ssh setting checks
-// TODO: document
+// Runs several security checks, then prints found vulnerabilites
 func Audit() {
 	ct.Foreground(ct.Red, true)   // set text color to bright red
 	problems := make([]string, 1) // an array to add collection problems to display
