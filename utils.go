@@ -47,6 +47,8 @@ func checkTarget(target string) {
 	}
 }
 
+// TODO: document
+// Util function - check if using sudo/root, panic if not
 func checkSudo() {
 	user, _ := user.Current()
 	if !strings.Contains(user.Username, "root") {
