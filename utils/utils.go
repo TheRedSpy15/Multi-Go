@@ -47,6 +47,7 @@ func CheckTarget(target string) {
 }
 
 <<<<<<< HEAD:utils/utils.go
+<<<<<<< HEAD:utils/utils.go
 func checkSudo() {
 	user, _ := user.Current()
 	if !strings.Contains(user.Username, "root") {
@@ -56,6 +57,8 @@ func checkSudo() {
 }
 
 // RunCmd runs a command on the system and prints the result
+=======
+>>>>>>> parent of f94125c... added sudo/root check:utils.go
 =======
 >>>>>>> parent of f94125c... added sudo/root check:utils.go
 // TODO: document
