@@ -1,4 +1,4 @@
-package tasks
+package main
 
 /*
    Copyright 2018 TheRedSpy15
@@ -16,32 +16,22 @@ package tasks
    limitations under the License.
 */
 
+// TODO: document
+// Code copied from (will be changing to be in my own code!) :
+// https://www.thepolyglotdeveloper.com/2018/02/encrypt-decrypt-data-golang-application-crypto-packages/
+
 import (
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/md5"
 	"crypto/rand"
 	"encoding/hex"
-	"fmt"
 	"io"
 	"os"
 
-	"github.com/TheRedSpy15/Multi-Go/utils"
 	"github.com/daviddengcn/go-colortext"
 )
 
-// EncryptFile encrypts the target file
-func EncryptFile(target string) {
-	utils.CheckTarget(target)       // make sure target is valid
-	ct.Foreground(ct.Yellow, false) // set text color to dark yellow
-
-	data := utils.ReadFileIntoByte(target) // read file bytes
-	print("Enter Password: ")
-	password := utils.GetPassword() // get password securely
-
-	encryptFile(target, data, password) // encrypt file
-	fmt.Println("\nFile encrypted!")
-}
 
 func createHash(key string) string {
 	hasher := md5.New()

@@ -1,4 +1,4 @@
-package utils
+package main
 
 /*
    Copyright 2018 TheRedSpy15
@@ -38,17 +38,17 @@ import (
 	"golang.org/x/crypto/ssh/terminal"
 )
 
-// CheckTarget checks to see if the target is empty, and panic if is
-func CheckTarget(target string) {
+// Util function - check if target is empty, panic if is
+func checkTarget(target string) {
 	if target == "" { // check if target is blank
 		ct.Foreground(ct.Red, true) // set text color to bright red
 		panic("target cannot be empty when performing this task!")
 	}
 }
 
-// RunCmd runs a command on the system and prints the result
 // TODO: document
-func RunCmd(command string, arg ...string) string {
+// Run a command on the system & print result
+func runCmd(command string, arg ...string) string {
 	cmd := exec.Command(command)
 	for _, arg := range arg {
 		cmd.Args = append(cmd.Args, arg)
@@ -65,8 +65,8 @@ func RunCmd(command string, arg ...string) string {
 	return o.String()
 }
 
-// ReadFileIntoByte is used for getting []byte of file
-func ReadFileIntoByte(filename string) []byte {
+// Util function - used for getting []byte of file
+func readFileIntoByte(filename string) []byte {
 	var data []byte                // specify type
 	file, err := os.Open(filename) // make file object
 	defer file.Close()             // close file on function end
@@ -83,16 +83,16 @@ func ReadFileIntoByte(filename string) []byte {
 	return data // return file bytes
 }
 
-// GetPassword securely gets password from a user
-func GetPassword() string {
+// Util function - securely get password from user
+func getPassword() string {
 	bytePassword, _ := terminal.ReadPassword(int(syscall.Stdin)) // run password command, make var with result
 	password := string(bytePassword)                             // cast to string var
 
 	return password
 }
 
-// PrintBanner displays the banner text
-func PrintBanner() {
+// Util function - displays banner text
+func printBanner() {
 	ct.Foreground(ct.Red, true) // set text color to bright red
 
 	fmt.Println(`
@@ -103,8 +103,8 @@ func PrintBanner() {
 |_|  |_|\__,_|_|\__|_|  \____|\___/`)
 }
 
-// CollyAddress scrapes a website link
-func CollyAddress(target string, savePage bool, ip bool) {
+// Util function - scrapes a website link
+func collyAddress(target string, savePage bool, ip bool) {
 	if ip { // check if target is an IP address not URL
 		target = "http://" + target + "/" // modify target to be valid address
 	}
@@ -148,9 +148,9 @@ func CollyAddress(target string, savePage bool, ip bool) {
 	c.Visit(target) // actually using colly/collector object, and visiting target
 }
 
-// Dos constantly sends data to a target
 // TODO: not finished yet
-func Dos(conn net.Conn) {
+// Util function - constantly sends data to a target
+func dos(conn net.Conn) {
 	p := make([]byte, 2048)
 
 	defer conn.Close() // make sure to close the connection when done
@@ -169,14 +169,14 @@ func Dos(conn net.Conn) {
 	}
 }
 
-// RunAuditOffline audits the system without using a third party service
 // TODO: add more checks
 // TODO: add wifi encryption check
 // TODO: add something user related checks
 // TODO: add current software version checks
 // TODO: add using default DNS check
 // TODO: document
-func RunAuditOffline() {
+// Audits the system without using third party service
+func runAuditOffline() {
 	ct.Foreground(ct.Red, true)
 	problems := make([]string, 1)
 
@@ -185,7 +185,7 @@ func RunAuditOffline() {
 	ct.Foreground(ct.Yellow, false)
 
 	// firewall
-	if !strings.Contains(RunCmd("ufw", "status"), "active") { // disabled / is not active
+	if !strings.Contains(runCmd("ufw", "status"), "active") { // disabled / is not active
 		problems[0] = "Firewall disabled"
 	}
 	fmt.Println("Check 1 complete!")
@@ -194,13 +194,12 @@ func RunAuditOffline() {
 	fmt.Println("Problems found:", problems)
 }
 
-// RandomString returns a random string
 // TODO: rewrite in my own code
 // TODO: add more comments
 // Util function - returns a random string
 /* Original: https://stackoverflow.com/questions/22892120
 /how-to-generate-a-random-string-of-a-fixed-length-in-go#31832326 */
-func RandomString(length int) string {
+func randomString(length int) string {
 	const (
 		letterBytes   = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" // letters to use
 		letterIdxBits = 6                                                      // 6 bits to represent a letter index
@@ -226,9 +225,9 @@ func RandomString(length int) string {
 	return string(b)
 }
 
-// PrintCPU prints CPU info
 // TODO: add more info - atleast usage
-func PrintCPU() {
+// Util function - prints CPU info
+func printCPU() {
 	cpuCount, _ := cpu.Counts(false)       // get cpu count total
 	cpuCountLogical, _ := cpu.Counts(true) // get cpu logical count
 
@@ -239,10 +238,10 @@ func PrintCPU() {
 	fmt.Println("CPU Count:", cpuCount)                  // cpu count total
 }
 
-// PrintMemory prints info about system memory
 // TODO: get physical memory instead of swap
 // TODO: convert values to gigabytes
-func PrintMemory() {
+// Util function - prints info about system memory
+func printMemory() {
 	mem, err := mem.SwapMemory() // get virtual memory info object
 	if err != nil {
 		ct.Foreground(ct.Red, true) // set text color to bright red
@@ -257,8 +256,8 @@ func PrintMemory() {
 	fmt.Println("Memory Total:", mem.Total) // total
 }
 
-// PrintHost prints info about system host
-func PrintHost() {
+// Util function - prints info about system host
+func printHost() {
 	hostInfo, err := host.Info() // get host info object
 	if err != nil {
 		ct.Foreground(ct.Red, true) // set text color to bright red
