@@ -49,12 +49,12 @@ If the new feature is complete:
 1. Add the case to the switch statement in `main.go`, so your new task can be called.
 2. Finished!
 
-## Important
-Multi Go is intended to be used on linux. It might run on Windows. Currently it isn't tested, nor supported! I will eventually work on a Windows patch.
-
-## How to build Multi-Go
+### Build
 ```
 git clone https://github.com/TheRedSpy15/Multi-Go
 cd Multi-Go
 go build
 ```
+
+## Important
+Multi Go is intended to be used on linux. It might run on Windows. Currently it isn't tested, nor supported! I will eventually work on a Windows patch.
