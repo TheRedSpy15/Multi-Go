@@ -36,7 +36,7 @@ import (
 // Runs several security checks, then prints found vulnerabilites
 func Audit() {
 	ct.Foreground(ct.Red, true)   // set text color to bright red
-	problems := make([]string, 1) // an array to add collection problems to display
+	problems := make([]string, 2) // an array to add collection problems to display
 
 	fmt.Println("-- Beginning Audit --")
 	fmt.Println("This is a major WIP!")
@@ -50,7 +50,7 @@ func Audit() {
 
 	// network connection type
 	if strings.Contains(utils.RunCmd("nmcli"), "wifi") { // using wifi
-		problems[0] = "Using wifi instead of ethernet" // add problem
+		problems[1] = "Using wifi instead of ethernet" // add problem
 	}
 	fmt.Println("Check 2 complete!")
 
