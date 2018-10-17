@@ -35,6 +35,8 @@ import (
 // TODO: (at a later date) add ssh setting checks
 // Runs several security checks, then prints found vulnerabilites
 func Audit() {
+	utils.CheckSudo()
+
 	ct.Foreground(ct.Red, true)   // set text color to bright red
 	problems := make([]string, 2) // an array to add collection problems to display
 
