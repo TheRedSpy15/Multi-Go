@@ -48,6 +48,12 @@ func Audit() {
 	}
 	fmt.Println("Check 1 complete!")
 
+	// network connection type
+	if strings.Contains(utils.RunCmd("nmcli"), "wifi") { // using wifi
+		problems[0] = "Using wifi instead of ethernet" // add problem
+	}
+	fmt.Println("Check 2 complete!")
+
 	ct.Foreground(ct.Red, true) // set text color to bright red
 	fmt.Println("Problems found:", problems)
 }
