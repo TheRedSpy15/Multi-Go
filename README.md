@@ -29,9 +29,17 @@ A command line multi-tool made in Go, and aimed at security experts to make life
 ### Download:
 [Click here to download](https://github.com/TheRedSpy15/Multi-Go/releases/download/0.6.1/MultiGo_0_6_1)
 
-### Use:
+### Installation:
+1. Open the file manager
+2. Create a directory named `bin` in your home directory if it doesn't already exists
+3. Copy the downloaded file to that directory, rename it to `Multi-Go`
+4. Open the terminal
+5. Add execution permissions with `chmod +x $HOME/bin/Multi-Go`
+6. Close the terminal
+
+### Use
 1. Open the terminal
-2. Paste path to executable
+2. Type `Multi-Go`
 3. **OPTIONAL:** follow that with "-t/--Task [task] -r/--Target [target]". Note: the 'target' is optional, depending on the task
 4. Hit enter
 
