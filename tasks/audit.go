@@ -30,6 +30,7 @@ import (
 // TODO: add guest user check (recommend removing)
 // TODO: add auto update check (recommend enabling)
 // TODO: add password policy check
+// TODO: add empty trash check (recommend emptying)
 // TODO: add vpn check (recommend using one)
 // TODO: (at a later date) add Fail2Ban checks
 // TODO: (at a later date) add ssh setting checks
