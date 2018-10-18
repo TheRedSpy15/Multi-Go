@@ -39,7 +39,7 @@ import (
 	"golang.org/x/crypto/ssh/terminal"
 )
 
-// CheckTarget checks to see if the target is empty, and panic if is
+// CheckTarget - checks to see if the target is empty, and panic if is
 func CheckTarget(target string) {
 	if target == "" { // check if target is blank
 		ct.Foreground(ct.Red, true) // set text color to bright red
@@ -47,8 +47,16 @@ func CheckTarget(target string) {
 	}
 }
 
+// CheckErr - takes an error & sees if it is not nil
+func CheckErr(err error) {
+	if err != nil { // check if there actually is any error
+		ct.Foreground(ct.Red, true) // set texts color to bright red
+		panic(err.Error())
+	}
+}
+
+// CheckSudo - if using sudo/root, panic if not
 // TODO: document
-// Util function - check if using sudo/root, panic if not
 func CheckSudo() {
 	user, _ := user.Current()
 	if !strings.Contains(user.Username, "root") {
@@ -57,8 +65,8 @@ func CheckSudo() {
 	}
 }
 
+// RunCmd - runs a command on the system and prints the result
 // TODO: document
-// Util function - runs a command on the system and prints the result
 func RunCmd(command string, arg ...string) string {
 	cmd := exec.Command(command)
 	for _, arg := range arg {
@@ -68,41 +76,40 @@ func RunCmd(command string, arg ...string) string {
 	var o bytes.Buffer
 	cmd.Stdout = &o // asign o to cmd's Stdout
 
-	if err := cmd.Run(); err != nil {
-		ct.Foreground(ct.Red, true)
-		panic(err.Error())
-	}
+	err := cmd.Run()
+	CheckErr(err)
 
 	return o.String()
 }
 
-// ReadFileIntoByte is used for getting []byte of file
+// ReadFileIntoByte - is used for getting []byte of file
 func ReadFileIntoByte(filename string) []byte {
 	var data []byte                // specify type
 	file, err := os.Open(filename) // make file object
 	defer file.Close()             // close file on function end
+
+	CheckErr(err)
+
+	data, err = ioutil.ReadAll(file) // read all
 	if err != nil {
 		ct.Foreground(ct.Red, true) // set text color to bright red
 		panic(err.Error())
-	} else {
-		data, err = ioutil.ReadAll(file) // read all
-		if err != nil {
-			ct.Foreground(ct.Red, true) // set text color to bright red
-			panic(err.Error())
-		}
 	}
+
 	return data // return file bytes
 }
 
-// GetPassword securely gets password from a user
+// GetPassword - securely gets password from a user
 func GetPassword() string {
-	bytePassword, _ := terminal.ReadPassword(int(syscall.Stdin)) // run password command, make var with result
-	password := string(bytePassword)                             // cast to string var
+	bytePassword, err := terminal.ReadPassword(int(syscall.Stdin)) // run password command, make var with result
+	CheckErr(err)
+
+	password := string(bytePassword) // cast to string var
 
 	return password
 }
 
-// PrintBanner displays the banner text
+// PrintBanner - displays the banner text
 func PrintBanner() {
 	ct.Foreground(ct.Red, true) // set text color to bright red
 
@@ -114,7 +121,7 @@ func PrintBanner() {
 |_|  |_|\__,_|_|\__|_|  \____|\___/`)
 }
 
-// CollyAddress scrapes a website link
+// CollyAddress - scrapes a website link
 func CollyAddress(target string, savePage bool, ip bool) {
 	if ip { // check if target is an IP address not URL
 		target = "http://" + target + "/" // modify target to be valid address
@@ -144,22 +151,18 @@ func CollyAddress(target string, savePage bool, ip bool) {
 
 		if savePage { // check if save is enabled
 			err := r.Save(r.FileName()) // saving data
+			CheckErr(err)
 
-			if err != nil {
-				ct.Foreground(ct.Red, true) // set text color to bright red
-				panic("Error saving")
-			} else { // saved
-				ct.Foreground(ct.Green, true) // set text color to bright red
-				fmt.Println("Saved - ", r.FileName())
-				ct.ResetColor() // reset text color to default color
-			}
+			ct.Foreground(ct.Green, true) // set text color to bright red
+			fmt.Println("Saved - ", r.FileName())
+			ct.ResetColor() // reset text color to default color
 		}
 	})
 
 	c.Visit(target) // actually using colly/collector object, and visiting target
 }
 
-// Dos constantly sends data to a target
+// Dos - constantly sends data to a target
 // TODO: not finished yet
 func Dos(conn net.Conn) {
 	p := make([]byte, 2048)
@@ -170,17 +173,14 @@ func Dos(conn net.Conn) {
 	for true { // DOS loop
 		fmt.Fprintf(conn, "Sup UDP Server, how you doing?")
 		_, err := bufio.NewReader(conn).Read(p)
-		if err == nil {
-			fmt.Printf("%s\n", p)
-		} else {
-			fmt.Printf("Some error %v\n", err)
-		}
+		CheckErr(err)
 
+		fmt.Printf("%s\n", p)
 		fmt.Println("looped")
 	}
 }
 
-// RandomString returns a random string
+// RandomString - returns a random string
 // TODO: rewrite in my own code
 // TODO: add more comments
 // Util function - returns a random string
@@ -212,11 +212,14 @@ func RandomString(length int) string {
 	return string(b)
 }
 
-// PrintCPU prints CPU info
+// PrintCPU - prints CPU info
 // TODO: add more info - atleast usage
 func PrintCPU() {
-	cpuCount, _ := cpu.Counts(false)       // get cpu count total
-	cpuCountLogical, _ := cpu.Counts(true) // get cpu logical count
+	cpuCount, err1 := cpu.Counts(false)       // get cpu count total
+	cpuCountLogical, err2 := cpu.Counts(true) // get cpu logical count
+
+	CheckErr(err1)
+	CheckErr(err2)
 
 	ct.Foreground(ct.Red, true) // change text color to bright red
 	fmt.Println("\n-- CPU --")
@@ -225,15 +228,12 @@ func PrintCPU() {
 	fmt.Println("CPU Count:", cpuCount)                  // cpu count total
 }
 
-// PrintMemory prints info about system memory
+// PrintMemory - prints info about system memory
 // TODO: get physical memory instead of swap
 // TODO: convert values to gigabytes
 func PrintMemory() {
 	mem, err := mem.SwapMemory() // get virtual memory info object
-	if err != nil {
-		ct.Foreground(ct.Red, true) // set text color to bright red
-		panic(err.Error())
-	}
+	CheckErr(err)
 
 	ct.Foreground(ct.Red, true) // change text color to bright red
 	fmt.Println("\n-- Memory --")
@@ -243,13 +243,10 @@ func PrintMemory() {
 	fmt.Println("Memory Total:", mem.Total) // total
 }
 
-// PrintHost prints info about system host
+// PrintHost - prints info about system host
 func PrintHost() {
 	hostInfo, err := host.Info() // get host info object
-	if err != nil {
-		ct.Foreground(ct.Red, true) // set text color to bright red
-		panic(err.Error())
-	}
+	CheckErr(err)
 
 	ct.Foreground(ct.Red, true) // change text color to bright red
 	fmt.Println("\n-- Host --")

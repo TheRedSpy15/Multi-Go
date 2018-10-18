@@ -20,7 +20,7 @@ func Installer(target string) {
 			strings.TrimSpace(srcPath)
 
 			fmt.Println(srcPath)
-			err := os.Link(srcPath, "/bin")
+			err := os.Link(srcPath, "/bin/Multi-Go")
 			if err != nil {
 				panic(err.Error())
 			}
