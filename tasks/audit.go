@@ -31,6 +31,7 @@ import (
 // TODO: add guest user check (recommend removing)
 // TODO: add auto update check (recommend enabling)
 // TODO: add password policy check
+// TODO: add vpn check (recommend using one)
 // TODO: (at a later date) add Fail2Ban checks
 // TODO: (at a later date) add ssh setting checks
 // Runs several security checks, then prints found vulnerabilites
@@ -51,7 +52,7 @@ func Audit() {
 	fmt.Println("Check 1 complete!")
 
 	// network connection type
-	if strings.Contains(utils.RunCmd("nmcli"), "wifi") { // using wifi
+	if strings.Contains(utils.RunCmd("nmcli", "d"), "wifi") { // using wifi
 		problems[1] = "Using wifi instead of ethernet" // add problem
 	}
 	fmt.Println("Check 2 complete!")
