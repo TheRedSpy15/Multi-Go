@@ -58,11 +58,11 @@ func Audit() {
 		fmt.Println("Check 2 complete!")
 
 		// encrypted wifi
-		if !strings.Contains(utils.RunCmd("nmcli", "-t", "-f", "active,ssid", "dev", "wifi"), "yes") {
-			problems[2] = "Using insecure wifi"
+		if !strings.Contains(utils.RunCmd("nmcli", "-t", "-f", "active,ssid", "dev", "wifi"), "yes") { // not secure
+			problems[2] = "Using insecure wifi" // add problem
 		}
 		fmt.Println("Check 3 complete!")
-	} else {
+	} else { // skip over encrypt wifi check
 		fmt.Println("Check 2 complete!")
 	}
 
