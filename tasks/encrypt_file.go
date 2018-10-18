@@ -20,10 +20,8 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/md5"
-	"crypto/rand"
 	"encoding/hex"
 	"fmt"
-	"io"
 	"os"
 
 	"github.com/TheRedSpy15/Multi-Go/utils"
@@ -52,25 +50,19 @@ func createHash(key string) string {
 func encrypt(data []byte, passphrase string) []byte {
 	block, _ := aes.NewCipher([]byte(createHash(passphrase)))
 	gcm, err := cipher.NewGCM(block)
-	if err != nil {
-		ct.Foreground(ct.Red, true)
-		panic(err.Error())
-	}
+	utils.CheckErr(err)
+
 	nonce := make([]byte, gcm.NonceSize())
-	if _, err = io.ReadFull(rand.Reader, nonce); err != nil {
-		ct.Foreground(ct.Red, true)
-		panic(err.Error())
-	}
+	utils.CheckErr(err)
+
 	ciphertext := gcm.Seal(nonce, nonce, data, nil)
 	return ciphertext
 }
 
 func encryptFile(filename string, data []byte, passphrase string) {
 	f, err := os.Create(filename)
-	if err != nil {
-		ct.Foreground(ct.Red, true)
-		panic(err.Error())
-	}
+	utils.CheckErr(err)
+
 	defer f.Close()
 	f.Write(encrypt(data, passphrase))
 }

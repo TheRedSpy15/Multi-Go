@@ -38,11 +38,10 @@ func DecryptFile(target string) {
 	password := utils.GetPassword() // get password securely
 
 	file, err := os.Create(target) // create file object
-	if err != nil {
-		ct.Foreground(ct.Red, true) // set text color to bright red
-		panic(err.Error())
-	}
-	defer file.Close()                        // makes sure file gets closed
+	utils.CheckErr(err)
+
+	defer file.Close() // makes sure file gets closed
+
 	file.Write(decryptFile(target, password)) // decrypt file
 	fmt.Println("\nFile decrypted!")
 }
@@ -50,31 +49,22 @@ func DecryptFile(target string) {
 func decrypt(data []byte, passphrase string) []byte {
 	key := []byte(createHash(passphrase))
 	block, err := aes.NewCipher(key)
-	if err != nil {
-		ct.Foreground(ct.Red, true)
-		panic(err.Error())
-	}
+	utils.CheckErr(err)
+
 	gcm, err := cipher.NewGCM(block)
-	if err != nil {
-		ct.Foreground(ct.Red, true)
-		panic(err.Error())
-	}
+	utils.CheckErr(err)
+
 	nonceSize := gcm.NonceSize()
 	nonce, ciphertext := data[:nonceSize], data[nonceSize:]
 	plaintext, err := gcm.Open(nil, nonce, ciphertext, nil)
-	if err != nil {
-		ct.Foreground(ct.Red, true)
-		panic(err.Error())
-	}
+	utils.CheckErr(err)
+
 	return plaintext
 }
 
 func decryptFile(filename string, passphrase string) []byte {
 	data, err := ioutil.ReadFile(filename)
-	if err != nil {
-		ct.Foreground(ct.Red, true)
-		panic(err.Error())
-	}
+	utils.CheckErr(err)
 
 	return decrypt(data, passphrase)
 }

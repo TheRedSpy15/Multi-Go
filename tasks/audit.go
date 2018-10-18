@@ -24,6 +24,7 @@ import (
    limitations under the License.
 */
 
+// Audit - Runs several security checks, then prints found vulnerabilites
 // TODO: add current software version checks (recommend updating)
 // TODO: add using default DNS check (recommend 9.9.9.9 or 1.1.1.1, etc)
 // TODO: add antivirus check (recommend getting one)
@@ -35,7 +36,6 @@ import (
 // TODO: (at a later date) add Fail2Ban checks
 // TODO: (at a later date) add ssh setting checks
 // TODO: use an iterator or a variable to add problems to the array
-// Runs several security checks, then prints found vulnerabilites
 func Audit() {
 	utils.CheckSudo()
 
@@ -63,7 +63,7 @@ func Audit() {
 			problems[2] = "Using insecure wifi" // add problem
 		}
 		fmt.Println("Check 3 complete!")
-	} else { // skip over encrypt wifi check
+	} else { // skip over encrypt wifi check - not using wifi
 		fmt.Println("Check 2 complete!")
 	}
 

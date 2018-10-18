@@ -32,10 +32,7 @@ func PwnAccount(target string) {
 
 	pwnURL := fmt.Sprintf(`https://haveibeenpwned.com/api/v2/breachedaccount/%v`, target)
 	response, err := http.Get(pwnURL) // make response object
-	if err != nil {
-		ct.Foreground(ct.Red, true) // set text color to bright red
-		panic(err.Error)
-	}
+	utils.CheckErr(err)
 
 	defer response.Body.Close()                   // close on function end
 	bodyBytes, _ := ioutil.ReadAll(response.Body) // read bytes from response

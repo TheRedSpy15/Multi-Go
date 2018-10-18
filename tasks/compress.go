@@ -31,10 +31,7 @@ func Compress(target string) {
 	utils.CheckTarget(target) // make sure target is valid
 
 	file, err := os.Create(target) // create file object
-	if err != nil {
-		ct.Foreground(ct.Red, true) // set text color to bright red
-		panic(err.Error())
-	}
+	utils.CheckErr(err)
 	defer file.Close() // make sure file gets closed
 
 	os.Rename(target, target+".gz") // add gzip extension

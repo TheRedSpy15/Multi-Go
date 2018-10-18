@@ -79,10 +79,8 @@ func Email() {
 		// sending
 		d := gomail.NewDialer(provider, portCode, from, password)
 
-		if err := d.DialAndSend(e); err != nil {
-			ct.Foreground(ct.Red, true) // set text
-			panic(err.Error())
-		}
+		err := d.DialAndSend(e)
+		utils.CheckErr(err)
 	} else { // cancelled
 		ct.Foreground(ct.Red, true)
 		fmt.Println("Cancelled!")
