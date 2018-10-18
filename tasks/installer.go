@@ -14,19 +14,21 @@ func Installer(target string) {
 	utils.CheckTarget(target)
 
 	if target == "install" {
-		if _, err := os.Stat("/bin"); !os.IsNotExist(err) {
+		if _, err := os.Stat("/bin"); !os.IsNotExist(err) { // bin already exists
 			utils.CheckErr(err)
 			fmt.Println("bin exists")
 
+			// get path of current Multi-Go program to copy
 			appPath, _ := os.Executable()
 			srcPath := strings.Replace(appPath, "<nil>", "", 1)
 			strings.TrimSpace(srcPath)
 
-			fmt.Println(srcPath)
-			err := os.Link(srcPath, "/bin/Multi-Go")
+			// copy to bin
+			err := os.Link(srcPath, "/bin")
 			utils.CheckErr(err)
 
+			// execution permisssions
 			utils.RunCmd("chmod +x $HOME/bin/Multi-Go")
-		}
-	}
+		} // need to create bin
+	} // need to add uninstall option
 }
