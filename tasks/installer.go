@@ -5,6 +5,8 @@ import (
 	"os"
 	"strings"
 
+	"github.com/daviddengcn/go-colortext"
+
 	"github.com/TheRedSpy15/Multi-Go/utils"
 )
 
@@ -12,6 +14,10 @@ import (
 // TODO: not working yet
 // TODO: make less error prone
 func Installer(target string) {
+	ct.Foreground(ct.Red, true)
+	fmt.Println("This is a major WIP!") // warning
+	ct.ResetColor()
+
 	utils.CheckTarget(target)
 
 	if target == "install" { // install
