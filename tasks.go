@@ -50,19 +50,24 @@ func hashFile(target string) {
 	println("SHA-1 hash :", target)
 }
 
+// TODO: find some way to shrink
 // ListTasks - lists all currently working tasks
 func listTasks() {
-	ct.Foreground(ct.Yellow, false)
+	ct.Foreground(ct.Red, true)
 	println("Available tasks:")
 	time.Sleep(1 * time.Second)
 
 	println("\n-- Utility --")
+	ct.Foreground(ct.Yellow, false)
 	println("Scrape -r [URL]")
 	println("Email")
 	println("systemInfo")
+	println("Compress -r [file path]")
 	time.Sleep(1 * time.Second)
 
+	ct.Foreground(ct.Red, true)
 	println("\n-- Security --")
+	ct.Foreground(ct.Yellow, false)
 	println("(sudo) Firewall -r [enable/disable/status]")
 	println("Audit -r [Online/Offline]")
 	println("Hash -r [file path]")
@@ -72,8 +77,16 @@ func listTasks() {
 	println("generatePassword")
 	time.Sleep(1 * time.Second)
 
+	ct.Foreground(ct.Red, true)
 	println("\n-- Pentesting -- ")
+	ct.Foreground(ct.Yellow, false)
 	println("DOS -r [IP:PORT]")
+	time.Sleep(1 * time.Second)
+
+	ct.Foreground(ct.Red, true)
+	println("\n-- Other --")
+	ct.Foreground(ct.Yellow, false)
+	println("About")
 }
 
 // TODO: make & add more info functions
