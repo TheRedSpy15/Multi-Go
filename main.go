@@ -1,7 +1,7 @@
 package main
 
 // Project TODOS
-// TODO: tone down comments
+// TODO: tone down comments & make them more meaningful
 // TODO: add unit testing
 // TODO: document parameters
 // TODO: improve 'Scrape'
@@ -70,7 +70,7 @@ func main() {
 		ct.ResetColor() // reset text color to default
 	}
 
-	// Determine task
+	// Determine task to run
 	switch *t {
 	case "Hash":
 		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
