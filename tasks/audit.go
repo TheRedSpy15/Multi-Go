@@ -24,7 +24,6 @@ import (
    limitations under the License.
 */
 
-// TODO: add wifi encryption check (recommend more secure wifi)
 // TODO: add current software version checks (recommend updating)
 // TODO: add using default DNS check (recommend 9.9.9.9 or 1.1.1.1, etc)
 // TODO: add antivirus check (recommend getting one)
@@ -34,6 +33,7 @@ import (
 // TODO: add vpn check (recommend using one)
 // TODO: (at a later date) add Fail2Ban checks
 // TODO: (at a later date) add ssh setting checks
+// TODO: use an iterator or a variable to add problems to the array
 // Runs several security checks, then prints found vulnerabilites
 func Audit() {
 	utils.CheckSudo()
@@ -54,8 +54,17 @@ func Audit() {
 	// network connection type
 	if strings.Contains(utils.RunCmd("nmcli", "d"), "wifi") { // using wifi
 		problems[1] = "Using wifi instead of ethernet" // add problem
+
+		fmt.Println("Check 2 complete!")
+
+		// encrypted wifi
+		if !strings.Contains(utils.RunCmd("nmcli", "-t", "-f", "active,ssid", "dev", "wifi"), "yes") {
+			problems[2] = "Using insecure wifi"
+		}
+		fmt.Println("Check 3 complete!")
+	} else {
+		fmt.Println("Check 2 complete!")
 	}
-	fmt.Println("Check 2 complete!")
 
 	ct.Foreground(ct.Red, true) // set text color to bright red
 	fmt.Println("Problems found:", problems)
