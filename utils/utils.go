@@ -22,6 +22,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math"
 	"math/rand"
 	"net"
 	"os"
@@ -31,13 +32,21 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/daviddengcn/go-colortext"
+	ct "github.com/daviddengcn/go-colortext"
 	"github.com/gocolly/colly"
 	"github.com/shirou/gopsutil/cpu"
 	"github.com/shirou/gopsutil/host"
 	"github.com/shirou/gopsutil/mem"
 	"golang.org/x/crypto/ssh/terminal"
 )
+
+// bytesToGigabytes - a utility function to convert bytes to gigabytes; used to clarify the output of PrintMemory()
+func bytesToGigabytes(bytes uint64) float64 {
+	const conversionFactor = 1000000000
+	result := float64(bytes) / conversionFactor
+	result = float64(math.Round(result*100) / 100)
+	return result
+}
 
 // CheckTarget - checks to see if the target is empty, and panic if is
 func CheckTarget(target string) {
@@ -232,15 +241,15 @@ func PrintCPU() {
 // TODO: get physical memory instead of swap
 // TODO: convert values to gigabytes
 func PrintMemory() {
-	mem, err := mem.SwapMemory() // get virtual memory info object
+	mem, err := mem.VirtualMemory() // get virtual memory info object
 	CheckErr(err)
 
 	ct.Foreground(ct.Red, true) // change text color to bright red
 	fmt.Println("\n-- Memory --")
-	ct.Foreground(ct.Yellow, false)         // change text color to dark yellow
-	fmt.Println("Memory Used:", mem.Used)   // used
-	fmt.Println("Memory Free:", mem.Free)   // free
-	fmt.Println("Memory Total:", mem.Total) // total
+	ct.Foreground(ct.Yellow, false)                                // change text color to dark yellow
+	fmt.Println("Memory Used (Gb):", bytesToGigabytes(mem.Used))   // used
+	fmt.Println("Memory Free (Gb):", bytesToGigabytes(mem.Free))   // free
+	fmt.Println("Memory Total (Gb):", bytesToGigabytes(mem.Total)) // total
 }
 
 // PrintHost - prints info about system host
