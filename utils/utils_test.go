@@ -20,8 +20,8 @@ import (
 	"testing"
 )
 
-func TestbytesToGigabytes(t *testing.T) {
-	got := bytesToGigabytes(4034846720)
+func TestBytesToGigabytes(t *testing.T) {
+	got := BytesToGigabytes(4034846720)
 	want := 4.03
 
 	if got != want {

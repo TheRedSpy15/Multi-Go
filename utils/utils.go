@@ -40,8 +40,8 @@ import (
 	"golang.org/x/crypto/ssh/terminal"
 )
 
-// bytesToGigabytes - a utility function to convert bytes to gigabytes; used to clarify the output of PrintMemory()
-func bytesToGigabytes(bytes uint64) float64 {
+// BytesToGigabytes - an internal utility function to convert bytes to gigabytes; used to clarify the output of PrintMemory()
+func BytesToGigabytes(bytes uint64) float64 {
 	const conversionFactor = 1000000000
 	result := float64(bytes) / conversionFactor
 	result = float64(math.Round(result*100) / 100)
@@ -247,9 +247,9 @@ func PrintMemory() {
 	ct.Foreground(ct.Red, true) // change text color to bright red
 	fmt.Println("\n-- Memory --")
 	ct.Foreground(ct.Yellow, false)                                // change text color to dark yellow
-	fmt.Println("Memory Used (Gb):", bytesToGigabytes(mem.Used))   // used
-	fmt.Println("Memory Free (Gb):", bytesToGigabytes(mem.Free))   // free
-	fmt.Println("Memory Total (Gb):", bytesToGigabytes(mem.Total)) // total
+	fmt.Println("Memory Used (Gb):", BytesToGigabytes(mem.Used))   // used
+	fmt.Println("Memory Free (Gb):", BytesToGigabytes(mem.Free))   // free
+	fmt.Println("Memory Total (Gb):", BytesToGigabytes(mem.Total)) // total
 }
 
 // PrintHost - prints info about system host
