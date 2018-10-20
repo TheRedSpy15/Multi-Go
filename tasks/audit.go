@@ -1,7 +1,9 @@
 package tasks
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/TheRedSpy15/Multi-Go/utils"
@@ -44,28 +46,44 @@ func Audit() {
 
 	fmt.Println("-- Beginning Audit --")
 	fmt.Println("This is a major WIP!")
-	ct.Foreground(ct.Yellow, false) // set text color to dark yellow
+	ct.Foreground(ct.Yellow, false)
 
 	// firewall
 	if !strings.Contains(utils.RunCmd("ufw", "status"), "active") { // disabled / is not active
-		problems[0] = "Firewall disabled" // add problem
+		problems[0] = "Firewall disabled"
 	}
 	fmt.Println("Check 1 complete!")
 
 	// network connection type
 	if strings.Contains(utils.RunCmd("nmcli", "d"), "wifi") { // using wifi
-		problems[1] = "Using wifi instead of ethernet" // add problem
+		problems[1] = "Using wifi instead of ethernet"
 
 		fmt.Println("Check 2 complete!")
 
 		// encrypted wifi
 		if !strings.Contains(utils.RunCmd("nmcli", "-t", "-f", "active,ssid", "dev", "wifi"), "yes") { // not secure
-			problems[2] = "Using insecure wifi" // add problem
+			problems[2] = "Using insecure wifi"
 		}
 		fmt.Println("Check 3 complete!")
 	} else { // skip over encrypt wifi check - not using wifi
 		fmt.Println("Check 2 complete!")
 	}
+
+	// guest account
+	// TODO - document
+	if _, err := os.Stat("/etc/lightdm/lightdm.conf"); !os.IsNotExist(err) { // look for proper conf file
+
+		file, err := os.Open("/etc/lightdm/lightdm.conf") // open file
+		utils.CheckErr(err)
+
+		scanner := bufio.NewScanner(file)
+
+		for scanner.Scan() { // scan loop
+			if !strings.Contains(scanner.Text(), "allow-guest=false") { // look guest disable
+				problems[3] = "Guest access is still enabled"
+			}
+		}
+	} // file not found
 
 	ct.Foreground(ct.Red, true) // set text color to bright red
 	fmt.Println("Problems found:", problems)
