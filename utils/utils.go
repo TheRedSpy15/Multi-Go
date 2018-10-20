@@ -17,7 +17,6 @@ package utils
 */
 
 import (
-	"bufio"
 	"bytes"
 	"fmt"
 	"io/ioutil"
@@ -175,17 +174,13 @@ func CollyAddress(target string, savePage bool, ip bool) {
 // TODO: not finished yet - randomly stops after a few seconds, works with very limited targets
 // TODO: document
 func Dos(conn net.Conn) {
-	p := make([]byte, 2048)
-
 	defer conn.Close() // make sure to close the connection when done
 
 	fmt.Println("Starting loop")
 	for true { // DOS loop
-		fmt.Fprintf(conn, "Sup UDP Server, how you doing?")
-		_, err := bufio.NewReader(conn).Read(p)
+		_, err := fmt.Fprintf(conn, "Sup UDP Server, how you doing?")
 		CheckErr(err)
 
-		fmt.Printf("%s\n", p)
 		fmt.Println("looped")
 	}
 }

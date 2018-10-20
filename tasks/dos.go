@@ -27,12 +27,15 @@ import (
 )
 
 // Dos indefinitely sends data to target
+// NOTE: this Dos method, simply spawns multiple utils.Dos
 // TODO: add amplification - such as NTP monlist
 func Dos(target string) {
 	utils.CheckTarget(target) // make sure target is valid
 
-	conn, err := net.Dial("udp", target) // setup connection object
-	defer conn.Close()                   // make sure to close connection when finished
+	addr, err := net.ResolveUDPAddr("udp", target)
+	utils.CheckErr(err)
+	conn, err := net.DialUDP("udp", nil, addr) // setup connection object
+	defer conn.Close()                         // make sure to close connection when finished
 
 	utils.CheckErr(err)
 
