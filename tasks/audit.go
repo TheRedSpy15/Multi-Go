@@ -37,12 +37,12 @@ import (
 // TODO: add vpn check (recommend using one)
 // TODO: (at a later date) add Fail2Ban checks
 // TODO: (at a later date) add ssh setting checks
-// TODO: use an iterator or a variable to add problems to the array
 func Audit() {
 	utils.CheckSudo()
 
 	ct.Foreground(ct.Red, true)   // set text color to bright red
 	problems := make([]string, 2) // an array to add collection problems to display
+	check := 0                    // used to increment value when printing check complete
 
 	fmt.Println("-- Beginning Audit --")
 	fmt.Println("This is a major WIP!")
@@ -52,25 +52,28 @@ func Audit() {
 	if !strings.Contains(utils.RunCmd("ufw", "status"), "active") { // disabled / is not active
 		problems[0] = "Firewall disabled"
 	}
-	fmt.Println("Check 1 complete!")
+	check++
+	fmt.Println("Check", check, "complete!")
 
 	// network connection type
 	if strings.Contains(utils.RunCmd("nmcli", "d"), "wifi") { // using wifi
 		problems[1] = "Using wifi instead of ethernet"
 
-		fmt.Println("Check 2 complete!")
+		check++
+		fmt.Println("Check", check, "complete!")
 
 		// encrypted wifi
 		if !strings.Contains(utils.RunCmd("nmcli", "-t", "-f", "active,ssid", "dev", "wifi"), "yes") { // not secure
 			problems[2] = "Using insecure wifi"
 		}
-		fmt.Println("Check 3 complete!")
+		check++
+		fmt.Println("Check", check, "complete!")
 	} else { // skip over encrypt wifi check - not using wifi
-		fmt.Println("Check 2 complete!")
+		check++
+		fmt.Println("Check", check, "complete!")
 	}
 
 	// guest account
-	// TODO - document
 	if _, err := os.Stat("/etc/lightdm/lightdm.conf"); !os.IsNotExist(err) { // look for proper conf file
 
 		file, err := os.Open("/etc/lightdm/lightdm.conf") // open file
@@ -84,6 +87,8 @@ func Audit() {
 			}
 		}
 	} // file not found
+	check++
+	fmt.Println("Check", check, "complete!")
 
 	ct.Foreground(ct.Red, true) // set text color to bright red
 	fmt.Println("Problems found:", problems)
