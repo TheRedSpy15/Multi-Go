@@ -171,6 +171,7 @@ func CollyAddress(target string, savePage bool, ip bool) {
 }
 
 // Dos - constantly sends data to a target
+// NOTE: this Dos, actually sends data. dos.go creates multiple of this one
 // TODO: not finished yet - randomly stops after a few seconds, works with very limited targets
 // TODO: document
 func Dos(conn net.Conn) {
