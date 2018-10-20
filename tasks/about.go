@@ -27,7 +27,7 @@ import (
 func About() {
 	utils.PrintBanner()
 
-	ct.Foreground(ct.Yellow, false) // set text color to dark yellow
+	ct.Foreground(ct.Yellow, false)
 	fmt.Println("Multi Go v0.6.1", "\nBy: TheRedSpy15")
 	fmt.Println("GitHub:", "https://github.com/TheRedSpy15")
 	fmt.Println("Project Page:", "https://github.com/TheRedSpy15/Multi-Go")

@@ -37,12 +37,14 @@ import (
 // TODO: add vpn check (recommend using one)
 // TODO: (at a later date) add Fail2Ban checks
 // TODO: (at a later date) add ssh setting checks
+// TODO: trim white space & brackets in arrays
 func Audit() {
 	utils.CheckSudo()
 
-	ct.Foreground(ct.Red, true)   // set text color to bright red
-	problems := make([]string, 2) // an array to add collection problems to display
-	check := 0                    // used to increment value when printing check complete
+	ct.Foreground(ct.Red, true)
+	problems := make([]string, 4)  // an array to add collection of problems
+	solutions := make([]string, 4) // an array to add collection of solutions to problems
+	check := 0                     // used to increment value when printing check complete
 
 	fmt.Println("-- Beginning Audit --")
 	fmt.Println("This is a major WIP!")
@@ -50,21 +52,24 @@ func Audit() {
 
 	// firewall
 	if !strings.Contains(utils.RunCmd("ufw", "status"), "active") { // disabled / is not active
-		problems[0] = "Firewall disabled"
+		problems[check] = "Firewall disabled"
+		solutions[check] = "Enable firewall"
 	}
 	check++
 	fmt.Println("Check", check, "complete!")
 
 	// network connection type
 	if strings.Contains(utils.RunCmd("nmcli", "d"), "wifi") { // using wifi
-		problems[1] = "Using wifi instead of ethernet"
+		problems[check] = "Using wifi instead of ethernet"
+		solutions[check] = "Switch to ethernet"
 
 		check++
 		fmt.Println("Check", check, "complete!")
 
 		// encrypted wifi
 		if !strings.Contains(utils.RunCmd("nmcli", "-t", "-f", "active,ssid", "dev", "wifi"), "yes") { // not secure
-			problems[2] = "Using insecure wifi"
+			problems[check] = "Using insecure wifi"
+			solutions[check] = "Use a VPN or switch to more secure wifi"
 		}
 		check++
 		fmt.Println("Check", check, "complete!")
@@ -84,13 +89,19 @@ func Audit() {
 
 		for scanner.Scan() { // scan loop
 			if !strings.Contains(scanner.Text(), "allow-guest=false") { // look guest disable
-				problems[3] = "Guest access is still enabled"
+				problems[check] = "Guest access is still enabled"
+				solutions[check] = `Add "allow-guest=false" to lightdm.conf file`
 			}
 		}
 	} // file not found
 	check++
-	fmt.Println("Check", check, "complete!")
+	ct.Foreground(ct.Red, true)
+	fmt.Println("Check", check, "FAILED!")
+	ct.ResetColor()
 
-	ct.Foreground(ct.Red, true) // set text color to bright red
+	ct.Foreground(ct.Red, true)
 	fmt.Println("Problems found:", problems)
+
+	ct.Foreground(ct.Green, true)
+	fmt.Println("Solutions:", solutions)
 }

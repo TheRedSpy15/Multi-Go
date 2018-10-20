@@ -26,7 +26,7 @@ import (
 // Clean clears cached files
 // TODO: run the right command that cleans "thumbs" & the system cache
 func Clean() {
-	ct.Foreground(ct.Red, true) // set text color to bright red
+	ct.Foreground(ct.Red, true)
 	fmt.Println("Not a working feature yet!")
 	cmd := exec.Command("rm", "-rf", "~/.thumbs/*") // don't think this is the right command
 	cmd.Run()
