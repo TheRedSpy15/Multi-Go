@@ -74,6 +74,7 @@ func Audit() {
 	}
 
 	// guest account
+	// TODO: not finished - can't find file
 	if _, err := os.Stat("/etc/lightdm/lightdm.conf"); !os.IsNotExist(err) { // look for proper conf file
 
 		file, err := os.Open("/etc/lightdm/lightdm.conf") // open file
