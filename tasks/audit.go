@@ -1,15 +1,5 @@
 package tasks
 
-import (
-	"bufio"
-	"fmt"
-	"os"
-	"strings"
-
-	"github.com/TheRedSpy15/Multi-Go/utils"
-	"github.com/daviddengcn/go-colortext"
-)
-
 /*
    Copyright 2018 TheRedSpy15
 
@@ -25,6 +15,16 @@ import (
    See the License for the specific language governing permissions and
    limitations under the License.
 */
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strings"
+
+	"github.com/TheRedSpy15/Multi-Go/utils"
+	"github.com/daviddengcn/go-colortext"
+)
 
 // Audit - Runs several security checks, then prints found vulnerabilites
 // TODO: add current software version checks (recommend updating)
