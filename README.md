@@ -65,4 +65,4 @@ go build
 ```
 
 ## Important
-Multi Go is intended to be used on linux. It might run on Windows. Currently it isn't tested, nor supported! I will eventually work on a Windows patch.
+Multi Go is intended to be used on linux (mostly Debian & Ubuntu like distros). It might run on Windows. Currently it isn't tested, nor supported! I will eventually work on a Windows patch.
