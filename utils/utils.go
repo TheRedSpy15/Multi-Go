@@ -36,6 +36,7 @@ import (
 	"github.com/shirou/gopsutil/cpu"
 	"github.com/shirou/gopsutil/host"
 	"github.com/shirou/gopsutil/mem"
+	"github.com/shirou/gopsutil/load"
 	"golang.org/x/crypto/ssh/terminal"
 )
 
@@ -223,15 +224,18 @@ func RandomString(length int) string {
 func PrintCPU() {
 	cpuCount, err1 := cpu.Counts(false)       // get cpu count total
 	cpuCountLogical, err2 := cpu.Counts(true) // get cpu logical count
+	cpuLoad, err3 := load.Avg()		  // get current cpu load
 
 	CheckErr(err1)
 	CheckErr(err2)
+	CheckErr(err3)
 
 	ct.Foreground(ct.Red, true) // change text color to bright red
 	fmt.Println("\n-- CPU --")
 	ct.Foreground(ct.Yellow, false)                      // change text color to dark yellow
 	fmt.Println("CPU Count: (logical)", cpuCountLogical) // cpu count logical
 	fmt.Println("CPU Count:", cpuCount)                  // cpu count total
+	fmt.Printf("CPU Usage:\n\tLast Minute: %d%%\n\tLast 5 Minutes: %d%%\n\tLast 15 Minutes: %d%%\n", int(cpuLoad.Load1*100), int(cpuLoad.Load5*100), int(cpuLoad.Load15*100))
 }
 
 // PrintMemory - prints info about system memory
