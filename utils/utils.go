@@ -220,7 +220,7 @@ func RandomString(length int) string {
 }
 
 // PrintCPU - prints CPU info
-// TODO: add more info - atleast usage
+// TODO: add more info
 func PrintCPU() {
 	cpuCount, err1 := cpu.Counts(false)       // get cpu count total
 	cpuCountLogical, err2 := cpu.Counts(true) // get cpu logical count
