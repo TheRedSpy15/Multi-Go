@@ -31,11 +31,11 @@ func TestBytesToGigabytes(t *testing.T) {
 }
 
 func TestRandomString(t *testing.T) {
-	got := RandomString(5)
+	got := len(RandomString(5))
 	want := 5
 
-	if len(got) != want {
-		t.Error("got", got, "want", want)
+	if got != want {
+		t.Errorf("got '%d' want '%d'", got, want)
 	}
 }
 
