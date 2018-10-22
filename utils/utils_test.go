@@ -17,6 +17,7 @@ package utils
 */
 
 import (
+	"errors"
 	"testing"
 )
 
@@ -27,4 +28,26 @@ func TestBytesToGigabytes(t *testing.T) {
 	if got != want {
 		t.Errorf("got '%f' want '%f'", got, want)
 	}
+}
+
+func TestCheckEmptyTargetShouldPanic(t *testing.T) {
+	assertPanic(t, func() {
+		CheckTarget("")
+	})
+}
+
+func TestCheckErrorShouldPanic(t *testing.T) {
+	assertPanic(t, func() {
+		CheckErr(errors.New("an unknown error"))
+	})
+}
+
+func assertPanic(t *testing.T, f func()) {
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("The code did not panic")
+		}
+	}()
+
+	f()
 }
