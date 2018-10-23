@@ -28,7 +28,7 @@ import (
 
 // Installer - will either add the ability to easily call Multi-Go, or remove it
 // TODO: not working yet
-// TODO: make less error prone
+// TODO: make less error prone - "defensive programming"
 func Installer(target string) {
 	ct.Foreground(ct.Red, true)
 	fmt.Println("This is a major WIP!") // warning
