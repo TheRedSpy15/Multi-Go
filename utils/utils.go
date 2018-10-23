@@ -64,7 +64,7 @@ func CheckErr(err error) {
 	}
 }
 
-// CheckSudo - if using sudo/root, panic if not
+// CheckSudo - check if using sudo/root, panic if not
 // TODO: document
 func CheckSudo() {
 	user, _ := user.Current()
@@ -172,7 +172,8 @@ func CollyAddress(target string, savePage bool, ip bool) {
 }
 
 // Dos - constantly sends data to a target
-// TODO: not finished yet
+// TODO: not finished yet - randomly stops after a few seconds, works with very limited targets
+// TODO: document
 func Dos(conn net.Conn) {
 	p := make([]byte, 2048)
 
