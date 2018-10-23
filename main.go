@@ -2,14 +2,14 @@ package main
 
 // Project TODOS
 // TODO: tone down comments & make them more meaningful
-// TODO: add unit testing
-// TODO: document parameters
 // TODO: improve 'Scrape'
 // TODO: finish dos task
 // TODO: finish email task
 // TODO: finish audit task
+// TODO: finish installer
+// TODO: finish cleaner
+// TODO: finish decompress (and review compress)
 // TODO: add 'bleach -r [file path]' task
-// TODO: add 'uncompress -r [file path]' task
 
 /*
    Copyright 2018 TheRedSpy15
