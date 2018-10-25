@@ -11,6 +11,8 @@ package main
 // TODO: finish decompress (and review compress)
 // TODO: add 'bleach -r [file path]' task
 // TODO: add 'tshark -r [file path]' task
+// TODO: add angry ip scanner command task in some way
+// TODO: add brute force task in some way using a pentesting tool command
 
 /*
    Copyright 2018 TheRedSpy15
