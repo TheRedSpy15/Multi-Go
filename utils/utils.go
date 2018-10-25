@@ -23,7 +23,6 @@ import (
 	"log"
 	"math"
 	"math/rand"
-	"net"
 	"os"
 	"os/exec"
 	"os/user"
@@ -35,8 +34,8 @@ import (
 	"github.com/gocolly/colly"
 	"github.com/shirou/gopsutil/cpu"
 	"github.com/shirou/gopsutil/host"
-	"github.com/shirou/gopsutil/mem"
 	"github.com/shirou/gopsutil/load"
+	"github.com/shirou/gopsutil/mem"
 	"golang.org/x/crypto/ssh/terminal"
 )
 
@@ -171,22 +170,6 @@ func CollyAddress(target string, savePage bool, ip bool) {
 	c.Visit(target) // actually using colly/collector object, and visiting target
 }
 
-// Dos - constantly sends data to a target
-// NOTE: this Dos, actually sends data. dos.go creates multiple of this one
-// TODO: not finished yet - randomly stops after a few seconds, works with very limited targets
-// TODO: document
-func Dos(conn net.Conn) {
-	defer conn.Close() // make sure to close the connection when done
-
-	fmt.Println("Starting loop")
-	for true { // DOS loop
-		_, err := fmt.Fprintf(conn, "Sup UDP Server, how you doing?")
-		CheckErr(err)
-
-		fmt.Println("looped")
-	}
-}
-
 // RandomString - returns a random string
 // TODO: rewrite in my own code
 // TODO: add more comments
@@ -224,7 +207,7 @@ func RandomString(length int) string {
 func PrintCPU() {
 	cpuCount, err1 := cpu.Counts(false)       // get cpu count total
 	cpuCountLogical, err2 := cpu.Counts(true) // get cpu logical count
-	cpuLoad, err3 := load.Avg()		  // get current cpu load
+	cpuLoad, err3 := load.Avg()               // get current cpu load
 
 	CheckErr(err1)
 	CheckErr(err2)

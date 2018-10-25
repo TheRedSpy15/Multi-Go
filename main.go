@@ -92,7 +92,7 @@ func main() {
 		tasks.Scrape(*r)
 	case "DOS":
 		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		tasks.Dos(*r)
+		tasks.Dos(*r, nil)
 	case "compress":
 		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
 		tasks.Compress(*r)

