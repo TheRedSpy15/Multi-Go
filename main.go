@@ -10,6 +10,7 @@ package main
 // TODO: finish cleaner
 // TODO: finish decompress (and review compress)
 // TODO: add 'bleach -r [file path]' task
+// TODO: add 'tshark -r [file path]' task
 
 /*
    Copyright 2018 TheRedSpy15
