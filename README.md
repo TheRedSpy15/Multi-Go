@@ -16,13 +16,16 @@ A command line multi-tool made in Go, and aimed at security experts to make life
 - control firewall
 - system security audit
 
-### Working on (will add more over time):
+### Plans:
 - secure file deletion (bleach)
 - file compression/decompression (gzip)
 - email
 - scrape website(s) for information
 - file encryption/decryption
 - clean temporary files
+- password cracking
+- network logging (tshark)
+- Will add more to the list over time
 
 ## How to
 
