@@ -27,6 +27,7 @@ import (
 
 // Install - will install the current executable to the specified target
 // TODO: document
+// TODO: overwrite file if already exists
 func Install(target string) {
 	utils.CheckTarget(target)
 

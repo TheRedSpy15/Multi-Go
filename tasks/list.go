@@ -59,5 +59,5 @@ func List() {
 	fmt.Println("\n-- Other --")
 	ct.Foreground(ct.Yellow, false)
 	fmt.Println("About")
-	fmt.Println("Install -r [path]")
+	fmt.Println(`Install -r [path or use "/bin/" for best result]`)
 }
