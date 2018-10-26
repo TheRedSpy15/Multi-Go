@@ -1,19 +1,5 @@
 package main
 
-// Project TODOS
-// TODO: tone down comments & make them more meaningful
-// TODO: improve 'Scrape'
-// TODO: finish dos task
-// TODO: finish email task
-// TODO: finish audit task
-// TODO: finish installer
-// TODO: finish cleaner
-// TODO: finish decompress (and review compress)
-// TODO: add 'bleach -r [file path]' task
-// TODO: add 'tshark -r [file path]' task
-// TODO: add angry ip scanner command task in some way
-// TODO: add brute force task in some way using a pentesting tool command
-
 /*
    Copyright 2018 TheRedSpy15
 
@@ -29,6 +15,20 @@ package main
    See the License for the specific language governing permissions and
    limitations under the License.
 */
+
+// Project TODOS
+// TODO: tone down comments & make them more meaningful
+// TODO: improve 'Scrape'
+// TODO: finish dos task
+// TODO: finish email task
+// TODO: finish audit task
+// TODO: finish installer
+// TODO: finish cleaner
+// TODO: finish decompress (and review compress)
+// TODO: add 'bleach -r [file path]' task
+// TODO: add 'tshark -r [file path]' task
+// TODO: add angry ip scanner command task in some way
+// TODO: add brute force task in some way using a pentesting tool command
 
 import (
 	"bufio"
