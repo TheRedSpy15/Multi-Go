@@ -105,9 +105,9 @@ func main() {
 	case "generatePassword":
 		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
 		tasks.GeneratePassword(*r)
-	case "Installer":
+	case "Install":
 		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		tasks.Installer(*r)
+		tasks.Install(*r)
 	case "systemInfo":
 		tasks.SystemInfo()
 	case "Clean":
