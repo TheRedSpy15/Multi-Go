@@ -27,7 +27,6 @@ import (
 
 // Install - will install the current executable to the specified target
 // TODO: document
-// TODO: overwrite file if already exists
 func Install(target string) {
 	utils.CheckTarget(target)
 
@@ -48,7 +47,17 @@ func Install(target string) {
 
 	target = path.Join(target, path.Base(srcPath))
 	if _, err := os.Stat(target); err == nil {
-		fmt.Println("Target already exists. Exiting.")
+		fmt.Println("Target already exists. Overwriting...")
+
+		fmt.Println("Removing old file")
+		err = os.Remove(target)
+		utils.CheckErr(err)
+
+		fmt.Println("Copying to target")
+		err = os.Link(srcPath, target)
+		utils.CheckErr(err)
+
+		fmt.Println("Done")
 		return
 	}
 
