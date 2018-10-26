@@ -25,7 +25,8 @@ import (
 	"github.com/TheRedSpy15/Multi-Go/utils"
 )
 
-// Install will install the current executable to the specified target
+// Install - will install the current executable to the specified target
+// TODO: document
 func Install(target string) {
 	utils.CheckTarget(target)
 
