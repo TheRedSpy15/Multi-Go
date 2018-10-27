@@ -15,6 +15,7 @@ A command line multi-tool made in Go, and aimed at security experts to make life
 - check if account is breached (HaveIBeenPwned)
 - control firewall
 - system security audit
+- clean system files
 
 ### Plans:
 - secure file deletion (bleach)
@@ -22,12 +23,12 @@ A command line multi-tool made in Go, and aimed at security experts to make life
 - email
 - scrape website(s) for information
 - file encryption/decryption
-- clean temporary files
 - password cracking
 - network logging (tshark)
 - network scan (ip/port/mac/etc)
 - installer for multiple useful pentesting tools
-- Will add more to the list over time
+
+**Will add more to the list over time**
 
 ## How to
 
