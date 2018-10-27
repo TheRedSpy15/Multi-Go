@@ -32,7 +32,7 @@ func Clean() {
 
 	ct.Foreground(ct.Red, true)
 	fmt.Println("This is an EXPERIMENTAL feature!")
-	ct.ResetColor()
+	ct.Foreground(ct.Yellow, false)
 
 	utils.RunCmd("apt-get", "autoclean")
 	fmt.Println("Phase 1 complete")
