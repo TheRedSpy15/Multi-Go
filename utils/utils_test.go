@@ -17,7 +17,10 @@ package utils
 */
 
 import (
+	"bytes"
 	"errors"
+	"io/ioutil"
+	"os"
 	"testing"
 )
 
@@ -35,7 +38,28 @@ func TestRandomString(t *testing.T) {
 	want := 5
 
 	if got != want {
-		t.Errorf("got '%d' want '%d'", got, want)
+		t.Errorf("got '%d', want '%d'", got, want)
+	}
+}
+
+func TestReadFileIntoByte(t *testing.T) {
+	tmp, err := ioutil.TempFile("", "example")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.Remove(tmp.Name())
+
+	content := []byte("temporary content")
+	if _, err := tmp.Write(content); err != nil {
+		t.Fatal(err)
+	}
+	if err := tmp.Close(); err != nil {
+		t.Fatal(err)
+	}
+
+	actualContent := ReadFileIntoByte(tmp.Name())
+	if !bytes.Equal(actualContent, content) {
+		t.Errorf("got '%s', want '%s'", actualContent, content)
 	}
 }
 
