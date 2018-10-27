@@ -19,16 +19,13 @@ package main
 // Project TODOS
 // TODO: tone down comments & make them more meaningful
 // TODO: improve 'Scrape'
-// TODO: finish dos task
 // TODO: finish email task
-// TODO: finish audit task
-// TODO: finish installer
-// TODO: finish cleaner
 // TODO: finish decompress (and review compress)
 // TODO: add 'bleach -r [file path]' task
 // TODO: add 'tshark -r [file path]' task
 // TODO: add angry ip scanner command task in some way
 // TODO: add brute force task in some way using a pentesting tool command
+// TODO: add pentest tool installer
 
 import (
 	"bufio"
@@ -43,6 +40,7 @@ import (
 	"github.com/TheRedSpy15/Multi-Go/utils"
 )
 
+// TODO: allow user to re-enter task command when invalid & in dialog mode
 func main() {
 	parser := argparse.NewParser("SecureMultiTool", "Runs multiple security orientated tasks")
 
