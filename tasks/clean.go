@@ -18,16 +18,25 @@ package tasks
 
 import (
 	"fmt"
-	"os/exec"
+
+	"github.com/TheRedSpy15/Multi-Go/utils"
 
 	"github.com/daviddengcn/go-colortext"
 )
 
 // Clean clears cached files
-// TODO: run the right command that cleans "thumbs" & the system cache
+// TODO: run "apt-get autoremove" somehow
+// TODO: document
 func Clean() {
+	utils.CheckSudo()
+
 	ct.Foreground(ct.Red, true)
-	fmt.Println("Not a working feature yet!")
-	cmd := exec.Command("rm", "-rf", "~/.thumbs/*") // don't think this is the right command
-	cmd.Run()
+	fmt.Println("This is an EXPERIMENTAL feature!")
+	ct.ResetColor()
+
+	utils.RunCmd("apt-get", "autoclean")
+	fmt.Println("Phase 1 complete")
+
+	utils.RunCmd("apt-get", "check")
+	fmt.Println("Phase 2 complete")
 }
