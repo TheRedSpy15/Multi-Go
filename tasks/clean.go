@@ -26,6 +26,7 @@ import (
 
 // Clean clears cached files
 // TODO: run "apt-get autoremove" somehow
+// TODO: clean temporary file locations
 // TODO: document
 func Clean() {
 	utils.CheckSudo()
