@@ -55,7 +55,7 @@ func main() {
 		utils.PrintBanner()
 		tasks.List()
 
-		print("\nEnter task to run: ")
+		fmt.Print("\nEnter task to run: ")
 		choice, _ := reader.ReadString('\n')     // get choice
 		choice = strings.TrimRight(choice, "\n") // trim choice so it can be check against properly
 
