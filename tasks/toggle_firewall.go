@@ -26,6 +26,6 @@ import (
 // TODO: add support for more systems - think only works on debian/ubuntu
 func ToggleFirewall(target string) {
 	utils.CheckSudo()
-	utils.CheckTarget(target)                  // make sure target is valid
-	fmt.Println(utils.RunCmd("ufw", "status")) // run command & print result
+	utils.CheckTarget(target)                // make sure target is valid
+	fmt.Println(utils.RunCmd("ufw", target)) // run command & print result
 }
