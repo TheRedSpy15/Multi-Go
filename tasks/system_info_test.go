@@ -7,7 +7,7 @@ import (
 	"github.com/shirou/gopsutil/mem"
 )
 
-func CPU_Test(t *testing.T) {
+func CPUTest(t *testing.T) {
 	_, err1 := cpu.Counts(false)       // get cpu count total
 	if err1 != nil {
 		t.Fatal(err1)
@@ -18,14 +18,14 @@ func CPU_Test(t *testing.T) {
 	}
 }
 
-func Memory_Test(t *testing.T) {
+func MemoryTest(t *testing.T) {
 	_, err := mem.SwapMemory() // get virtual memory info object
 	if err != nil {
 		t.Fatal(err)
 	}
 }
 
-func Host_Test(t *testing.T) {
+func HostTest(t *testing.T) {
 	_, err := host.Info() // get host info object
 	if err != nil {
 		t.Fatal(err)
