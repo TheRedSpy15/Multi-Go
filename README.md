@@ -16,9 +16,9 @@ A command line multi-tool made in Go, and aimed at security experts to make life
 - control firewall
 - system security audit
 - clean system files
+- secure file deletion / bleach
 
 ### Plans:
-- secure file deletion (bleach)
 - file compression/decompression (gzip)
 - email
 - scrape website(s) for information
