@@ -35,7 +35,7 @@ import (
 	"github.com/shirou/gopsutil/cpu"
 	"github.com/shirou/gopsutil/host"
 	"github.com/shirou/gopsutil/load"
-	"github.com/shirou/gopsutil/mem"
+	"github.com/cloudfoundry/gosigar"
 	"golang.org/x/crypto/ssh/terminal"
 )
 
@@ -223,8 +223,11 @@ func PrintCPU() {
 // TODO: get physical memory instead of swap
 // TODO: convert values to gigabytes
 func PrintMemory() {
-	mem, err := mem.VirtualMemory() // get virtual memory info object
-	CheckErr(err)
+	mem := sigar.Mem{}
+	swap := sigar.Swap{}
+	
+	mem.Get()
+	swap.Get()
 
 	ct.Foreground(ct.Red, true) // change text color to bright red
 	fmt.Println("\n-- Memory --")
@@ -232,6 +235,10 @@ func PrintMemory() {
 	fmt.Println("Memory Used (Gb):", BytesToGigabytes(mem.Used))   // used
 	fmt.Println("Memory Free (Gb):", BytesToGigabytes(mem.Free))   // free
 	fmt.Println("Memory Total (Gb):", BytesToGigabytes(mem.Total)) // total
+	
+	ct.Foreground(ct.Red, true)
+	fmt.Println("\n-- Swap --")
+	fmt.Println("")
 }
 
 // PrintHost - prints info about system host
