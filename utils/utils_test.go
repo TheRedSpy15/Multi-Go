@@ -23,6 +23,8 @@ import (
 	"os"
 	"os/exec"
 	"testing"
+	"syscall"
+	"golang.org/x/crypto/ssh/terminal"
 )
 
 func TestBytesToGigabytes(t *testing.T) {
@@ -88,4 +90,11 @@ func assertExit(t *testing.T, name string, test func()) {
 		return
 	}
 	t.Fatalf("process ran with err %v, want exit status 1", err)
+}
+
+func GetPasswordTest(t *testing.T) {
+	_, err := terminal.ReadPassword(int(syscall.Stdin)) // run password command, make var with result
+	if err != nil {
+		t.Fatal(err)
+	}
 }
