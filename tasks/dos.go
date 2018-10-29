@@ -40,11 +40,10 @@ func Dos(target string, duration *time.Duration) {
 	addr, err := net.ResolveUDPAddr("udp", target)
 	utils.CheckErr(err)
 	conn, err := net.DialUDP("udp", nil, addr) // setup connection object
-	defer conn.Close()                         // make sure to close connection when finished
-
 	utils.CheckErr(err)
+	defer conn.Close() // make sure to close connection when finished
 
-	ct.Foreground(ct.Green, true) // ets text color to bright red
+	ct.Foreground(ct.Green, true) // sets text color to bright green
 	fmt.Println("Checks passed!")
 
 	ct.Foreground(ct.Red, true)                                            // set text color to bright red
