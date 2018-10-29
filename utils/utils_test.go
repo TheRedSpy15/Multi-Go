@@ -22,6 +22,8 @@ import (
 	"io/ioutil"
 	"os"
 	"testing"
+	"syscall"
+	"golang.org/x/crypto/ssh/terminal"
 )
 
 func TestBytesToGigabytes(t *testing.T) {
@@ -83,4 +85,11 @@ func assertPanic(t *testing.T, f func()) {
 	}()
 
 	f()
+}
+
+func GetPassword_Test(t *testing.T) {
+	_, err := terminal.ReadPassword(int(syscall.Stdin)) // run password command, make var with result
+	if err != nil {
+		t.Fatal(err)
+	}
 }
