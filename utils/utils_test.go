@@ -21,6 +21,7 @@ import (
 	"errors"
 	"io/ioutil"
 	"os"
+	"os/exec"
 	"testing"
 )
 
@@ -63,24 +64,28 @@ func TestReadFileIntoByte(t *testing.T) {
 	}
 }
 
-func TestCheckEmptyTargetShouldPanic(t *testing.T) {
-	assertPanic(t, func() {
+func TestCheckEmptyTargetShouldExit(t *testing.T) {
+	assertExit(t, "TestCheckEmptyTargetShouldExit", func() {
 		CheckTarget("")
 	})
 }
 
-func TestCheckErrorShouldPanic(t *testing.T) {
-	assertPanic(t, func() {
+func TestCheckErrorShouldExit(t *testing.T) {
+	assertExit(t, "TestCheckErrorShouldExit", func() {
 		CheckErr(errors.New("an unknown error"))
 	})
 }
 
-func assertPanic(t *testing.T, f func()) {
-	defer func() {
-		if r := recover(); r == nil {
-			t.Errorf("The code did not panic")
-		}
-	}()
-
-	f()
+func assertExit(t *testing.T, name string, test func()) {
+	if os.Getenv("REAL_TEST") == "1" {
+		test()
+		return
+	}
+	cmd := exec.Command(os.Args[0], "-test.run="+name)
+	cmd.Env = append(os.Environ(), "REAL_TEST=1")
+	err := cmd.Run()
+	if e, ok := err.(*exec.ExitError); ok && !e.Success() {
+		return
+	}
+	t.Fatalf("process ran with err %v, want exit status 1", err)
 }

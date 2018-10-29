@@ -47,29 +47,27 @@ func BytesToGigabytes(bytes uint64) float64 {
 	return result
 }
 
-// CheckTarget - checks to see if the target is empty, and panic if is
+// CheckTarget throws an error if the target is empty
 func CheckTarget(target string) {
 	if target == "" { // check if target is blank
-		ct.Foreground(ct.Red, true) // set text color to bright red
-		panic("target cannot be empty when performing this task!")
+		CheckErr(fmt.Errorf("target cannot be empty when performing this task"))
 	}
 }
 
-// CheckErr - takes an error & sees if it is not nil
+// CheckErr prints any non-nil errors followed by exiting the application
 func CheckErr(err error) {
 	if err != nil { // check if there actually is any error
 		ct.Foreground(ct.Red, true) // set texts color to bright red
-		panic(err.Error())
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
 	}
 }
 
-// CheckSudo - check if using sudo/root, panic if not
-// TODO: document
+// CheckSudo throws an error if the current user is not sudo/root
 func CheckSudo() {
 	user, _ := user.Current()
 	if !strings.Contains(user.Username, "root") {
-		ct.Foreground(ct.Red, true)
-		panic("cannot run this task without root/sudo!")
+		CheckErr(fmt.Errorf("cannot run this task without root/sudo"))
 	}
 }
 
