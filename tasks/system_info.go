@@ -17,6 +17,8 @@ package tasks
 */
 
 import (
+	"fmt"
+
 	"github.com/TheRedSpy15/Multi-Go/utils"
 	"github.com/daviddengcn/go-colortext"
 )
@@ -25,7 +27,9 @@ import (
 // TODO: make & add more info functions
 func SystemInfo() {
 	ct.Foreground(ct.Yellow, false) // set text color to dark yellow
-	utils.PrintCPU()                // print cpu info
-	utils.PrintMemory()             // print memory info
-	utils.PrintHost()               // print host info
+	fmt.Println("--- Getting Info ---")
+
+	utils.PrintCPU()    // print cpu info
+	utils.PrintMemory() // print memory info
+	utils.PrintHost()   // print host info
 }

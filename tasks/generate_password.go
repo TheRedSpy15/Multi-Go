@@ -21,12 +21,12 @@ import (
 	"strconv"
 
 	"github.com/TheRedSpy15/Multi-Go/utils"
-	"github.com/daviddengcn/go-colortext"
 )
 
 // GeneratePassword generated a random string for use as a password
 func GeneratePassword(target string) {
-	ct.Foreground(ct.Yellow, false)       // set text color to dark yellow
+	utils.CheckTarget(target)
+
 	conversion, _ := strconv.Atoi(target) // convert target (string), to int
 	fmt.Println("Password:", utils.RandomString(conversion))
 }

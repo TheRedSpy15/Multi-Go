@@ -1,5 +1,12 @@
 package tasks
 
+import (
+	"fmt"
+
+	"github.com/TheRedSpy15/Multi-Go/utils"
+	"github.com/daviddengcn/go-colortext"
+)
+
 /*
    Copyright 2018 TheRedSpy15
 
@@ -16,17 +23,13 @@ package tasks
    limitations under the License.
 */
 
-import (
-	"fmt"
+// Bleach securely overwrites target file 3 times with Gutmann
+// TODO: document
+func Bleach(target string) {
+	utils.CheckTarget(target)
 
-	"github.com/TheRedSpy15/Multi-Go/utils"
-	"github.com/daviddengcn/go-colortext"
-)
-
-// Scrape will scrape the target website
-func Scrape(target string) {
-	utils.CheckTarget(target)               // make sure target is valid
-	utils.CollyAddress(target, true, false) // run colly - scraping happens here
+	fmt.Println("Bleaching")
+	utils.RunCmd("shred", "-v", "-z", "-n", "3", target)
 
 	ct.Foreground(ct.Green, true)
 	fmt.Println("Done")

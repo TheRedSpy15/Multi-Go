@@ -67,45 +67,48 @@ func main() {
 		} else { // no optional target
 			*t = choice
 		}
-
-		ct.ResetColor() // reset text color to default
+	} else {
+		ct.Foreground(ct.Yellow, false)
 	}
 
 	// Determine task to run
 	switch *t {
 	case "Hash":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r, "\n")
 		tasks.HashFile(*r)
 	case "pwnAccount":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r, "\n")
 		tasks.PwnAccount(*r)
 	case "encryptFile":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r, "\n")
 		tasks.EncryptFile(*r)
 	case "decryptFile":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r, "\n")
 		tasks.DecryptFile(*r)
 	case "Scrape":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r, "\n")
 		tasks.Scrape(*r)
 	case "DOS":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r, "\n")
 		tasks.Dos(*r, nil)
 	case "compress":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r, "\n")
 		tasks.Compress(*r)
 	case "decompress":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r, "\n")
 		tasks.Decompress(*r)
 	case "Firewall":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r, "\n")
 		tasks.ToggleFirewall(*r)
 	case "generatePassword":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r, "\n")
 		tasks.GeneratePassword(*r)
 	case "Install":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r, "\n")
 		tasks.Install(*r)
+	case "Bleach":
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r, "\n")
+		tasks.Bleach(*r)
 	case "systemInfo":
 		tasks.SystemInfo()
 	case "Clean":
