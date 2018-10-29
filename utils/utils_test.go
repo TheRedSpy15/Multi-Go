@@ -87,7 +87,7 @@ func assertPanic(t *testing.T, f func()) {
 	f()
 }
 
-func GetPassword_Test(t *testing.T) {
+func GetPasswordTest(t *testing.T) {
 	_, err := terminal.ReadPassword(int(syscall.Stdin)) // run password command, make var with result
 	if err != nil {
 		t.Fatal(err)
