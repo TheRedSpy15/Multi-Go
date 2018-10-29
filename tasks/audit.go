@@ -40,7 +40,6 @@ import (
 // TODO: (at a later date) add Fail2Ban checks
 // TODO: (at a later date) add ssh setting checks
 // TODO: trim white space & brackets in arrays
-// TODO: document - better
 func Audit() {
 	utils.CheckSudo()
 
@@ -49,6 +48,7 @@ func Audit() {
 	solutions := make([]string, 4) // an array to add collection of solutions to problems
 	check := 0                     // used to increment value when printing check complete
 
+	// banner
 	fmt.Println("-- Beginning Audit --")
 	fmt.Println("This is a major WIP!")
 	ct.Foreground(ct.Yellow, false)
@@ -111,9 +111,9 @@ func Audit() {
 		file, err := os.Open("/.bash_history") // open file
 		utils.CheckErr(err)
 
-		fileStat, _ := file.Stat()
+		fileStat, _ := file.Stat() // get file info
 		fmt.Println(fileStat.Size())
-		if fileStat.Size() >= 100 {
+		if fileStat.Size() >= 100 { // check file size
 			problems[check] = "Command line history found"
 			solutions[check] = `Run: "cat /dev/null > ~/.bash_history && history -c && exit"`
 		}
