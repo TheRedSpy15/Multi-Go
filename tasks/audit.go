@@ -81,7 +81,6 @@ func Audit() {
 	// guest account
 	// TODO: not finished - can't find file
 	if _, err := os.Stat("/etc/lightdm/lightdm.conf"); !os.IsNotExist(err) { // look for proper conf file
-
 		file, err := os.Open("/etc/lightdm/lightdm.conf") // open file
 		utils.CheckErr(err)
 
@@ -93,11 +92,37 @@ func Audit() {
 				solutions[check] = `Add "allow-guest=false" to lightdm.conf file`
 			}
 		}
-	} // file not found
-	check++
-	ct.Foreground(ct.Red, true)
-	fmt.Println("Check", check, "FAILED!")
-	ct.ResetColor()
+
+		check++
+		fmt.Println("Check", check, "complete!")
+	} else { // file not found
+		check++
+		ct.Foreground(ct.Red, true)
+		fmt.Println("Check", check, "FAILED!")
+		ct.Foreground(ct.Yellow, false)
+	}
+
+	// bash history
+	// TODO: not finished - can't find file
+	if _, err := os.Stat("/.bash_history"); !os.IsNotExist(err) {
+		file, err := os.Open("/.bash_history") // open file
+		utils.CheckErr(err)
+
+		fileStat, _ := file.Stat()
+		fmt.Println(fileStat.Size())
+		if fileStat.Size() >= 100 {
+			problems[check] = "Command line history found"
+			solutions[check] = `Run: "cat /dev/null > ~/.bash_history && history -c && exit"`
+		}
+
+		check++
+		fmt.Println("Check", check, "complete!")
+	} else { // file not found
+		check++
+		ct.Foreground(ct.Red, true)
+		fmt.Println("Check", check, "FAILED!")
+		ct.Foreground(ct.Yellow, false)
+	}
 
 	ct.Foreground(ct.Red, true)
 	fmt.Println("Problems found:", problems)
