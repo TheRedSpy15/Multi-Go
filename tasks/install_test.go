@@ -1,7 +1,6 @@
 package tasks
 
 import (
-	"fmt"
 	"io/ioutil"
 	"os"
 	"path"
@@ -36,6 +35,18 @@ func TestInstall(t *testing.T) {
 		} else if files[0].Mode()&0111 == 0 {
 			t.Fatalf("installed file is not executable")
 		}
+		cleanup()
+
+		// check for overwritten file
+		Install(target)
+		Install(target)
+
+		files, err = ioutil.ReadDir(target)
+		if err != nil {
+			t.Fatal(err)
+		} else if files[0].Mode()&0111 == 0 {
+			t.Fatalf("installed file is not executable")
+		}
 	})
 	cleanup()
 
@@ -56,7 +67,6 @@ func TestInstall(t *testing.T) {
 		// write the file
 		err = ioutil.WriteFile(name, []byte("test"), os.ModePerm)
 		if err != nil {
-			fmt.Println("uh oh")
 			t.Fatal(err)
 		}
 
