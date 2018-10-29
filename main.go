@@ -74,40 +74,40 @@ func main() {
 	// Determine task to run
 	switch *t {
 	case "Hash":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r, "\n")
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
 		tasks.HashFile(*r)
 	case "pwnAccount":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r, "\n")
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
 		tasks.PwnAccount(*r)
 	case "encryptFile":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r, "\n")
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
 		tasks.EncryptFile(*r)
 	case "decryptFile":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r, "\n")
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
 		tasks.DecryptFile(*r)
 	case "Scrape":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r, "\n")
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
 		tasks.Scrape(*r)
 	case "DOS":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r, "\n")
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
 		tasks.Dos(*r, nil)
 	case "compress":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r, "\n")
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
 		tasks.Compress(*r)
 	case "decompress":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r, "\n")
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
 		tasks.Decompress(*r)
 	case "Firewall":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r, "\n")
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
 		tasks.ToggleFirewall(*r)
 	case "generatePassword":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r, "\n")
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
 		tasks.GeneratePassword(*r)
 	case "Install":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r, "\n")
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
 		tasks.Install(*r)
 	case "Bleach":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r, "\n")
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
 		tasks.Bleach(*r)
 	case "systemInfo":
 		tasks.SystemInfo()
