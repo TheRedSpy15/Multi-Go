@@ -1,4 +1,4 @@
-package main
+package utils
 
 /*
    Copyright 2018 TheRedSpy15
@@ -17,38 +17,63 @@ package main
 */
 
 import (
-	"bufio"
 	"bytes"
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math"
 	"math/rand"
-	"net"
 	"os"
 	"os/exec"
+	"os/user"
 	"strings"
 	"syscall"
 	"time"
 
-	"github.com/daviddengcn/go-colortext"
+	ct "github.com/daviddengcn/go-colortext"
 	"github.com/gocolly/colly"
 	"github.com/shirou/gopsutil/cpu"
 	"github.com/shirou/gopsutil/host"
+	"github.com/shirou/gopsutil/load"
 	"github.com/shirou/gopsutil/mem"
 	"golang.org/x/crypto/ssh/terminal"
 )
 
-// Util function - check if target is empty, panic if is
-func checkTarget(target string) {
+// BytesToGigabytes - an internal utility function to convert bytes to gigabytes; used to clarify the output of PrintMemory()
+func BytesToGigabytes(bytes uint64) float64 {
+	const conversionFactor = 1000000000
+	result := float64(bytes) / conversionFactor
+	result = float64(math.Round(result*100) / 100)
+	return result
+}
+
+// CheckTarget throws an error if the target is empty
+func CheckTarget(target string) {
 	if target == "" { // check if target is blank
-		ct.Foreground(ct.Red, true) // set text color to bright red
-		panic("target cannot be empty when performing this task!")
+		CheckErr(fmt.Errorf("target cannot be empty when performing this task"))
 	}
 }
 
+// CheckErr prints any non-nil errors followed by exiting the application
+func CheckErr(err error) {
+	if err != nil { // check if there actually is any error
+		ct.Foreground(ct.Red, true) // set texts color to bright red
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+}
+
+// CheckSudo throws an error if the current user is not sudo/root
+func CheckSudo() {
+	user, _ := user.Current()
+	if !strings.Contains(user.Username, "root") {
+		CheckErr(fmt.Errorf("cannot run this task without root/sudo"))
+	}
+}
+
+// RunCmd - runs a command on the system and prints the result
 // TODO: document
-// Run a command on the system & print result
-func runCmd(command string, arg ...string) string {
+func RunCmd(command string, arg ...string) string {
 	cmd := exec.Command(command)
 	for _, arg := range arg {
 		cmd.Args = append(cmd.Args, arg)
@@ -57,42 +82,41 @@ func runCmd(command string, arg ...string) string {
 	var o bytes.Buffer
 	cmd.Stdout = &o // asign o to cmd's Stdout
 
-	if err := cmd.Run(); err != nil {
-		ct.Foreground(ct.Red, true)
-		panic(err.Error())
-	}
+	err := cmd.Run()
+	CheckErr(err)
 
 	return o.String()
 }
 
-// Util function - used for getting []byte of file
-func readFileIntoByte(filename string) []byte {
+// ReadFileIntoByte - is used for getting []byte of file
+func ReadFileIntoByte(filename string) []byte {
 	var data []byte                // specify type
 	file, err := os.Open(filename) // make file object
 	defer file.Close()             // close file on function end
+
+	CheckErr(err)
+
+	data, err = ioutil.ReadAll(file) // read all
 	if err != nil {
 		ct.Foreground(ct.Red, true) // set text color to bright red
 		panic(err.Error())
-	} else {
-		data, err = ioutil.ReadAll(file) // read all
-		if err != nil {
-			ct.Foreground(ct.Red, true) // set text color to bright red
-			panic(err.Error())
-		}
 	}
+
 	return data // return file bytes
 }
 
-// Util function - securely get password from user
-func getPassword() string {
-	bytePassword, _ := terminal.ReadPassword(int(syscall.Stdin)) // run password command, make var with result
-	password := string(bytePassword)                             // cast to string var
+// GetPassword - securely gets password from a user
+func GetPassword() string {
+	bytePassword, err := terminal.ReadPassword(int(syscall.Stdin)) // run password command, make var with result
+	CheckErr(err)
+
+	password := string(bytePassword) // cast to string var
 
 	return password
 }
 
-// Util function - displays banner text
-func printBanner() {
+// PrintBanner - displays the banner text
+func PrintBanner() {
 	ct.Foreground(ct.Red, true) // set text color to bright red
 
 	fmt.Println(`
@@ -103,8 +127,8 @@ func printBanner() {
 |_|  |_|\__,_|_|\__|_|  \____|\___/`)
 }
 
-// Util function - scrapes a website link
-func collyAddress(target string, savePage bool, ip bool) {
+// CollyAddress - scrapes a website link
+func CollyAddress(target string, savePage bool, ip bool) {
 	if ip { // check if target is an IP address not URL
 		target = "http://" + target + "/" // modify target to be valid address
 	}
@@ -133,73 +157,24 @@ func collyAddress(target string, savePage bool, ip bool) {
 
 		if savePage { // check if save is enabled
 			err := r.Save(r.FileName()) // saving data
+			CheckErr(err)
 
-			if err != nil {
-				ct.Foreground(ct.Red, true) // set text color to bright red
-				panic("Error saving")
-			} else { // saved
-				ct.Foreground(ct.Green, true) // set text color to bright red
-				fmt.Println("Saved - ", r.FileName())
-				ct.ResetColor() // reset text color to default color
-			}
+			ct.Foreground(ct.Green, true) // set text color to bright red
+			fmt.Println("Saved - ", r.FileName())
+			ct.ResetColor() // reset text color to default color
 		}
 	})
 
 	c.Visit(target) // actually using colly/collector object, and visiting target
 }
 
-// TODO: not finished yet
-// Util function - constantly sends data to a target
-func dos(conn net.Conn) {
-	p := make([]byte, 2048)
-
-	defer conn.Close() // make sure to close the connection when done
-
-	fmt.Println("Starting loop")
-	for true { // DOS loop
-		fmt.Fprintf(conn, "Sup UDP Server, how you doing?")
-		_, err := bufio.NewReader(conn).Read(p)
-		if err == nil {
-			fmt.Printf("%s\n", p)
-		} else {
-			fmt.Printf("Some error %v\n", err)
-		}
-
-		fmt.Println("looped")
-	}
-}
-
-// TODO: add more checks
-// TODO: add wifi encryption check
-// TODO: add something user related checks
-// TODO: add current software version checks
-// TODO: add using default DNS check
-// TODO: document
-// Audits the system without using third party service
-func runAuditOffline() {
-	ct.Foreground(ct.Red, true)
-	problems := make([]string, 1)
-
-	fmt.Println("-- Beginning Audit --")
-	fmt.Println("This is a major WIP!")
-	ct.Foreground(ct.Yellow, false)
-
-	// firewall
-	if !strings.Contains(runCmd("ufw", "status"), "active") { // disabled / is not active
-		problems[0] = "Firewall disabled"
-	}
-	fmt.Println("Check 1 complete!")
-
-	ct.Foreground(ct.Red, true)
-	fmt.Println("Problems found:", problems)
-}
-
+// RandomString - returns a random string
 // TODO: rewrite in my own code
 // TODO: add more comments
 // Util function - returns a random string
 /* Original: https://stackoverflow.com/questions/22892120
 /how-to-generate-a-random-string-of-a-fixed-length-in-go#31832326 */
-func randomString(length int) string {
+func RandomString(length int) string {
 	const (
 		letterBytes   = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" // letters to use
 		letterIdxBits = 6                                                      // 6 bits to represent a letter index
@@ -225,44 +200,44 @@ func randomString(length int) string {
 	return string(b)
 }
 
-// TODO: add more info - atleast usage
-// Util function - prints CPU info
-func printCPU() {
-	cpuCount, _ := cpu.Counts(false)       // get cpu count total
-	cpuCountLogical, _ := cpu.Counts(true) // get cpu logical count
+// PrintCPU - prints CPU info
+// TODO: add more info
+func PrintCPU() {
+	cpuCount, err1 := cpu.Counts(false)       // get cpu count total
+	cpuCountLogical, err2 := cpu.Counts(true) // get cpu logical count
+	cpuLoad, err3 := load.Avg()               // get current cpu load
+
+	CheckErr(err1)
+	CheckErr(err2)
+	CheckErr(err3)
 
 	ct.Foreground(ct.Red, true) // change text color to bright red
 	fmt.Println("\n-- CPU --")
 	ct.Foreground(ct.Yellow, false)                      // change text color to dark yellow
 	fmt.Println("CPU Count: (logical)", cpuCountLogical) // cpu count logical
 	fmt.Println("CPU Count:", cpuCount)                  // cpu count total
+	fmt.Printf("CPU Usage:\n\tLast Minute: %d%%\n\tLast 5 Minutes: %d%%\n\tLast 15 Minutes: %d%%\n", int(cpuLoad.Load1*100), int(cpuLoad.Load5*100), int(cpuLoad.Load15*100))
 }
 
+// PrintMemory - prints info about system memory
 // TODO: get physical memory instead of swap
 // TODO: convert values to gigabytes
-// Util function - prints info about system memory
-func printMemory() {
-	mem, err := mem.SwapMemory() // get virtual memory info object
-	if err != nil {
-		ct.Foreground(ct.Red, true) // set text color to bright red
-		panic(err.Error())
-	}
+func PrintMemory() {
+	mem, err := mem.VirtualMemory() // get virtual memory info object
+	CheckErr(err)
 
 	ct.Foreground(ct.Red, true) // change text color to bright red
 	fmt.Println("\n-- Memory --")
-	ct.Foreground(ct.Yellow, false)         // change text color to dark yellow
-	fmt.Println("Memory Used:", mem.Used)   // used
-	fmt.Println("Memory Free:", mem.Free)   // free
-	fmt.Println("Memory Total:", mem.Total) // total
+	ct.Foreground(ct.Yellow, false)                                // change text color to dark yellow
+	fmt.Println("Memory Used (Gb):", BytesToGigabytes(mem.Used))   // used
+	fmt.Println("Memory Free (Gb):", BytesToGigabytes(mem.Free))   // free
+	fmt.Println("Memory Total (Gb):", BytesToGigabytes(mem.Total)) // total
 }
 
-// Util function - prints info about system host
-func printHost() {
+// PrintHost - prints info about system host
+func PrintHost() {
 	hostInfo, err := host.Info() // get host info object
-	if err != nil {
-		ct.Foreground(ct.Red, true) // set text color to bright red
-		panic(err.Error())
-	}
+	CheckErr(err)
 
 	ct.Foreground(ct.Red, true) // change text color to bright red
 	fmt.Println("\n-- Host --")

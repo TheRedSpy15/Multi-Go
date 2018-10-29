@@ -1,16 +1,5 @@
 package main
 
-// Project TODOS
-// TODO: tone down comments
-// TODO: add unit testing
-// TODO: document parameters
-// TODO: improve 'Scrape'
-// TODO: finish dos task
-// TODO: finish email task
-// TODO: finish audit task
-// TODO: add 'bleach -r [file path]' task
-// TODO: add 'uncompress -r [file path]' task
-
 /*
    Copyright 2018 TheRedSpy15
 
@@ -27,6 +16,17 @@ package main
    limitations under the License.
 */
 
+// Project TODOS
+// TODO: tone down comments & make them more meaningful
+// TODO: improve 'Scrape'
+// TODO: finish email task
+// TODO: finish decompress (and review compress)
+// TODO: add 'bleach -r [file path]' task
+// TODO: add 'tshark -r [file path]' task
+// TODO: add angry ip scanner command task in some way
+// TODO: add brute force task in some way using a pentesting tool command
+// TODO: add pentest tool installer
+
 import (
 	"bufio"
 	"fmt"
@@ -35,8 +35,12 @@ import (
 
 	"github.com/akamensky/argparse"
 	"github.com/daviddengcn/go-colortext"
+
+	"github.com/TheRedSpy15/Multi-Go/tasks"
+	"github.com/TheRedSpy15/Multi-Go/utils"
 )
 
+// TODO: allow user to re-enter task command when invalid & in dialog mode
 func main() {
 	parser := argparse.NewParser("SecureMultiTool", "Runs multiple security orientated tasks")
 
@@ -45,17 +49,14 @@ func main() {
 	r := parser.String("r", "Target", &argparse.Options{Required: false, Help: "Target to run task on"})
 
 	err := parser.Parse(os.Args) // parse arguments
-	if err != nil {
-		ct.Foreground(ct.Red, true) // set text color to bright red
-		panic(err.Error)
-	}
+	utils.CheckErr(err)
 
 	if *t == "" { // enter dialog mode
 		reader := bufio.NewReader(os.Stdin) // make reader object
-		printBanner()
-		listTasks()
+		utils.PrintBanner()
+		tasks.List()
 
-		print("\nEnter task to run: ")
+		fmt.Print("\nEnter task to run: ")
 		choice, _ := reader.ReadString('\n')     // get choice
 		choice = strings.TrimRight(choice, "\n") // trim choice so it can be check against properly
 
@@ -66,54 +67,60 @@ func main() {
 		} else { // no optional target
 			*t = choice
 		}
-
-		ct.ResetColor() // reset text color to default
+	} else {
+		ct.Foreground(ct.Yellow, false)
 	}
 
-	// Determine task
+	// Determine task to run
 	switch *t {
 	case "Hash":
 		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		hashFile(*r)
+		tasks.HashFile(*r)
 	case "pwnAccount":
 		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		pwnAccount(*r)
+		tasks.PwnAccount(*r)
 	case "encryptFile":
 		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		encryptFileTask(*r)
+		tasks.EncryptFile(*r)
 	case "decryptFile":
 		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		decryptFileTask(*r)
+		tasks.DecryptFile(*r)
 	case "Scrape":
 		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		scapeTask(*r)
+		tasks.Scrape(*r)
 	case "DOS":
 		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		dosTask(*r)
+		tasks.Dos(*r, nil)
 	case "compress":
 		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		compressTask(*r)
+		tasks.Compress(*r)
 	case "decompress":
 		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		decompressTask(*r)
+		tasks.Decompress(*r)
 	case "Firewall":
 		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		toggleFirewall(*r)
+		tasks.ToggleFirewall(*r)
 	case "generatePassword":
 		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		generatePasswordTask(*r)
+		tasks.GeneratePassword(*r)
+	case "Install":
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
+		tasks.Install(*r)
+	case "Bleach":
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
+		tasks.Bleach(*r)
 	case "systemInfo":
-		systemInfoTask()
+		tasks.SystemInfo()
 	case "Clean":
-		cleanTask()
+		tasks.Clean()
 	case "Email":
-		emailTask()
+		tasks.Email()
 	case "Audit":
-		auditTask()
+		tasks.Audit()
 	case "About":
-		about()
+		tasks.About()
 	case "List":
-		listTasks()
+		tasks.List()
 	default: // invalid
 		ct.Foreground(ct.Red, true)
 		fmt.Println("Invalid task -", *t)
