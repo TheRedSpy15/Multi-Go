@@ -35,9 +35,12 @@ import (
 // TODO: add password policy check
 // TODO: add empty trash check (recommend emptying)
 // TODO: add vpn check (recommend using one)
+// TODO: add microphone check (recommend disabling)
+// TODO: add camera check (recommend disabling or covering)
 // TODO: (at a later date) add Fail2Ban checks
 // TODO: (at a later date) add ssh setting checks
 // TODO: trim white space & brackets in arrays
+// TODO: document - better
 func Audit() {
 	utils.CheckSudo()
 
