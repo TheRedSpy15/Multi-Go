@@ -52,13 +52,6 @@ func Install(target string) {
 		fmt.Println("Removing old file")
 		err = os.Remove(target)
 		utils.CheckErr(err)
-
-		fmt.Println("Copying to target")
-		err = os.Link(srcPath, target)
-		utils.CheckErr(err)
-
-		fmt.Println("Done")
-		return
 	}
 
 	fmt.Println("Copying to target")
