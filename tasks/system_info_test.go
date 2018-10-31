@@ -20,7 +20,7 @@ func CPUTest(t *testing.T) {
 }
 
 func MemoryTest(t *testing.T) {
-	_, err := mem.SwapMemory() // get swap memory info object
+	_, err := mem.VirtualMemory() // get swap memory info object
 	if err != nil {
 		t.Fatal(err)
 	}
