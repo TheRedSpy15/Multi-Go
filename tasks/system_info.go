@@ -21,7 +21,6 @@ import (
 
 	"github.com/TheRedSpy15/Multi-Go/utils"
 	"github.com/daviddengcn/go-colortext"
-	"github.com/Centny/gosigar"
 )
 
 // SystemInfo prints extensive info about system
@@ -29,18 +28,6 @@ import (
 func SystemInfo() {
 	ct.Foreground(ct.Yellow, false) // set text color to dark yellow
 	fmt.Println("--- Getting Info ---")
-	sigar := gosigar.NewSigar()
-	sigar.Open()
-	defer sigar.Close()
-	for {
-		mem, err := sigar.QueryMem()
-		if err != nil {
-			fmt.Println(err.Error())
-			break
-		}
-		fmt.Println(mem.String())
-		time.Sleep(time.Second)
-}
 
 	utils.PrintCPU()    // print cpu info
 	utils.PrintMemory() // print memory info

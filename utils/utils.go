@@ -35,7 +35,7 @@ import (
 	"github.com/shirou/gopsutil/cpu"
 	"github.com/shirou/gopsutil/host"
 	"github.com/shirou/gopsutil/load"
-	"github.com/Centny/gosigar"
+	"github.com/shirou/gopsutil/mem"
 	"golang.org/x/crypto/ssh/terminal"
 )
 
@@ -223,26 +223,25 @@ func PrintCPU() {
 // TODO: get physical memory instead of swap
 // TODO: convert values to gigabytes
 func PrintMemory() {
-	sigar := gosigar.NewSigar()
-	sigar.Open()
-	defer sigar.Close()
+	memVirt, err1 := mem.VirtualMemory()
+	CheckErr(err1)
 
-	mem.Get()
-	swap.Get()
+	memSwap, err2 := mem.SwapMemory()
+	CheckErr(err2)
 
 	ct.Foreground(ct.Red, true) // change text color to bright red
 	fmt.Println("\n-- Memory --")
 	ct.Foreground(ct.Yellow, false)                                // change text color to dark yellow
-	fmt.Println("Memory Used (Gb):", BytesToGigabytes(mem.Used))   // used
-	fmt.Println("Memory Free (Gb):", BytesToGigabytes(mem.Free))   // free
-	fmt.Println("Memory Total (Gb):", BytesToGigabytes(mem.Total)) // total
+	fmt.Println("Memory Used (Gb):", BytesToGigabytes(memVirt.Used))   // used
+	fmt.Println("Memory Free (Gb):", BytesToGigabytes(memVirt.Free))   // free
+	fmt.Println("Memory Total (Gb):", BytesToGigabytes(memVirt.Total)) // total
 
 	ct.Foreground(ct.Red, true) // change text color to bright red
 	fmt.Println("\n-- Swap --")
-	ct.Foreground(ct.Yellow, false)					// change text color to dark yellow
-	fmt.Println("Swap Used (Gb):", BytesToGigabytes(swap.Used))	// used
-	fmt.Println("Swap Free (Gb):", BytesToGigabytes(swap.Free))	// free
-	fmt.Println("Swap Total (Gb):", BytesToGigabytes(swap.Total))	// total
+	ct.Foreground(ct.Yellow, false)					 // change text color to dark yellow
+	fmt.Println("Swap Used (Gb):", BytesToGigabytes(memSwap.Used))	 // used
+	fmt.Println("Swap Free (Gb):", BytesToGigabytes(memSwap.Free))	 // free
+	fmt.Println("Swap Total (Gb):", BytesToGigabytes(memSwap.Total)) // total
 }
 
 // PrintHost - prints info about system host
@@ -257,7 +256,7 @@ func PrintHost() {
 	fmt.Println("Platform:", hostInfo.Platform)                // platform
 	fmt.Println("Platform Family:", hostInfo.PlatformFamily)   // platform family
 	fmt.Println("Platform Version:", hostInfo.PlatformVersion) // platform version
-	fmt.Println("Uptime:", hostInfo.Uptime)                    // uptime
+	fmt.Println("Uptime (seconds):", hostInfo.Uptime)          // uptime
 	fmt.Println("Host Name:", hostInfo.Hostname)               // hostname
 	fmt.Println("Host ID:", hostInfo.HostID)                   // host id
 	fmt.Println("OS:", hostInfo.OS)                            // os
