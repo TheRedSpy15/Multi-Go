@@ -39,7 +39,7 @@ import (
 // TODO: add camera check (recommend disabling or covering)
 // TODO: (at a later date) add Fail2Ban checks
 // TODO: (at a later date) add ssh setting checks
-// TODO: trim white space & brackets in arrays
+// @todo: trim white space & brackets in solution & problem arrays
 func Audit() {
 	utils.CheckSudo()
 
