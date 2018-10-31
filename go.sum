@@ -1,5 +1,3 @@
-github.com/Centny/gosigar v0.0.0-20151220094716-a8e66b57cf75 h1:0A3DRUwUp9cMNmW1zXU4CBX3pvF0DKmJ1AtbQr6dgdM=
-github.com/Centny/gosigar v0.0.0-20151220094716-a8e66b57cf75/go.mod h1:8ZQrlUXygS9V1lILFcL/NjeW8K1aWcgLXM/P+vVDH+s=
 github.com/PuerkitoBio/goquery v1.4.1 h1:smcIRGdYm/w7JSbcdeLHEMzxmsBQvl8lhf0dSw2nzMI=
 github.com/PuerkitoBio/goquery v1.4.1/go.mod h1:T9ezsOHcCrDCgA8aF1Cqr3sSYbO/xgdy8/R/XiIMAhA=
 github.com/StackExchange/wmi v0.0.0-20180725035823-b12b22c5341f h1:5ZfJxyXo8KyX8DgGXC5B7ILL8y51fci/qYz2B4j8iLY=
@@ -14,8 +12,6 @@ github.com/antchfx/xmlquery v0.0.0-20180925013719-07935b1c0f2e h1:0KotO9Ay0it1o6
 github.com/antchfx/xmlquery v0.0.0-20180925013719-07935b1c0f2e/go.mod h1:/+CnyD/DzHRnv2eRxrVbieRU/FIF6N0C+7oTtyUtCKk=
 github.com/antchfx/xpath v0.0.0-20180922041825-3de91f3991a1 h1:nt4RMjvM9pJ5HR7WkCeAnDz1pgHbLT2vxICalUTWcJU=
 github.com/antchfx/xpath v0.0.0-20180922041825-3de91f3991a1/go.mod h1:Yee4kTMuNiPYJ7nSNorELQMr1J33uOpXDMByNYhvtNk=
-github.com/cloudfoundry/gosigar v1.1.0 h1:V/dVCzhKOdIU3WRB5inQU20s4yIgL9Dxx/Mhi0SF8eM=
-github.com/cloudfoundry/gosigar v1.1.0/go.mod h1:3qLfc2GlfmwOx2+ZDaRGH3Y9fwQ0sQeaAleo2GV5pH0=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/daviddengcn/go-colortext v0.0.0-20180409174941-186a3d44e920 h1:d/cVoZOrJPJHKH1NdeUjyVAWKp4OpOT+Q+6T1sH7jeU=
