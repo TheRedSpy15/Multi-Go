@@ -1,7 +1,6 @@
 module github.com/TheRedSpy15/Multi-Go
 
 require (
-	github.com/Centny/gosigar v0.0.0-20151220094716-a8e66b57cf75
 	github.com/PuerkitoBio/goquery v1.4.1 // indirect
 	github.com/StackExchange/wmi v0.0.0-20180725035823-b12b22c5341f // indirect
 	github.com/akamensky/argparse v0.0.0-20180801024819-0d55ac017eb9
@@ -9,7 +8,6 @@ require (
 	github.com/antchfx/htmlquery v0.0.0-20180925020018-98389addba3d // indirect
 	github.com/antchfx/xmlquery v0.0.0-20180925013719-07935b1c0f2e // indirect
 	github.com/antchfx/xpath v0.0.0-20180922041825-3de91f3991a1 // indirect
-	github.com/cloudfoundry/gosigar v1.1.0
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/daviddengcn/go-colortext v0.0.0-20180409174941-186a3d44e920
 	github.com/go-ole/go-ole v1.2.1 // indirect
