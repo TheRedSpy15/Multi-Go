@@ -24,12 +24,11 @@ import (
 */
 
 // Bleach securely overwrites target file 3 times with Gutmann
-// TODO: document
 func Bleach(target string) {
 	utils.CheckTarget(target)
 
 	fmt.Println("Bleaching")
-	utils.RunCmd("shred", "-v", "-z", "-n", "3", target)
+	utils.RunCmd("shred", "-v", "-z", "-n", "3", target) // overwrites 3 times
 
 	ct.Foreground(ct.Green, true)
 	fmt.Println("Done")
