@@ -216,7 +216,7 @@ func PrintCPU() {
 	ct.Foreground(ct.Yellow, false)                      // change text color to dark yellow
 	fmt.Println("CPU Count: (logical)", cpuCountLogical) // cpu count logical
 	fmt.Println("CPU Count:", cpuCount)                  // cpu count total
-	fmt.Printf("CPU Usage:\n\tLast Minute: %d%%\n\tLast 5 Minutes: %d%%\n\tLast 15 Minutes: %d%%\n", int(cpuLoad.Load1*100), int(cpuLoad.Load5*100), int(cpuLoad.Load15*100))
+	fmt.Printf("CPU Usage:\n\tLast Minute: %d%%\n\tLast 5 Minutes: %d%%\n\tLast 15 Minutes: %d%%\n", int(cpuLoad.Load1*10), int(cpuLoad.Load5*10), int(cpuLoad.Load15*10))
 }
 
 // PrintMemory - prints info about system memory
@@ -231,16 +231,16 @@ func PrintMemory() {
 
 	ct.Foreground(ct.Red, true) // change text color to bright red
 	fmt.Println("\n-- Memory --")
-	ct.Foreground(ct.Yellow, false)                                // change text color to dark yellow
+	ct.Foreground(ct.Yellow, false)                                    // change text color to dark yellow
 	fmt.Println("Memory Used (Gb):", BytesToGigabytes(memVirt.Used))   // used
 	fmt.Println("Memory Free (Gb):", BytesToGigabytes(memVirt.Free))   // free
 	fmt.Println("Memory Total (Gb):", BytesToGigabytes(memVirt.Total)) // total
 
 	ct.Foreground(ct.Red, true) // change text color to bright red
 	fmt.Println("\n-- Swap --")
-	ct.Foreground(ct.Yellow, false)					 // change text color to dark yellow
-	fmt.Println("Swap Used (Gb):", BytesToGigabytes(memSwap.Used))	 // used
-	fmt.Println("Swap Free (Gb):", BytesToGigabytes(memSwap.Free))	 // free
+	ct.Foreground(ct.Yellow, false)                                  // change text color to dark yellow
+	fmt.Println("Swap Used (Gb):", BytesToGigabytes(memSwap.Used))   // used
+	fmt.Println("Swap Free (Gb):", BytesToGigabytes(memSwap.Free))   // free
 	fmt.Println("Swap Total (Gb):", BytesToGigabytes(memSwap.Total)) // total
 }
 
