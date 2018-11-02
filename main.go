@@ -47,16 +47,19 @@ import (
 
 // TODO: allow user to re-enter task command when invalid & in dialog mode
 func main() {
+	dialogMode := false
+	
 	parser := argparse.NewParser("SecureMultiTool", "Runs multiple security orientated tasks")
-
+	
 	// Create flags
 	t := parser.String("t", "Task", &argparse.Options{Required: false, Help: "Task to run"})
 	r := parser.String("r", "Target", &argparse.Options{Required: false, Help: "Target to run task on"})
 
 	err := parser.Parse(os.Args) // parse arguments
 	utils.CheckErr(err)
-
+	
 	if *t == "" { // enter dialog mode
+		dialogMode = true
 		reader := bufio.NewReader(os.Stdin) // make reader object
 		utils.PrintBanner()
 		tasks.List()
@@ -75,61 +78,66 @@ func main() {
 	} else {
 		ct.Foreground(ct.Yellow, false)
 	}
-
-	// Determine task to run
-	switch *t {
-	case "Hash":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		tasks.HashFile(*r)
-	case "pwnAccount":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		tasks.PwnAccount(*r)
-	case "encryptFile":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
+	
+	//Only continue execution in dialog mode
+	for contExec := true; contExec; contExec = dialogMode {
+		// Determine task to run
+		switch *t {
+		case "Hash":
+			fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
+			tasks.HashFile(*r)
+		case "pwnAccount":
+			fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
+			tasks.PwnAccount(*r)
+		case "encryptFile":
+			fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
 		tasks.EncryptFile(*r)
-	case "decryptFile":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		tasks.DecryptFile(*r)
-	case "Scrape":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		tasks.Scrape(*r)
-	case "DOS":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		tasks.Dos(*r, nil)
-	case "compress":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		tasks.Compress(*r)
-	case "decompress":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		tasks.Decompress(*r)
-	case "Firewall":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		tasks.ToggleFirewall(*r)
-	case "generatePassword":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		tasks.GeneratePassword(*r)
-	case "Install":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		tasks.Install(*r)
-	case "Bleach":
-		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		tasks.Bleach(*r)
-	case "systemInfo":
-		tasks.SystemInfo()
-	case "Clean":
-		tasks.Clean()
-	case "Email":
-		tasks.Email()
-	case "Audit":
-		tasks.Audit()
-	case "About":
-		tasks.About()
-	case "List":
-		tasks.List()
-	default: // invalid
-		ct.Foreground(ct.Red, true)
-		fmt.Println("Invalid task -", *t)
-		ct.Foreground(ct.Yellow, false)
-		fmt.Println("Use '--help' or '-t List'")
+		case "decryptFile":
+			fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
+			tasks.DecryptFile(*r)
+		case "Scrape":
+			fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
+			tasks.Scrape(*r)
+		case "DOS":
+			fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
+			tasks.Dos(*r, nil)
+		case "compress":
+			fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
+			tasks.Compress(*r)
+		case "decompress":
+			fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
+			tasks.Decompress(*r)
+		case "Firewall":
+			fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
+			tasks.ToggleFirewall(*r)
+		case "generatePassword":
+			fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
+			tasks.GeneratePassword(*r)
+		case "Install":
+			fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
+			tasks.Install(*r)
+		case "Bleach":
+			fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
+			tasks.Bleach(*r)
+		case "systemInfo":
+			tasks.SystemInfo()
+		case "Clean":
+			tasks.Clean()
+		case "Email":
+			tasks.Email()
+		case "Audit":
+			tasks.Audit()
+		case "About":
+			tasks.About()
+		case "List":
+			tasks.List()
+		case "Exit":
+			os.Exit(0)
+		default: // invalid
+			ct.Foreground(ct.Red, true)
+			fmt.Println("Invalid task -", *t)
+			ct.Foreground(ct.Yellow, false)
+			fmt.Println("Use '--help' or '-t List'")
+		}
 	}
 }
