@@ -45,7 +45,6 @@ import (
 	"github.com/TheRedSpy15/Multi-Go/utils"
 )
 
-// TODO: allow user to re-enter task command when invalid & in dialog mode
 func main() {
 	dialogMode := false
 	
