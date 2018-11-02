@@ -27,19 +27,28 @@ import (
 )
 
 // Audit - Runs several security checks, then prints found vulnerabilites
-// TODO: add current software version checks (recommend updating)
-// TODO: add using default DNS check (recommend 9.9.9.9 or 1.1.1.1, etc)
-// TODO: add antivirus check (recommend getting one)
-// TODO: add guest user check (recommend removing)
-// TODO: add auto update check (recommend enabling)
-// TODO: add password policy check
-// TODO: add empty trash check (recommend emptying)
-// TODO: add vpn check (recommend using one)
-// TODO: add microphone check (recommend disabling)
-// TODO: add camera check (recommend disabling or covering)
-// TODO: (at a later date) add Fail2Ban checks
-// TODO: (at a later date) add ssh setting checks
-// TODO: trim white space & brackets in arrays
+// TODO add current software version checks
+// BODY and recommend updating
+// TODO add using default DNS check
+// BODY and recommend using 1.1.1.1, 9.9.9.9, or some other great DNS
+// TODO add antivirus check
+// BODY and recommend getting something like Clamtk
+// TODO add guest user check
+// BODY recommend disabling
+// TODO add auto update check
+// BODY recommend enabling
+// TODO add password policy check
+// BODY recommend minimum of 8 char length password, etc
+// TODO add empty trash check
+// BODY recommend emptying
+// TODO add vpn check BODY recommend the user getting one
+// BODY recommend nordvpn, PIA, tunnelbear, etc
+// TODO add microphone check (recommend disabling)
+// BODY recommend preferably a command to disable
+// TODO add camera check (recommend disabling or covering)
+// BODY recommend preferably a command to disable
+// TODO trim white space & brackets in solution & problem arrays
+// BODY More & more important as more checks are added
 func Audit() {
 	utils.CheckSudo()
 

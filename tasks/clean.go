@@ -25,9 +25,14 @@ import (
 )
 
 // Clean clears cached files
-// TODO: run "apt-get autoremove" somehow
-// TODO: clean temporary file locations
-// TODO: document
+// TODO run "apt-get autoremove"
+// BODY since ubuntu will ask yes or no, we need to say "yes" automatically
+// TODO run "apt-get dist-upgrade"
+// BODY since ubuntu will ask yes or no, we need to say "yes" automatically
+// TODO run "apt-get update && apt-get upgrade"
+// BODY since ubuntu will ask yes or no, we need to say "yes" automatically
+// TODO clean temporary file locations
+// BODY such log files, caches, etc
 func Clean() {
 	utils.CheckSudo()
 
@@ -35,9 +40,11 @@ func Clean() {
 	fmt.Println("This is an EXPERIMENTAL feature!")
 	ct.Foreground(ct.Yellow, false)
 
+	// autoclean
 	utils.RunCmd("apt-get", "autoclean")
 	fmt.Println("Phase 1 complete")
 
+	// check
 	utils.RunCmd("apt-get", "check")
 	fmt.Println("Phase 2 complete")
 }

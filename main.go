@@ -17,15 +17,20 @@ package main
 */
 
 // Project TODOS
-// TODO: tone down comments & make them more meaningful
-// TODO: improve 'Scrape'
-// TODO: finish email task
-// TODO: finish decompress (and review compress)
-// TODO: add 'bleach -r [file path]' task
-// TODO: add 'tshark -r [file path]' task
-// TODO: add angry ip scanner command task in some way
-// TODO: add brute force task in some way using a pentesting tool command
-// TODO: add pentest tool installer
+// TODO tone down comments & make them more meaningful
+// BODY I went a little overboard when adding them
+// TODO improve 'Scrape'
+// BODY currently is just downloads a single pretty useless file, ideally downloading images is the way to go
+// TODO finish email task
+// BODY doesn't work from my testing, but it should be a quick fix
+// TODO finish decompress (and review compress)
+// BODY decompression doesn't work, and it might be due to compression
+// TODO add 'tshark -r [file path]' task
+// BODY to constantly log network traffic
+// TODO add network scanner
+// BODY ideally it would get all IPs on the network, and their open ports
+// TODO add wifi password cracker
+// BODY using bruteforce
 
 import (
 	"bufio"
