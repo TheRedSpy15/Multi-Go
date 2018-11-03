@@ -47,39 +47,42 @@ import (
 
 func main() {
 	dialogMode := false
-	
+
 	parser := argparse.NewParser("SecureMultiTool", "Runs multiple security orientated tasks")
-	
+
 	// Create flags
 	t := parser.String("t", "Task", &argparse.Options{Required: false, Help: "Task to run"})
 	r := parser.String("r", "Target", &argparse.Options{Required: false, Help: "Target to run task on"})
 
 	err := parser.Parse(os.Args) // parse arguments
 	utils.CheckErr(err)
-	
+
+	reader := bufio.NewReader(os.Stdin) // make reader object
+
 	if *t == "" { // enter dialog mode
 		dialogMode = true
-		reader := bufio.NewReader(os.Stdin) // make reader object
 		utils.PrintBanner()
 		tasks.List()
-
-		fmt.Print("\nEnter task to run: ")
-		choice, _ := reader.ReadString('\n')     // get choice
-		choice = strings.TrimRight(choice, "\n") // trim choice so it can be check against properly
-
-		if strings.Contains(choice, "-r") { // check for optional target
-			inputs := strings.Split(choice, " -r ") // separate task & target
-			*t = inputs[0]
-			*r = inputs[1]
-		} else { // no optional target
-			*t = choice
-		}
 	} else {
 		ct.Foreground(ct.Yellow, false)
 	}
-	
+
 	//Only continue execution in dialog mode
 	for contExec := true; contExec; contExec = dialogMode {
+		if (dialogMode) {
+			fmt.Print("\nEnter task to run: ")
+			choice, _ := reader.ReadString('\n')     // get choice
+			choice = strings.TrimRight(choice, "\n") // trim choice so it can be check against properly
+
+			if strings.Contains(choice, "-r") { // check for optional target
+				inputs := strings.Split(choice, " -r ") // separate task & target
+				*t = inputs[0]
+				*r = inputs[1]
+			} else { // no optional target
+				*t = choice
+			}
+		}	
+
 		// Determine task to run
 		switch *t {
 		case "Hash":
