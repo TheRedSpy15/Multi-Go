@@ -22,8 +22,9 @@ import (
 	"io/ioutil"
 	"os"
 	"os/exec"
-	"testing"
 	"syscall"
+	"testing"
+
 	"golang.org/x/crypto/ssh/terminal"
 )
 
