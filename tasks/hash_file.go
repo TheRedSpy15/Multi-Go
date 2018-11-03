@@ -22,14 +22,13 @@ import (
 	"fmt"
 
 	"github.com/TheRedSpy15/Multi-Go/utils"
-	"github.com/daviddengcn/go-colortext"
 )
 
 // HashFile takes a file path, and then prints the hash of the file
-// BUG: won't work unless ran from non-dialog mode / by using commandline flags
+// BUG won't work unless ran from non-dialog mode / by using commandline flags
+// TODO trim '' from target when hashing
 func HashFile(target string) {
-	utils.CheckTarget(target)       // make sure target is valid
-	ct.Foreground(ct.Yellow, false) // set text color to dark yellow
+	utils.CheckTarget(target) // make sure target is valid
 
 	file := utils.ReadFileIntoByte(target)                    // get bytes of file to hash
 	hash := sha1.New()                                        // create sha1 object

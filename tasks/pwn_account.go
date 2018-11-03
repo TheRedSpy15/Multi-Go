@@ -30,6 +30,7 @@ import (
 func PwnAccount(target string) {
 	utils.CheckTarget(target) // make sure target is valid
 
+	fmt.Println("Sending GET request")
 	pwnURL := fmt.Sprintf(`https://haveibeenpwned.com/api/v2/breachedaccount/%v`, target)
 	response, err := http.Get(pwnURL) // make response object
 	utils.CheckErr(err)

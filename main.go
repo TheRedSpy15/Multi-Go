@@ -1,16 +1,5 @@
 package main
 
-// Project TODOS
-// TODO: tone down comments & make them more meaningful
-// TODO: add unit testing
-// TODO: document parameters
-// TODO: improve 'Scrape'
-// TODO: finish dos task
-// TODO: finish email task
-// TODO: finish audit task
-// TODO: add 'bleach -r [file path]' task
-// TODO: add 'uncompress -r [file path]' task
-
 /*
    Copyright 2018 TheRedSpy15
 
@@ -27,6 +16,22 @@ package main
    limitations under the License.
 */
 
+// Project TODOS
+// TODO tone down comments & make them more meaningful
+// BODY I went a little overboard when adding them
+// TODO improve 'Scrape'
+// BODY currently is just downloads a single pretty useless file, ideally downloading images is the way to go
+// TODO finish email task
+// BODY doesn't work from my testing, but it should be a quick fix
+// TODO finish decompress (and review compress)
+// BODY decompression doesn't work, and it might be due to compression
+// TODO add 'tshark -r [file path]' task
+// BODY to constantly log network traffic
+// TODO add network scanner
+// BODY ideally it would get all IPs on the network, and their open ports
+// TODO add wifi password cracker
+// BODY using bruteforce
+
 import (
 	"bufio"
 	"fmt"
@@ -40,6 +45,7 @@ import (
 	"github.com/TheRedSpy15/Multi-Go/utils"
 )
 
+// TODO: allow user to re-enter task command when invalid & in dialog mode
 func main() {
 	parser := argparse.NewParser("SecureMultiTool", "Runs multiple security orientated tasks")
 
@@ -55,7 +61,7 @@ func main() {
 		utils.PrintBanner()
 		tasks.List()
 
-		print("\nEnter task to run: ")
+		fmt.Print("\nEnter task to run: ")
 		choice, _ := reader.ReadString('\n')     // get choice
 		choice = strings.TrimRight(choice, "\n") // trim choice so it can be check against properly
 
@@ -66,8 +72,8 @@ func main() {
 		} else { // no optional target
 			*t = choice
 		}
-
-		ct.ResetColor() // reset text color to default
+	} else {
+		ct.Foreground(ct.Yellow, false)
 	}
 
 	// Determine task to run
@@ -89,7 +95,7 @@ func main() {
 		tasks.Scrape(*r)
 	case "DOS":
 		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		tasks.Dos(*r)
+		tasks.Dos(*r, nil)
 	case "compress":
 		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
 		tasks.Compress(*r)
@@ -102,9 +108,12 @@ func main() {
 	case "generatePassword":
 		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
 		tasks.GeneratePassword(*r)
-	case "Installer":
+	case "Install":
 		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		tasks.Installer(*r)
+		tasks.Install(*r)
+	case "Bleach":
+		fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
+		tasks.Bleach(*r)
 	case "systemInfo":
 		tasks.SystemInfo()
 	case "Clean":

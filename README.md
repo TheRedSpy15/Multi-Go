@@ -7,6 +7,9 @@
 [![Build Status](https://semaphoreci.com/api/v1/theredspy15/multi-go/branches/master/shields_badge.svg)](https://semaphoreci.com/theredspy15/multi-go)
 
 A command line multi-tool made in Go, and aimed at security experts to make life a little more convenient. It does this by combining a massive array of different tasks, into one program.
+
+[![asciicast](https://asciinema.org/a/209295.png)](https://asciinema.org/a/209295)
+
 ### Currently capable of:
 - file hashing
 - DOS attack
@@ -15,31 +18,29 @@ A command line multi-tool made in Go, and aimed at security experts to make life
 - check if account is breached (HaveIBeenPwned)
 - control firewall
 - system security audit
+- clean system files
+- secure file deletion / bleach
 
-### Working on (will add more over time):
-- secure file deletion (bleach)
+### Plans:
 - file compression/decompression (gzip)
 - email
 - scrape website(s) for information
 - file encryption/decryption
-- clean temporary files
+- password cracking
+- network logging (tshark)
+- network scan (ip/port/mac/etc)
+- installer for multiple useful pentesting tools
+
+**Will add more to the list over time**
 
 ## How to
 
 ### Download:
 [Click here to download](https://github.com/TheRedSpy15/Multi-Go/releases/download/0.6.1/MultiGo_0_6_1)
 
-### Installation:
-1. Open the file manager
-2. Create a directory named `bin` in your home directory if it doesn't already exists
-3. Copy the downloaded file to that directory, rename it to `Multi-Go`
-4. Open the terminal
-5. Add execution permissions with `chmod +x $HOME/bin/Multi-Go`
-6. Close the terminal
-
 ### Use
 1. Open the terminal
-2. Type `Multi-Go`
+2. Type `Multi-Go` (don't forget to cd if you didn't install)
 3. **OPTIONAL:** follow that with "-t/--Task [task] -r/--Target [target]". Note: the 'target' is optional, depending on the task
 4. Hit enter
 
@@ -65,4 +66,4 @@ go build
 ```
 
 ## Important
-Multi Go is intended to be used on linux. It might run on Windows. Currently it isn't tested, nor supported! I will eventually work on a Windows patch.
+Multi Go is intended to be used on linux (mostly Debian & Ubuntu like distros). It might run on Windows. Currently it isn't tested, nor supported! I will eventually work on a Windows patch.

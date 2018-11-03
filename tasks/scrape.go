@@ -16,10 +16,18 @@ package tasks
    limitations under the License.
 */
 
-import "github.com/TheRedSpy15/Multi-Go/utils"
+import (
+	"fmt"
+
+	"github.com/TheRedSpy15/Multi-Go/utils"
+	"github.com/daviddengcn/go-colortext"
+)
 
 // Scrape will scrape the target website
 func Scrape(target string) {
 	utils.CheckTarget(target)               // make sure target is valid
 	utils.CollyAddress(target, true, false) // run colly - scraping happens here
+
+	ct.Foreground(ct.Green, true)
+	fmt.Println("Done")
 }

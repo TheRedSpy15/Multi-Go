@@ -17,14 +17,12 @@ package utils
 */
 
 import (
-	"bufio"
 	"bytes"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"math"
 	"math/rand"
-	"net"
 	"os"
 	"os/exec"
 	"os/user"
@@ -36,6 +34,7 @@ import (
 	"github.com/gocolly/colly"
 	"github.com/shirou/gopsutil/cpu"
 	"github.com/shirou/gopsutil/host"
+	"github.com/shirou/gopsutil/load"
 	"github.com/shirou/gopsutil/mem"
 	"golang.org/x/crypto/ssh/terminal"
 )
@@ -48,29 +47,27 @@ func BytesToGigabytes(bytes uint64) float64 {
 	return result
 }
 
-// CheckTarget - checks to see if the target is empty, and panic if is
+// CheckTarget throws an error if the target is empty
 func CheckTarget(target string) {
 	if target == "" { // check if target is blank
-		ct.Foreground(ct.Red, true) // set text color to bright red
-		panic("target cannot be empty when performing this task!")
+		CheckErr(fmt.Errorf("target cannot be empty when performing this task"))
 	}
 }
 
-// CheckErr - takes an error & sees if it is not nil
+// CheckErr prints any non-nil errors followed by exiting the application
 func CheckErr(err error) {
 	if err != nil { // check if there actually is any error
 		ct.Foreground(ct.Red, true) // set texts color to bright red
-		panic(err.Error())
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
 	}
 }
 
-// CheckSudo - check if using sudo/root, panic if not
-// TODO: document
+// CheckSudo throws an error if the current user is not sudo/root
 func CheckSudo() {
 	user, _ := user.Current()
 	if !strings.Contains(user.Username, "root") {
-		ct.Foreground(ct.Red, true)
-		panic("cannot run this task without root/sudo!")
+		CheckErr(fmt.Errorf("cannot run this task without root/sudo"))
 	}
 }
 
@@ -171,25 +168,6 @@ func CollyAddress(target string, savePage bool, ip bool) {
 	c.Visit(target) // actually using colly/collector object, and visiting target
 }
 
-// Dos - constantly sends data to a target
-// TODO: not finished yet - randomly stops after a few seconds, works with very limited targets
-// TODO: document
-func Dos(conn net.Conn) {
-	p := make([]byte, 2048)
-
-	defer conn.Close() // make sure to close the connection when done
-
-	fmt.Println("Starting loop")
-	for true { // DOS loop
-		fmt.Fprintf(conn, "Sup UDP Server, how you doing?")
-		_, err := bufio.NewReader(conn).Read(p)
-		CheckErr(err)
-
-		fmt.Printf("%s\n", p)
-		fmt.Println("looped")
-	}
-}
-
 // RandomString - returns a random string
 // TODO: rewrite in my own code
 // TODO: add more comments
@@ -223,34 +201,47 @@ func RandomString(length int) string {
 }
 
 // PrintCPU - prints CPU info
-// TODO: add more info - atleast usage
+// TODO: add more info
 func PrintCPU() {
 	cpuCount, err1 := cpu.Counts(false)       // get cpu count total
 	cpuCountLogical, err2 := cpu.Counts(true) // get cpu logical count
+	cpuLoad, err3 := load.Avg()               // get current cpu load
 
 	CheckErr(err1)
 	CheckErr(err2)
+	CheckErr(err3)
 
 	ct.Foreground(ct.Red, true) // change text color to bright red
 	fmt.Println("\n-- CPU --")
 	ct.Foreground(ct.Yellow, false)                      // change text color to dark yellow
 	fmt.Println("CPU Count: (logical)", cpuCountLogical) // cpu count logical
 	fmt.Println("CPU Count:", cpuCount)                  // cpu count total
+	fmt.Printf("CPU Usage:\n\tLast Minute: %d%%\n\tLast 5 Minutes: %d%%\n\tLast 15 Minutes: %d%%\n", int(cpuLoad.Load1*100), int(cpuLoad.Load5*100), int(cpuLoad.Load15*100))
 }
 
 // PrintMemory - prints info about system memory
 // TODO: get physical memory instead of swap
 // TODO: convert values to gigabytes
 func PrintMemory() {
-	mem, err := mem.VirtualMemory() // get virtual memory info object
-	CheckErr(err)
+	memVirt, err1 := mem.VirtualMemory()
+	CheckErr(err1)
+
+	memSwap, err2 := mem.SwapMemory()
+	CheckErr(err2)
 
 	ct.Foreground(ct.Red, true) // change text color to bright red
 	fmt.Println("\n-- Memory --")
 	ct.Foreground(ct.Yellow, false)                                // change text color to dark yellow
-	fmt.Println("Memory Used (Gb):", BytesToGigabytes(mem.Used))   // used
-	fmt.Println("Memory Free (Gb):", BytesToGigabytes(mem.Free))   // free
-	fmt.Println("Memory Total (Gb):", BytesToGigabytes(mem.Total)) // total
+	fmt.Println("Memory Used (Gb):", BytesToGigabytes(memVirt.Used))   // used
+	fmt.Println("Memory Free (Gb):", BytesToGigabytes(memVirt.Free))   // free
+	fmt.Println("Memory Total (Gb):", BytesToGigabytes(memVirt.Total)) // total
+
+	ct.Foreground(ct.Red, true) // change text color to bright red
+	fmt.Println("\n-- Swap --")
+	ct.Foreground(ct.Yellow, false)					 // change text color to dark yellow
+	fmt.Println("Swap Used (Gb):", BytesToGigabytes(memSwap.Used))	 // used
+	fmt.Println("Swap Free (Gb):", BytesToGigabytes(memSwap.Free))	 // free
+	fmt.Println("Swap Total (Gb):", BytesToGigabytes(memSwap.Total)) // total
 }
 
 // PrintHost - prints info about system host
@@ -265,7 +256,7 @@ func PrintHost() {
 	fmt.Println("Platform:", hostInfo.Platform)                // platform
 	fmt.Println("Platform Family:", hostInfo.PlatformFamily)   // platform family
 	fmt.Println("Platform Version:", hostInfo.PlatformVersion) // platform version
-	fmt.Println("Uptime:", hostInfo.Uptime)                    // uptime
+	fmt.Println("Uptime (seconds):", hostInfo.Uptime)          // uptime
 	fmt.Println("Host Name:", hostInfo.Hostname)               // hostname
 	fmt.Println("Host ID:", hostInfo.HostID)                   // host id
 	fmt.Println("OS:", hostInfo.OS)                            // os

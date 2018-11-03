@@ -1,5 +1,12 @@
 package tasks
 
+import (
+	"fmt"
+
+	"github.com/TheRedSpy15/Multi-Go/utils"
+	"github.com/daviddengcn/go-colortext"
+)
+
 /*
    Copyright 2018 TheRedSpy15
 
@@ -16,21 +23,13 @@ package tasks
    limitations under the License.
 */
 
-import (
-	"fmt"
+// Bleach securely overwrites target file 3 times with Gutmann
+func Bleach(target string) {
+	utils.CheckTarget(target)
 
-	"github.com/TheRedSpy15/Multi-Go/utils"
-	"github.com/daviddengcn/go-colortext"
-)
+	fmt.Println("Bleaching")
+	utils.RunCmd("shred", "-v", "-z", "-n", "3", target) // overwrites 3 times
 
-// About prints details about the program
-func About() {
-	utils.PrintBanner()
-
-	ct.Foreground(ct.Yellow, false)
-	fmt.Println("Multi Go v0.6.1", "\nBy: TheRedSpy15")
-	fmt.Println("GitHub:", "https://github.com/TheRedSpy15")
-	fmt.Println("Project Page:", "https://github.com/TheRedSpy15/Multi-Go")
-	fmt.Println("\nMulti Go allows IT admins and Cyber Security experts")
-	fmt.Println("to conveniently perform all sorts of tasks.")
+	ct.Foreground(ct.Green, true)
+	fmt.Println("Done")
 }

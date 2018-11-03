@@ -47,6 +47,7 @@ func List() {
 	fmt.Println("decryptFile -r [file path]")
 	fmt.Println("pwnAccount -r [email]")
 	fmt.Println("generatePassword -r [length]")
+	fmt.Println("Bleach -r [file path]")
 	time.Sleep(1 * time.Second)
 
 	ct.Foreground(ct.Red, true)
@@ -59,4 +60,6 @@ func List() {
 	fmt.Println("\n-- Other --")
 	ct.Foreground(ct.Yellow, false)
 	fmt.Println("About")
+	fmt.Println(`Install -r [path or use "/bin/" for best result]`)
+	fmt.Println("(sudo) Clean")
 }

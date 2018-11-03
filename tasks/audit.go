@@ -1,13 +1,5 @@
 package tasks
 
-import (
-	"fmt"
-	"strings"
-
-	"github.com/TheRedSpy15/Multi-Go/utils"
-	"github.com/daviddengcn/go-colortext"
-)
-
 /*
    Copyright 2018 TheRedSpy15
 
@@ -24,49 +16,129 @@ import (
    limitations under the License.
 */
 
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strings"
+
+	"github.com/TheRedSpy15/Multi-Go/utils"
+	"github.com/daviddengcn/go-colortext"
+)
+
 // Audit - Runs several security checks, then prints found vulnerabilites
-// TODO: add current software version checks (recommend updating)
-// TODO: add using default DNS check (recommend 9.9.9.9 or 1.1.1.1, etc)
-// TODO: add antivirus check (recommend getting one)
-// TODO: add guest user check (recommend removing)
-// TODO: add auto update check (recommend enabling)
-// TODO: add password policy check
-// TODO: add empty trash check (recommend emptying)
-// TODO: add vpn check (recommend using one)
-// TODO: (at a later date) add Fail2Ban checks
-// TODO: (at a later date) add ssh setting checks
-// TODO: use an iterator or a variable to add problems to the array
+// TODO add current software version checks
+// BODY and recommend updating
+// TODO add using default DNS check
+// BODY and recommend using 1.1.1.1, 9.9.9.9, or some other great DNS
+// TODO add antivirus check
+// BODY and recommend getting something like Clamtk
+// TODO add guest user check
+// BODY recommend disabling
+// TODO add auto update check
+// BODY recommend enabling
+// TODO add password policy check
+// BODY recommend minimum of 8 char length password, etc
+// TODO add empty trash check
+// BODY recommend emptying
+// TODO add vpn check BODY recommend the user getting one
+// BODY recommend nordvpn, PIA, tunnelbear, etc
+// TODO add microphone check (recommend disabling)
+// BODY recommend preferably a command to disable
+// TODO add camera check (recommend disabling or covering)
+// BODY recommend preferably a command to disable
+// TODO trim white space & brackets in solution & problem arrays
+// BODY More & more important as more checks are added
 func Audit() {
 	utils.CheckSudo()
 
-	ct.Foreground(ct.Red, true)   // set text color to bright red
-	problems := make([]string, 2) // an array to add collection problems to display
+	ct.Foreground(ct.Red, true)
+	problems := make([]string, 4)  // an array to add collection of problems
+	solutions := make([]string, 4) // an array to add collection of solutions to problems
+	check := 0                     // used to increment value when printing check complete
 
+	// banner
 	fmt.Println("-- Beginning Audit --")
 	fmt.Println("This is a major WIP!")
-	ct.Foreground(ct.Yellow, false) // set text color to dark yellow
+	ct.Foreground(ct.Yellow, false)
 
 	// firewall
 	if !strings.Contains(utils.RunCmd("ufw", "status"), "active") { // disabled / is not active
-		problems[0] = "Firewall disabled" // add problem
+		problems[check] = "Firewall disabled"
+		solutions[check] = "Enable firewall"
 	}
-	fmt.Println("Check 1 complete!")
+	check++
+	fmt.Println("Check", check, "complete!")
 
 	// network connection type
 	if strings.Contains(utils.RunCmd("nmcli", "d"), "wifi") { // using wifi
-		problems[1] = "Using wifi instead of ethernet" // add problem
+		problems[check] = "Using wifi instead of ethernet"
+		solutions[check] = "Switch to ethernet"
 
-		fmt.Println("Check 2 complete!")
+		check++
+		fmt.Println("Check", check, "complete!")
 
 		// encrypted wifi
 		if !strings.Contains(utils.RunCmd("nmcli", "-t", "-f", "active,ssid", "dev", "wifi"), "yes") { // not secure
-			problems[2] = "Using insecure wifi" // add problem
+			problems[check] = "Using insecure wifi"
+			solutions[check] = "Use a VPN or switch to more secure wifi"
 		}
-		fmt.Println("Check 3 complete!")
+		check++
+		fmt.Println("Check", check, "complete!")
 	} else { // skip over encrypt wifi check - not using wifi
-		fmt.Println("Check 2 complete!")
+		check++
+		fmt.Println("Check", check, "complete!")
 	}
 
-	ct.Foreground(ct.Red, true) // set text color to bright red
+	// guest account
+	// TODO: not finished - can't find file
+	if _, err := os.Stat("/etc/lightdm/lightdm.conf"); !os.IsNotExist(err) { // look for proper conf file
+		file, err := os.Open("/etc/lightdm/lightdm.conf") // open file
+		utils.CheckErr(err)
+
+		scanner := bufio.NewScanner(file)
+
+		for scanner.Scan() { // scan loop
+			if !strings.Contains(scanner.Text(), "allow-guest=false") { // look guest disable
+				problems[check] = "Guest access is still enabled"
+				solutions[check] = `Add "allow-guest=false" to lightdm.conf file`
+			}
+		}
+
+		check++
+		fmt.Println("Check", check, "complete!")
+	} else { // file not found
+		check++
+		ct.Foreground(ct.Red, true)
+		fmt.Println("Check", check, "FAILED!")
+		ct.Foreground(ct.Yellow, false)
+	}
+
+	// bash history
+	// TODO: not finished - can't find file
+	if _, err := os.Stat("/.bash_history"); !os.IsNotExist(err) {
+		file, err := os.Open("/.bash_history") // open file
+		utils.CheckErr(err)
+
+		fileStat, _ := file.Stat() // get file info
+		fmt.Println(fileStat.Size())
+		if fileStat.Size() >= 100 { // check file size
+			problems[check] = "Command line history found"
+			solutions[check] = `Run: "cat /dev/null > ~/.bash_history && history -c && exit"`
+		}
+
+		check++
+		fmt.Println("Check", check, "complete!")
+	} else { // file not found
+		check++
+		ct.Foreground(ct.Red, true)
+		fmt.Println("Check", check, "FAILED!")
+		ct.Foreground(ct.Yellow, false)
+	}
+
+	ct.Foreground(ct.Red, true)
 	fmt.Println("Problems found:", problems)
+
+	ct.Foreground(ct.Green, true)
+	fmt.Println("Solutions:", solutions)
 }
