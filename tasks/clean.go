@@ -26,13 +26,9 @@ import (
 
 // Clean clears cached files
 // TODO run "apt-get autoremove"
-// BODY since ubuntu will ask yes or no, we need to say "yes" automatically
 // TODO run "apt-get dist-upgrade"
-// BODY since ubuntu will ask yes or no, we need to say "yes" automatically
 // TODO run "apt-get update && apt-get upgrade"
-// BODY since ubuntu will ask yes or no, we need to say "yes" automatically
 // TODO clean temporary file locations
-// BODY such log files, caches, etc
 func Clean() {
 	utils.CheckSudo()
 

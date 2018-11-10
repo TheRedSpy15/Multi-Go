@@ -18,19 +18,12 @@ package main
 
 // Project TODOS
 // TODO tone down comments & make them more meaningful
-// BODY I went a little overboard when adding them
 // TODO improve 'Scrape'
-// BODY currently is just downloads a single pretty useless file, ideally downloading images is the way to go
 // TODO finish email task
-// BODY doesn't work from my testing, but it should be a quick fix
 // TODO finish decompress (and review compress)
-// BODY decompression doesn't work, and it might be due to compression
 // TODO add 'tshark -r [file path]' task
-// BODY to constantly log network traffic
 // TODO add network scanner
-// BODY ideally it would get all IPs on the network, and their open ports
 // TODO add wifi password cracker
-// BODY using bruteforce
 
 import (
 	"bufio"
@@ -69,7 +62,7 @@ func main() {
 
 	//Only continue execution in dialog mode
 	for contExec := true; contExec; contExec = dialogMode {
-		if (dialogMode) {
+		if dialogMode {
 			fmt.Print("\nEnter task to run: ")
 			choice, _ := reader.ReadString('\n')     // get choice
 			choice = strings.TrimRight(choice, "\n") // trim choice so it can be check against properly
@@ -81,7 +74,7 @@ func main() {
 			} else { // no optional target
 				*t = choice
 			}
-		}	
+		}
 
 		// Determine task to run
 		switch *t {
@@ -93,7 +86,7 @@ func main() {
 			tasks.PwnAccount(*r)
 		case "encryptFile":
 			fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-		tasks.EncryptFile(*r)
+			tasks.EncryptFile(*r)
 		case "decryptFile":
 			fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
 			tasks.DecryptFile(*r)
