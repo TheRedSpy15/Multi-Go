@@ -41,7 +41,7 @@ import (
 func main() {
 	dialogMode := false
 
-	parser := argparse.NewParser("SecureMultiTool", "Runs multiple security orientated tasks")
+	parser := argparse.NewParser("Multi-Go", "Runs multiple security orientated tasks")
 
 	// Create flags
 	t := parser.String("t", "Task", &argparse.Options{Required: false, Help: "Task to run"})
