@@ -11,7 +11,6 @@ import (
 func News() {
 	feed, err := rss.Fetch("https://news.ycombinator.com/rss")
 	if err != nil {
-		print("13")
 		utils.CheckErr(err)
 	}
 
