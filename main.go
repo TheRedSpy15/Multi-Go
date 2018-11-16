@@ -114,6 +114,8 @@ func main() {
 		case "Bleach":
 			fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
 			tasks.Bleach(*r)
+		case "cyberNews":
+			tasks.News()
 		case "systemInfo":
 			tasks.SystemInfo()
 		case "Clean":

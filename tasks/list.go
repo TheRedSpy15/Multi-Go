@@ -60,6 +60,7 @@ func List() {
 	fmt.Println("\n-- Other --")
 	ct.Foreground(ct.Yellow, false)
 	fmt.Println("About")
+	fmt.Println("cyberNews")
 	fmt.Println(`Install -r [path or use "/bin/" for best result]`)
 	fmt.Println("(sudo) Clean")
 }
