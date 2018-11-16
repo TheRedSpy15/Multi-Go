@@ -20,6 +20,7 @@ A command line multi-tool made in Go, and aimed at security experts to make life
 - system security audit
 - clean system files
 - secure file deletion / bleach
+- viewing the headlines in the cyber world (ycombinator rss)
 
 ### Plans:
 - file compression/decompression (gzip)
