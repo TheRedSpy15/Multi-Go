@@ -1,6 +1,8 @@
 package tasks
 
 import (
+	"fmt"
+
 	"github.com/TheRedSpy15/Multi-Go/utils"
 )
 
@@ -8,5 +10,7 @@ import (
 func CreateUsb(target string) {
 	utils.CheckTarget(target)
 
-	utils.DownloadFile(target, "nil") // tool repo not create yet
+	fmt.Println("Downloading package")
+	utils.CheckErr(utils.DownloadFile(target, "nil")) // tool repo not create yet
+	fmt.Println("Finished!")
 }
