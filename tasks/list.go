@@ -35,6 +35,7 @@ func List() {
 	fmt.Println("Email")
 	fmt.Println("systemInfo")
 	fmt.Println("Compress -r [file path]")
+	fmt.Println("createUsb -r [usb location]")
 	time.Sleep(1 * time.Second)
 
 	ct.Foreground(ct.Red, true)
