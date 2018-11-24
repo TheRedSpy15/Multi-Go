@@ -27,6 +27,7 @@ import (
 )
 
 // Audit - Runs several security checks, then prints found vulnerabilites
+// * Can use a lot of the commands from 'Full-Tilt-Bash'
 // TODO add current software version checks
 // TODO add using default DNS check
 // TODO add antivirus check
