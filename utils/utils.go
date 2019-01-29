@@ -117,6 +117,26 @@ func GetPassword() string {
 	return password
 }
 
+func RandomColor() {
+	rand.Seed(time.Now().UTC().UnixNano())
+	switch randInt(0, 3) {
+	case 0:
+		ct.Foreground(ct.Blue, true)
+	case 1:
+		ct.Foreground(ct.Red, true)
+	case 2:
+		ct.Foreground(ct.Yellow, true)
+	case 3:
+		ct.Foreground(ct.Magenta, true)
+	case 4:
+		ct.Foreground(ct.Green, true)
+	}
+}
+
+func randInt(min int, max int) int {
+	return min + rand.Intn(max-min)
+}
+
 // DownloadFile downloads a file from a url
 func DownloadFile(filepath string, url string) error {
 	// Create the file
@@ -144,7 +164,7 @@ func DownloadFile(filepath string, url string) error {
 
 // PrintBanner - displays the banner text
 func PrintBanner() {
-	ct.Foreground(ct.Red, true) // set text color to bright red
+	RandomColor()
 
 	fmt.Println(`
  __  __       _ _   _    ____
