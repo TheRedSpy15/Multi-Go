@@ -20,17 +20,20 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/daviddengcn/go-colortext"
+	"github.com/TheRedSpy15/Multi-Go/utils"
+	ct "github.com/daviddengcn/go-colortext"
 )
 
 // List will list all currently working tasks
 func List() {
+	optionColor := utils.RandomColor()
+
 	ct.Foreground(ct.Red, true)
 	fmt.Println("Available tasks:")
 	time.Sleep(1 * time.Second)
 
 	fmt.Println("\n-- Utility --")
-	ct.Foreground(ct.Yellow, false)
+	ct.Foreground(optionColor, false)
 	fmt.Println("Scrape -r [URL]")
 	fmt.Println("Email")
 	fmt.Println("systemInfo")
@@ -40,7 +43,7 @@ func List() {
 
 	ct.Foreground(ct.Red, true)
 	fmt.Println("\n-- Security --")
-	ct.Foreground(ct.Yellow, false)
+	ct.Foreground(optionColor, false)
 	fmt.Println("(sudo) Firewall -r [enable/disable/status]")
 	fmt.Println("(sudo) Audit")
 	fmt.Println("Hash -r [file path]")
@@ -53,13 +56,13 @@ func List() {
 
 	ct.Foreground(ct.Red, true)
 	fmt.Println("\n-- Pentesting -- ")
-	ct.Foreground(ct.Yellow, false)
+	ct.Foreground(optionColor, false)
 	fmt.Println("DOS -r [IP:PORT]")
 	time.Sleep(1 * time.Second)
 
 	ct.Foreground(ct.Red, true)
 	fmt.Println("\n-- Other --")
-	ct.Foreground(ct.Yellow, false)
+	ct.Foreground(optionColor, false)
 	fmt.Println("About")
 	fmt.Println("cyberNews")
 	fmt.Println(`Install -r [path or use "/bin/" for best result]`)

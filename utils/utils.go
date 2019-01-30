@@ -117,20 +117,26 @@ func GetPassword() string {
 	return password
 }
 
-func RandomColor() {
+func RandomColor() ct.Color {
 	rand.Seed(time.Now().UTC().UnixNano())
-	switch randInt(0, 3) {
+	switch randInt(0, 5) {
 	case 0:
 		ct.Foreground(ct.Blue, true)
+		return ct.Blue
 	case 1:
 		ct.Foreground(ct.Red, true)
+		return ct.Red
 	case 2:
 		ct.Foreground(ct.Yellow, true)
+		return ct.Yellow
 	case 3:
 		ct.Foreground(ct.Magenta, true)
+		return ct.Magenta
 	case 4:
 		ct.Foreground(ct.Green, true)
+		return ct.Green
 	}
+	return ct.White
 }
 
 func randInt(min int, max int) int {
