@@ -32,7 +32,7 @@ import (
 	"strings"
 
 	"github.com/akamensky/argparse"
-	"github.com/daviddengcn/go-colortext"
+	ct "github.com/daviddengcn/go-colortext"
 
 	"github.com/TheRedSpy15/Multi-Go/tasks"
 	"github.com/TheRedSpy15/Multi-Go/utils"

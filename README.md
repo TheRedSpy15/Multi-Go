@@ -36,7 +36,7 @@ A command line multi-tool made in Go, and aimed at security experts to make life
 
 ## How to
 
-### Download:
+### Download (pre-compiled):
 [Click here to download](https://github.com/TheRedSpy15/Multi-Go/releases/download/0.6.1/MultiGo_0_6_1)
 
 ### Use
@@ -59,7 +59,7 @@ If the new feature is complete:
 1. Add the case to the switch statement in `main.go`, so your new task can be called.
 2. Finished!
 
-### Build
+### Build from source (requires Go installed)
 ```
 git clone https://github.com/TheRedSpy15/Multi-Go
 cd Multi-Go
