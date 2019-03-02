@@ -65,6 +65,12 @@ git clone https://github.com/TheRedSpy15/Multi-Go
 cd Multi-Go
 go build
 ```
+or
+```
+go get github.com/TheRedSpy15/Multi-Go
+cd go/src/github.com/TheRedSpy15/Multo-Go
+```
+
 
 ## Important
 Multi Go is intended to be used on linux (mostly Debian & Ubuntu like distros). It might run on Windows. Currently it isn't tested, nor supported! I will eventually work on a Windows patch.
