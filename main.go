@@ -107,7 +107,7 @@ func main() {
 			tasks.ToggleFirewall(*r)
 		case "generatePassword":
 			fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-			tasks.GeneratePassword(*r)
+			tasks.GeneratePassword(*r, os.Stdout)
 		case "Install":
 			fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
 			tasks.Install(*r)

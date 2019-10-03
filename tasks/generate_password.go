@@ -18,15 +18,24 @@ package tasks
 
 import (
 	"fmt"
+	"io"
 	"strconv"
 
 	"github.com/TheRedSpy15/Multi-Go/utils"
 )
 
 // GeneratePassword generated a random string for use as a password
-func GeneratePassword(target string) {
+func GeneratePassword(target string, output io.Writer) {
 	utils.CheckTarget(target)
 
-	conversion, _ := strconv.Atoi(target) // convert target (string), to int
-	fmt.Println("Password:", utils.RandomString(conversion))
+	conversion, err := strconv.Atoi(target) // convert target (string), to int
+
+	if err != nil {
+		message := fmt.Sprintf("Cannot use \"%s\" as length for password\n", target)
+		output.Write([]byte(message))
+		return
+	}
+
+	message := fmt.Sprintf("Password:%s\n", utils.RandomString(conversion))
+	output.Write([]byte(message))
 }
