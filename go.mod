@@ -53,3 +53,5 @@ require (
 	mvdan.cc/lint v0.0.0-20170908181259-adc824a0674b // indirect
 	mvdan.cc/unparam v0.0.0-20190124213536-cc9d2fb52971 // indirect
 )
+
+go 1.13
