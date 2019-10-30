@@ -76,61 +76,35 @@ func main() {
 			}
 		}
 
-		// Determine task to run
-		switch *t {
-		case "Hash":
+		taskMap := map[string]func(string){
+			"Hash":             tasks.HashFile,
+			"pwnAccount":       tasks.PwnAccount,
+			"encryptFile":      tasks.EncryptFile,
+			"decryptFile":      tasks.DecryptFile,
+			"Scrape":           tasks.Scrape,
+			"DOS":              func(s string) { tasks.Dos(s, nil) },
+			"compress":         tasks.Compress,
+			"decompress":       tasks.Decompress,
+			"Firewall":         tasks.ToggleFirewall,
+			"generatePassword": func(s string) { tasks.GeneratePassword(s, os.Stdout) },
+			"Install":          tasks.Install,
+			"Bleach":           tasks.Bleach,
+			"cyberNews":        func(s string) { tasks.News() },
+			"systemInfo":       func(s string) { tasks.SystemInfo() },
+			"Clean":            func(s string) { tasks.Clean() },
+			"Email":            func(s string) { tasks.Email() },
+			"Audit":            func(s string) { tasks.Audit() },
+			"About":            func(s string) { tasks.About() },
+			"List":             func(s string) { tasks.List() },
+			"Exit":             func(s string) { os.Exit(0) },
+		}
+
+		task, ok := taskMap[*t]
+
+		if ok {
 			fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-			tasks.HashFile(*r)
-		case "pwnAccount":
-			fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-			tasks.PwnAccount(*r)
-		case "encryptFile":
-			fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-			tasks.EncryptFile(*r)
-		case "decryptFile":
-			fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-			tasks.DecryptFile(*r)
-		case "Scrape":
-			fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-			tasks.Scrape(*r)
-		case "DOS":
-			fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-			tasks.Dos(*r, nil)
-		case "compress":
-			fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-			tasks.Compress(*r)
-		case "decompress":
-			fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-			tasks.Decompress(*r)
-		case "Firewall":
-			fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-			tasks.ToggleFirewall(*r)
-		case "generatePassword":
-			fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-			tasks.GeneratePassword(*r, os.Stdout)
-		case "Install":
-			fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-			tasks.Install(*r)
-		case "Bleach":
-			fmt.Println("\nRunning task:", *t, "\nTarget:", *r)
-			tasks.Bleach(*r)
-		case "cyberNews":
-			tasks.News()
-		case "systemInfo":
-			tasks.SystemInfo()
-		case "Clean":
-			tasks.Clean()
-		case "Email":
-			tasks.Email()
-		case "Audit":
-			tasks.Audit()
-		case "About":
-			tasks.About()
-		case "List":
-			tasks.List()
-		case "Exit":
-			os.Exit(0)
-		default: // invalid
+			task(*r)
+		} else {
 			ct.Foreground(ct.Red, true)
 			fmt.Println("Invalid task -", *t)
 			ct.Foreground(ct.Yellow, false)
