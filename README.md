@@ -69,6 +69,7 @@ or
 ```
 go get github.com/TheRedSpy15/Multi-Go
 cd go/src/github.com/TheRedSpy15/Multi-Go
+go build
 ```
 
 
