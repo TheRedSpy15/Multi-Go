@@ -1,10 +1,12 @@
-package tasks
+package tasks_test
 
 import (
 	"io/ioutil"
 	"os"
 	"path"
 	"testing"
+
+	tks "github.com/TheRedSpy15/Multi-Go/tasks"
 )
 
 func TestInstall(t *testing.T) {
@@ -17,7 +19,7 @@ func TestInstall(t *testing.T) {
 
 	cleanup()
 	t.Run("Creates Target Directory", func(t *testing.T) {
-		Install(target)
+		tks.Install(target)
 
 		i, err := os.Stat(target)
 		if err != nil || !i.IsDir() {
@@ -27,7 +29,7 @@ func TestInstall(t *testing.T) {
 	cleanup()
 
 	t.Run("Sets Execution Permission", func(t *testing.T) {
-		Install(target)
+		tks.Install(target)
 
 		files, err := ioutil.ReadDir(target)
 		if err != nil {
@@ -38,8 +40,8 @@ func TestInstall(t *testing.T) {
 		cleanup()
 
 		// check for overwritten file
-		Install(target)
-		Install(target)
+		tks.Install(target)
+		tks.Install(target)
 
 		files, err = ioutil.ReadDir(target)
 		if err != nil {
@@ -52,7 +54,7 @@ func TestInstall(t *testing.T) {
 
 	t.Run("Overwrites Existing File", func(t *testing.T) {
 		// get the name of the file
-		Install(target)
+		tks.Install(target)
 		files, err := ioutil.ReadDir(target)
 		if err != nil {
 			t.Fatal(err)
@@ -70,7 +72,7 @@ func TestInstall(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		Install(target)
+		tks.Install(target)
 
 		b, err := ioutil.ReadFile(name)
 		if err != nil {

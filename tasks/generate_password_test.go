@@ -1,16 +1,18 @@
-package tasks
+package tasks_test
 
 import (
 	"bytes"
 	"fmt"
 	"testing"
+
+	tks "github.com/TheRedSpy15/Multi-Go/tasks"
 )
 
 func TestGeneratePassword(t *testing.T) {
 
 	var buff bytes.Buffer
 
-	GeneratePassword("12", &buff)
+	tks.GeneratePassword("12", &buff)
 	got := buff.String()
 
 	// consider preceeding "password:" and trailing "\n"
@@ -23,7 +25,7 @@ func TestGeneratePassword(t *testing.T) {
 	buff.Reset()
 
 	brokenInput := "this can't be parsed as integer"
-	GeneratePassword(brokenInput, &buff)
+	tks.GeneratePassword(brokenInput, &buff)
 	got = buff.String()
 	expected := fmt.Sprintf("Cannot use \"%s\" as length for password\n", brokenInput)
 
