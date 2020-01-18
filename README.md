@@ -1,7 +1,7 @@
 # Multi-Go
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/TheRedSpy15/Multi-Go)](https://goreportcard.com/report/github.com/TheRedSpy15/Multi-Go)
-[![codebeat badge](https://codebeat.co/badges/d6180a76-99be-4013-a0c2-0e4bcf0b9655)](https://codebeat.co/projects/github-com-theredspy15-multi-go-master)
+[![codebeat badge](https://codebeat.co/badges/c8e6eced-3312-44f6-8e85-cafa8fa04f51)](https://codebeat.co/projects/github-com-theredspy15-multi-go-master)
 [![CodeFactor](https://www.codefactor.io/repository/github/theredspy15/multi-go/badge)](https://www.codefactor.io/repository/github/theredspy15/multi-go)
 [![Build Status](https://travis-ci.com/TheRedSpy15/Multi-Go.svg?branch=master)](https://travis-ci.com/TheRedSpy15/Multi-Go)
 [![Build Status](https://semaphoreci.com/api/v1/theredspy15/multi-go/branches/master/shields_badge.svg)](https://semaphoreci.com/theredspy15/multi-go)

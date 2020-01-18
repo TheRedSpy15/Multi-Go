@@ -88,7 +88,6 @@ func GetChoice(msg string) int {
 }
 
 // News select news source to print articles from, based on ID
-// TODO: re-order switch
 func Sources(sourceID int) {
 	var source string
 
